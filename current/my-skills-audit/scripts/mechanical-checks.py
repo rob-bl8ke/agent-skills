@@ -52,7 +52,7 @@ def scalar(fm, key):
         return None
     val = m.group(1)
     start = m.end()
-    for ln in fm[start:].split('\n')[1:] if False else fm[start:].split('\n'):
+    for ln in fm[start:].split('\n')[1:]:
         if not ln.strip():
             break
         if re.match(r'^[A-Za-z0-9_-]+:', ln) or re.match(r'^\s*-\s', ln):
