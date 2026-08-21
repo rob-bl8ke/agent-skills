@@ -1,5 +1,5 @@
 ---
-name: unit-testing
+name: java-springboot-unit-tests
 description: 'Apply Java unit test code style rules: AssertJ assertions, BDD GIVEN/WHEN/THEN comments, should...When naming, @DisplayName, @MockitoBean, Awaitility, Clock injection, class structure (constants → fields → tests → helpers), no public modifiers on test classes, no redundant eq() matchers, no Thread.sleep. Use when writing, reviewing, or refactoring Java test code. For test-first workflow, if the tdd-by-example skill is available, apply it alongside this skill for the Red-Green-Refactor cycle.'
 argument-hint: 'What test class or scenario are you working on?'
 ---
