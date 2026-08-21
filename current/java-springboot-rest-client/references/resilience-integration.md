@@ -88,4 +88,4 @@ resilience4j:
 
 ## Cross-Reference
 
-**Load [resiliency-patterns-guide/SKILL.md](../../resiliency-patterns-guide/SKILL.md) for the full aspect ordering rationale, ordering comparison table, transaction boundary rules, and decision guide.**
+**Load the `resiliency-patterns-guide` skill for the full aspect ordering rationale, ordering comparison table, transaction boundary rules, and decision guide.**
