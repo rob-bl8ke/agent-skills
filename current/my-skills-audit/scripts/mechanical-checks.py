@@ -459,7 +459,7 @@ for ln in porcelain.split('\n'):
     if not ln.strip():
         continue
     code, path = ln[:2], ln[3:].strip().strip('"')
-    m = re.match(r'skills/([^/]+)/', path + '/')
+    m = re.match(r'current/([^/]+)/', path + '/')
     if not m:
         continue
     sk = m.group(1)
