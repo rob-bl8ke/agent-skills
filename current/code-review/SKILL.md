@@ -1,5 +1,5 @@
 ---
-name: java-code-review
+name: code-review
 description: "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes: Standards (does the code follow this skills base's *-standards skills, e.g. java-21-standards, plus any repo-local CODING_STANDARDS.md) and Spec (does the code match what the originating Jira issue, e.g. BBCDA-2417, asked for?). Runs both reviews in parallel sub-agents and reports them side by side. Use when the user wants to review a branch, work-in-progress changes, or asks to \"review since X\"."
 ---
 
