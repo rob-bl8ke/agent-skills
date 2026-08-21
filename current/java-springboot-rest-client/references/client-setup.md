@@ -11,7 +11,7 @@ public class MyService {
     private final RestClient restClient;
 
     public MyService(RestClient.Builder restClientBuilder, OrderServiceProperties props) {
-        this.restClient = restClientBuilder
+        this.restClient = restClientBuilder.clone()
             .baseUrl(props.baseUrl()) // never hardcode — always from @ConfigurationProperties
             .build();
     }
