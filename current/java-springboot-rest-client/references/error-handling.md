@@ -28,7 +28,7 @@ Pet pet = restClient.get()
 ```java
 @Bean
 RestClient orderServiceClient(RestClient.Builder builder, OrderServiceProperties props) {
-    return builder
+    return builder.clone()
         .baseUrl(props.baseUrl()) // baseUrl injected via OrderServiceProperties — see configuration.md
         .defaultStatusHandler(
             HttpStatusCode::isError,
