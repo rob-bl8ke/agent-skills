@@ -95,7 +95,7 @@ Anything deliberately out of scope this run, so a reader does not over-read the 
 ## Reproducing
 
 ```
-python3 <repo>/skills/my-skills-audit/scripts/mechanical-checks.py --repo-root <repo>
+python3 <repo>/current/my-skills-audit/scripts/mechanical-checks.py --repo-root <repo>
 ```
 
 Full run: invoke the `my-skills-audit` skill.
