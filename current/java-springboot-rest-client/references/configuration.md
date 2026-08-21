@@ -66,13 +66,13 @@ Spring Boot's idiomatic API — works across all underlying HTTP libraries:
 
 ```java
 @Bean
-RestClient myServiceClient(RestClient.Builder builder) {
+RestClient myServiceClient(RestClient.Builder builder, MyServiceProperties props) {
     ClientHttpRequestFactorySettings settings = ClientHttpRequestFactorySettings.defaults()
         .withConnectTimeout(Duration.ofSeconds(2))
         .withReadTimeout(Duration.ofSeconds(5));
     ClientHttpRequestFactory requestFactory = ClientHttpRequestFactoryBuilder.detect().build(settings);
     return builder.clone()
-        .baseUrl("https://my-service")
+        .baseUrl(props.baseUrl())
         .requestFactory(requestFactory)
         .build();
 }
