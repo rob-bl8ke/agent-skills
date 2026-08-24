@@ -1,0 +1,39 @@
+// ============================================================================
+// BREAKPOINT SCALE
+// ============================================================================
+//
+// The ONLY Sass-variable layer in this codebase. It exists because CSS custom
+// properties cannot be used inside `@media` queries - everything else is a
+// `var(--token)` in styles/_tokens.scss.
+//
+// Reach for a media query only when the LAYOUT itself must change. Prefer
+// `repeat(auto-fit, minmax(Npx, 1fr))`, which is intrinsically responsive and
+// needs no breakpoint at all. For behavioural changes (a sidenav switching from
+// 'side' to 'over'), use the CDK `BreakpointObserver` in the component instead.
+
+$bp-sm: 600px; // Material Handset boundary - phone vs tablet
+$bp-md: 768px; // Small tablet portrait
+$bp-lg: 960px; // Tablet landscape - two-column page shells collapse here
+$bp-xl: 1280px; // Desktop - wide rails become viable
+
+/// Applies @content below the given breakpoint (mobile-last, matching the
+/// existing `max-width` idiom in this codebase).
+///
+/// @example
+///   @use 'breakpoints' as bp;
+///   .content-grid {
+///     grid-template-columns: 350px 1fr;
+///     @include bp.below(bp.$bp-lg) { grid-template-columns: 1fr; }
+///   }
+@mixin below($bp) {
+  @media (max-width: $bp - 1px) {
+    @content;
+  }
+}
+
+/// Applies @content at and above the given breakpoint.
+@mixin from($bp) {
+  @media (min-width: $bp) {
+    @content;
+  }
+}
