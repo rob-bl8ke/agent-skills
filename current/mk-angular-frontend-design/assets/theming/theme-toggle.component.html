@@ -1,0 +1,41 @@
+<button
+  mat-icon-button
+  [matMenuTriggerFor]="themeMenu"
+  aria-label="Select theme"
+  matTooltip="Theme"
+>
+  <mat-icon>{{ currentIcon() }}</mat-icon>
+</button>
+
+<mat-menu #themeMenu="matMenu" aria-label="Theme selection">
+  <button
+    mat-menu-item
+    (click)="selectTheme(ThemeMode.LIGHT)"
+    [class.active]="currentTheme() === ThemeMode.LIGHT"
+    role="menuitemradio"
+    [attr.aria-checked]="currentTheme() === ThemeMode.LIGHT"
+  >
+    <mat-icon>light_mode</mat-icon>
+    <span>Light</span>
+  </button>
+  <button
+    mat-menu-item
+    (click)="selectTheme(ThemeMode.DARK)"
+    [class.active]="currentTheme() === ThemeMode.DARK"
+    role="menuitemradio"
+    [attr.aria-checked]="currentTheme() === ThemeMode.DARK"
+  >
+    <mat-icon>dark_mode</mat-icon>
+    <span>Dark</span>
+  </button>
+  <button
+    mat-menu-item
+    (click)="selectTheme(ThemeMode.SYSTEM)"
+    [class.active]="currentTheme() === ThemeMode.SYSTEM"
+    role="menuitemradio"
+    [attr.aria-checked]="currentTheme() === ThemeMode.SYSTEM"
+  >
+    <mat-icon>computer</mat-icon>
+    <span>System</span>
+  </button>
+</mat-menu>

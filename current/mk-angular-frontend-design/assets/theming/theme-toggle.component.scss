@@ -1,0 +1,19 @@
+// Theme toggle button in top bar
+:host {
+  display: flex;
+  align-items: center;
+}
+
+// Menu item active state
+.active {
+  background-color: var(--surface-hover);
+
+  mat-icon {
+    color: var(--primary);
+  }
+}
+
+// Menu icons spacing
+mat-icon {
+  margin-right: 8px;
+}

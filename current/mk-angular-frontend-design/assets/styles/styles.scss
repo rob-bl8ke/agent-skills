@@ -1,0 +1,23 @@
+// ============================================================================
+// GLOBAL STYLESHEET - INDEX
+// ============================================================================
+//
+// Load order is load-bearing:
+//
+//   1. material-theme      Material's own CSS (structure, density, states)
+//   2. tokens              the design tokens every other layer consumes
+//   3. base                reset, body, links, code blocks, scrollbars
+//   4. material-overrides  re-skins Material with the tokens (MUST follow 1)
+//   5. patterns            the shared UI vocabulary (badges, banners, pills)
+//   6. a11y                focus, helpers, skip link, reduced motion (LAST,
+//                          so reduced-motion overrides every transition above)
+//
+// _breakpoints.scss is deliberately NOT loaded here - it emits no CSS and is
+// @used directly by the component stylesheets that need a media query.
+
+@use 'material-theme';
+@use 'tokens';
+@use 'base';
+@use 'material-overrides';
+@use 'patterns';
+@use 'a11y';
