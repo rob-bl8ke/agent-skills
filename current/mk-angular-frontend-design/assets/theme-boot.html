@@ -1,0 +1,34 @@
+  <script>
+    (function() {
+      // Theme detection
+      const THEME_KEY = 'theme-mode';
+      const storedTheme = localStorage.getItem(THEME_KEY);
+      let theme = 'light';
+
+      if (storedTheme === 'dark') {
+        theme = 'dark';
+      } else if (storedTheme === 'light') {
+        theme = 'light';
+      } else {
+        // System preference
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          theme = 'dark';
+        }
+      }
+
+      document.documentElement.setAttribute('data-theme', theme);
+      document.querySelector('meta[name="color-scheme"]').setAttribute('content', theme);
+
+      // Palette detection
+      const PALETTE_KEY = 'palette';
+      const storedPalette = localStorage.getItem(PALETTE_KEY);
+      const defaultPalette = 'blue';
+      const validPalettes = ['blue', 'green', 'teal', 'purple', 'pink', 'gold', 'red'];
+
+      const palette = (storedPalette && validPalettes.includes(storedPalette))
+        ? storedPalette
+        : defaultPalette;
+
+      document.documentElement.setAttribute('data-palette', palette);
+    })();
+  </script>
