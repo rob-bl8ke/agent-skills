@@ -1,0 +1,346 @@
+@use 'sass:map';
+
+// ============================================================================
+// DESIGN TOKENS
+// ============================================================================
+//
+// CSS custom properties are the single source of truth for every colour in
+// this application. Three cascading layers, all applied to <html>:
+//
+//   :root                -> light theme defaults
+//   [data-theme='dark']  -> dark theme overrides
+//   [data-palette='...'] -> brand palette, orthogonal to theme
+//
+// Components consume var(--token) and never a literal colour.
+
+// ============================================================================
+// LIGHT THEME (DEFAULT)
+// ============================================================================
+// DESIGN TOKENS - LIGHT THEME (DEFAULT)
+// ============================================================================
+
+:root {
+  // --------------------------------------------------------------------------
+  // SURFACES
+  // --------------------------------------------------------------------------
+  --bg: #f5f5f5;                          // App background
+  --surface-1: #fafafa;                    // Page containers
+  --surface-2: #ffffff;                    // Cards/panels
+  --surface-3: #f8f9fa;                    // Elevated panels / code blocks
+  --surface-hover: rgba(0, 0, 0, 0.04);    // Hover states
+  --surface-selected: rgba(var(--primary-rgb), 0.12); // Selected rows/items (palette-reactive)
+
+  // --------------------------------------------------------------------------
+  // TEXT
+  // --------------------------------------------------------------------------
+  --text-1: rgba(0, 0, 0, 0.87);           // Primary text
+  --text-2: rgba(0, 0, 0, 0.6);            // Secondary text
+  --text-3: rgba(0, 0, 0, 0.38);           // Muted/disabled text
+  --text-inverse: #ffffff;                 // Text on dark backgrounds
+
+  // --------------------------------------------------------------------------
+  // BORDERS / DIVIDERS
+  // --------------------------------------------------------------------------
+  --border: rgba(0, 0, 0, 0.12);           // Standard borders
+  --divider: rgba(0, 0, 0, 0.08);          // Subtle dividers
+
+  // --------------------------------------------------------------------------
+  // BRAND / PRIMARY
+  // Emitted by the palette layer below (blue is the :root default) - do not
+  // redeclare here, or the palette switcher silently stops working.
+  // --------------------------------------------------------------------------
+
+  // --------------------------------------------------------------------------
+  // STATUS - SUCCESS
+  // --------------------------------------------------------------------------
+  --success-bg: rgba(34, 197, 94, 0.15);
+  --success-text: #16a34a;
+  --success-border: rgba(34, 197, 94, 0.5);
+
+  // --------------------------------------------------------------------------
+  // STATUS - DANGER/ERROR
+  // --------------------------------------------------------------------------
+  --danger-bg: rgba(239, 68, 68, 0.15);
+  --danger-text: #dc2626;
+  --danger-border: rgba(239, 68, 68, 0.5);
+
+  // --------------------------------------------------------------------------
+  // STATUS - WARNING
+  // --------------------------------------------------------------------------
+  --warning-bg: rgba(245, 158, 11, 0.15);
+  --warning-text: #d97706;
+  --warning-border: rgba(245, 158, 11, 0.5);
+
+  // --------------------------------------------------------------------------
+  // STATUS - INFO
+  // --------------------------------------------------------------------------
+  --info-bg: rgba(59, 130, 246, 0.15);
+  --info-text: #2563eb;
+  --info-border: rgba(59, 130, 246, 0.5);
+
+  // --------------------------------------------------------------------------
+  // INPUTS
+  // --------------------------------------------------------------------------
+  --input-bg: #ffffff;
+  --input-border: rgba(0, 0, 0, 0.23);
+  --input-text: rgba(0, 0, 0, 0.87);
+  --input-placeholder: rgba(0, 0, 0, 0.42);
+
+  // --------------------------------------------------------------------------
+  // SHADOWS
+  // --------------------------------------------------------------------------
+  --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-2: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+
+  // --------------------------------------------------------------------------
+  // TOP BAR
+  // --------------------------------------------------------------------------
+  --topbar-bg: #1976d2;
+  --topbar-text: #ffffff;
+  --topbar-border: transparent;
+
+  // --------------------------------------------------------------------------
+  // CODE / JSON SYNTAX
+  // --------------------------------------------------------------------------
+  --code-bg: #f5f5f5;
+  --code-border: rgba(0, 0, 0, 0.08);
+  --json-key: #0451a5;
+  --json-string: #0a8a0a;
+  --json-number: #b5760e;
+  --json-boolean: #7c4dff;
+
+
+  // --------------------------------------------------------------------------
+  // CHIPS / TAGS
+  // --------------------------------------------------------------------------
+  --chip-bg: rgba(0, 0, 0, 0.08);
+  --chip-text: rgba(0, 0, 0, 0.87);
+  --chip-border: transparent;
+}
+
+// ============================================================================
+// DARK THEME
+// ============================================================================
+// DESIGN TOKENS - DARK THEME
+// ============================================================================
+
+[data-theme='dark'] {
+  // --------------------------------------------------------------------------
+  // SURFACES (improved contrast - cards clearly separated from background)
+  // --------------------------------------------------------------------------
+  --bg: #121212;                           // App background (darkest)
+  --surface-1: #1a1a1a;                    // Page containers
+  --surface-2: #242424;                    // Cards/panels (elevated)
+  --surface-3: #2d2d2d;                    // Elevated panels / code blocks
+  --surface-hover: rgba(255, 255, 255, 0.08);
+  --surface-selected: rgba(var(--primary-rgb), 0.16); // Selected rows/items (palette-reactive)
+
+  // --------------------------------------------------------------------------
+  // TEXT (WCAG AA compliant - good contrast)
+  // --------------------------------------------------------------------------
+  --text-1: rgba(255, 255, 255, 0.92);     // Primary text (high contrast)
+  --text-2: rgba(255, 255, 255, 0.7);      // Secondary text
+  --text-3: rgba(255, 255, 255, 0.5);      // Muted/disabled text
+  --text-inverse: #121212;
+
+  // --------------------------------------------------------------------------
+  // BORDERS / DIVIDERS (visible but subtle)
+  // --------------------------------------------------------------------------
+  --border: rgba(255, 255, 255, 0.16);     // Standard borders
+  --divider: rgba(255, 255, 255, 0.1);     // Subtle dividers
+
+  // --------------------------------------------------------------------------
+  // BRAND / PRIMARY (Palette-based - palettes work across both themes)
+  // --------------------------------------------------------------------------
+  // Palette tokens apply to dark theme via [data-palette] rules
+
+  // --------------------------------------------------------------------------
+  // STATUS - SUCCESS (readable, not washed out)
+  // --------------------------------------------------------------------------
+  --success-bg: rgba(34, 197, 94, 0.12);
+  --success-text: #4ade80;
+  --success-border: rgba(34, 197, 94, 0.4);
+
+  // --------------------------------------------------------------------------
+  // STATUS - DANGER/ERROR
+  // --------------------------------------------------------------------------
+  --danger-bg: rgba(239, 68, 68, 0.12);
+  --danger-text: #f87171;
+  --danger-border: rgba(239, 68, 68, 0.4);
+
+  // --------------------------------------------------------------------------
+  // STATUS - WARNING
+  // --------------------------------------------------------------------------
+  --warning-bg: rgba(245, 158, 11, 0.12);
+  --warning-text: #fbbf24;
+  --warning-border: rgba(245, 158, 11, 0.4);
+
+  // --------------------------------------------------------------------------
+  // STATUS - INFO
+  // --------------------------------------------------------------------------
+  --info-bg: rgba(59, 130, 246, 0.12);
+  --info-text: #60a5fa;
+  --info-border: rgba(59, 130, 246, 0.4);
+
+  // --------------------------------------------------------------------------
+  // INPUTS
+  // --------------------------------------------------------------------------
+  --input-bg: #2d2d2d;
+  --input-border: rgba(255, 255, 255, 0.23);
+  --input-text: rgba(255, 255, 255, 0.92);
+  --input-placeholder: rgba(255, 255, 255, 0.5);
+  --focus-ring: rgba(96, 165, 250, 0.55);
+
+  // --------------------------------------------------------------------------
+  // SHADOWS (stronger in dark mode)
+  // --------------------------------------------------------------------------
+  --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-2: 0 4px 6px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+
+  // --------------------------------------------------------------------------
+  // TOP BAR (dark surface, not bright blue)
+  // --------------------------------------------------------------------------
+  --topbar-bg: #1e1e1e;
+  --topbar-text: rgba(255, 255, 255, 0.92);
+  --topbar-border: rgba(255, 255, 255, 0.1);
+
+  // --------------------------------------------------------------------------
+  // CODE / JSON SYNTAX (VS Code dark theme inspired)
+  // --------------------------------------------------------------------------
+  --code-bg: #1e1e1e;
+  --code-border: rgba(255, 255, 255, 0.1);
+  --json-key: #9cdcfe;
+  --json-string: #ce9178;
+  --json-number: #b5cea8;
+  --json-boolean: #569cd6;
+
+  // --------------------------------------------------------------------------
+  // CHIPS / TAGS
+  // NOTE: --chip-accent-* below are a no-palette fallback only. Any
+  // [data-palette] block loads later at equal specificity and overrides them.
+  // --------------------------------------------------------------------------
+  --chip-bg: rgba(255, 255, 255, 0.1);
+  --chip-text: rgba(255, 255, 255, 0.87);
+  --chip-border: rgba(255, 255, 255, 0.2);
+  --chip-accent-bg: rgba(96, 165, 250, 0.16);
+  --chip-accent-border: rgba(96, 165, 250, 0.5);
+  --chip-accent-text: #60a5fa;
+}
+
+// ============================================================================
+// PALETTE TOKENS - BRAND COLOR PALETTES
+// ============================================================================
+//
+// These tokens power: buttons, icons, links, focus rings, active states, chips.
+// They DO NOT affect semantic states (success, error, warning, info) - a status
+// must read the same in every palette.
+//
+// Palettes are orthogonal to light/dark: [data-palette] applies in both themes.
+// To add one, add a map entry. Every derived token is computed, so a palette
+// cannot be partially defined.
+//
+// Stops follow Tailwind: primary=500, hover=600, active=700, accent=400,
+// chip-accent-text=200/300.
+
+$palettes: (
+  blue: (
+    primary: #3b82f6,
+    primary-rgb: (59, 130, 246),
+    primary-hover: #2563eb,
+    primary-active: #1d4ed8,
+    primary-contrast: #0b1220,
+    accent: #60a5fa,
+    focus-rgb: (96, 165, 250),
+    chip-accent-text: #93c5fd,
+  ),
+  green: (
+    primary: #22c55e,
+    primary-rgb: (34, 197, 94),
+    primary-hover: #16a34a,
+    primary-active: #15803d,
+    primary-contrast: #052e16,
+    accent: #4ade80,
+    focus-rgb: (34, 197, 94),
+    chip-accent-text: #86efac,
+  ),
+  teal: (
+    primary: #14b8a6,
+    primary-rgb: (20, 184, 166),
+    primary-hover: #0d9488,
+    primary-active: #0f766e,
+    primary-contrast: #042f2e,
+    accent: #2dd4bf,
+    focus-rgb: (45, 212, 191),
+    chip-accent-text: #99f6e4,
+  ),
+  purple: (
+    primary: #a855f7,
+    primary-rgb: (168, 85, 247),
+    primary-hover: #9333ea,
+    primary-active: #7e22ce,
+    primary-contrast: #160b2d,
+    accent: #c084fc,
+    focus-rgb: (192, 132, 252),
+    chip-accent-text: #e9d5ff,
+  ),
+  pink: (
+    primary: #ec4899,
+    primary-rgb: (236, 72, 153),
+    primary-hover: #db2777,
+    primary-active: #be185d,
+    primary-contrast: #2b0614,
+    accent: #f472b6,
+    focus-rgb: (244, 114, 182),
+    chip-accent-text: #fbcfe8,
+  ),
+  gold: (
+    primary: #eab308,
+    primary-rgb: (234, 179, 8),
+    primary-hover: #ca8a04,
+    primary-active: #a16207,
+    primary-contrast: #2a1f04,
+    accent: #fde047,
+    focus-rgb: (234, 179, 8),
+    chip-accent-text: #fef08a,
+  ),
+  red: (
+    primary: #ef4444,
+    primary-rgb: (239, 68, 68),
+    primary-hover: #dc2626,
+    primary-active: #b91c1c,
+    primary-contrast: #2a0404,
+    accent: #f87171,
+    focus-rgb: (248, 113, 113),
+    chip-accent-text: #fecaca,
+  ),
+);
+
+/// Emits the 12-token palette contract for one palette map entry.
+@mixin palette-tokens($p) {
+  --primary: #{map.get($p, primary)};
+  --primary-rgb: #{map.get($p, primary-rgb)};
+  --primary-hover: #{map.get($p, primary-hover)};
+  --primary-active: #{map.get($p, primary-active)};
+  --primary-contrast: #{map.get($p, primary-contrast)};
+
+  --accent: #{map.get($p, accent)};
+  --accent-contrast: #{map.get($p, primary-contrast)};
+
+  --link: #{map.get($p, accent)};
+  --focus-ring: rgba(#{map.get($p, focus-rgb)}, 0.55);
+
+  --chip-accent-bg: rgba(#{map.get($p, primary-rgb)}, 0.16);
+  --chip-accent-border: rgba(#{map.get($p, primary-rgb)}, 0.5);
+  --chip-accent-text: #{map.get($p, chip-accent-text)};
+}
+
+// Default palette (blue) - covers the case where no data-palette is set yet.
+:root {
+  @include palette-tokens(map.get($palettes, blue));
+}
+
+@each $id, $p in $palettes {
+  [data-palette='#{$id}'] {
+    @include palette-tokens($p);
+  }
+}
