@@ -786,3 +786,53 @@ Confirmed present on `Enumerable` in .NET 10 by inspecting the API page's method
 | Roslyn issue: nullable tracking does not work well with LINQ (the §19 gap, from the compiler team's own tracker) | https://github.com/dotnet/roslyn/issues/37468 |
 | `WhereNotNull` / nullable references in enumerables | https://rendle.dev/posts/where-not-null/ |
 | `awesome-analyzers` (curated analyzer list, shared with the base plan) | https://github.com/cybermaxs/awesome-analyzers |
+
+---
+---
+
+# Roadmap: remaining core C# skills, before any framework skill
+
+Not planned yet — recorded here so the sequencing is not lost. Nothing below is approved or
+researched to the depth of the two plans above.
+
+## The test each candidate has to pass
+
+The same one LINQ passed: the topic is big enough that the base skill can only afford one to four of
+its 41 sections; it has its own API surface and its own **silent** failure modes (no compiler
+warning); and it is framework-independent. Everything failing that test stays a section in
+`csharp-dotnet10-standards`.
+
+Checked against the existing repo: `unit-testing`, `rest-client`, `rest-client-integration-testing`,
+`resiliency-patterns-guide`, `logging-mdc-best-practices` and `check-diagnostics` are all
+Java/Spring-specific, so every candidate below is greenfield — no duplication, no C12 overlap risk
+from them.
+
+## Tier 1 — prerequisites for an ASP.NET Core skill
+
+| Skill | Why it cannot stay a section | Base skill sections it absorbs |
+|---|---|---|
+| `csharp-dotnet10-async-standards` | The largest gap, arguably larger than LINQ. `ValueTask`, `ConfigureAwait`, sync-over-async deadlock, `async void`, `TaskCompletionSource`, `WhenAll`/`WhenAny` error aggregation, thread-pool starvation, `SemaphoreSlim` and channels, `IAsyncEnumerable` production, `CancellationTokenSource` lifetime and leaks, `Parallel.ForEachAsync`, `TimeProvider`/`FakeTimeProvider`, async disposal. Strong authorities already gathered in the base plan's Tier 3 (Fowler's AsyncGuidance, Cleary ×3, the TAP docs). LINQ defects are usually performance; async defects are incidents | §19 async, §20 cancellation, §21 concurrency, §22 parallelism |
+| `csharp-dotnet10-json-standards` | `System.Text.Json` sits under every service boundary: source-generated contexts vs reflection, options caching, polymorphism, custom converters, naming policies, `required`/`init`/records, unmapped-member handling, wire compatibility and versioning, trimming/AOT, `Utf8JsonReader`/`Utf8JsonWriter` in hot paths, Newtonsoft migration traps | §34 serialization |
+| `csharp-dotnet10-host-and-di-standards` | The layer directly beneath every framework: generic host, service lifetimes, captive dependencies, `IServiceScopeFactory`, `IOptions` vs `IOptionsSnapshot` vs `IOptionsMonitor`, options validation and `ValidateOnStart`, configuration layering and secrets, `BackgroundService`/`IHostedService` (swallowed-exception and blocked-startup traps), `IHostApplicationLifetime`, graceful shutdown. ASP.NET Core, worker services and console tools all sit *on* this, so it is a base, not an overlay | none — currently unowned |
+
+## Tier 2 — high value, narrower
+
+| Skill | Scope sketch | Open question to settle first |
+|---|---|---|
+| `csharp-dotnet10-observability-standards` | Source-generated `LoggerMessage` (`CA1848`), structured logging and scopes, log levels, PII/secret redaction, `ActivitySource`/`Activity`, OpenTelemetry semantic conventions, `System.Diagnostics.Metrics`, `IMeterFactory`. The C# counterpart to `logging-mdc-best-practices` | Is OpenTelemetry in play, or `ILogger` only? |
+| `csharp-dotnet10-testing-standards` | The sibling to `unit-testing`. `tdd-by-example` already establishes the "apply alongside a language-specific test-style skill" pattern, so this slots in without changing that skill | Which test framework and assertion library — that choice drives most of the content |
+| `csharp-dotnet10-http-client-standards` | `IHttpClientFactory`, and why both `new HttpClient()` per call and a long-lived static instance are wrong in different ways (socket exhaustion vs stale DNS); `SocketsHttpHandler` tuning, `Microsoft.Extensions.Http.Resilience`, handler vs per-request timeouts, `HttpCompletionOption.ResponseHeadersRead` for streaming, reading a problem body instead of `EnsureSuccessStatusCode`, cancellation propagation | Resilience library: `Microsoft.Extensions.Http.Resilience`, raw Polly, or neither? |
+| `csharp-dotnet10-build-and-project-standards` | Where the base plan's **deliberately omitted** enforcement assets belong: SDK-style csproj, `Directory.Build.props`, central package management via `Directory.Packages.props`, `TreatWarningsAsErrors`, `AnalysisLevel` and `EnforceCodeStyleInBuild`, the shipped `.editorconfig`, NuGet auditing, deterministic builds, SourceLink, trimming/AOT publish switches | The base plan ruled "prose only, ship no copyable config". This skill is the place that ruling defers to — confirm that is still the intent |
+
+## Tier 3 — only if the work actually calls for it
+
+Source generators and Roslyn analyzer authoring · P/Invoke and native interop ·
+a `Span<T>`/`Memory<T>` deep dive (largely already covered by base §37–38).
+
+## Sequencing
+
+Tier 1 before any framework skill. If an ASP.NET Core skill lands first, it will end up re-teaching
+DI lifetimes, options validation and async correctness *inside* a framework overlay — the same
+mistake as leaving LINQ inside the base skill, which is why this repo is getting a LINQ skill at
+all. Tier 2 can follow in any order; each has one open question that should be answered before its
+plan is written, since the answer changes most of the content.
