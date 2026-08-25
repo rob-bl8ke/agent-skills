@@ -315,3 +315,474 @@ file-based apps.
 Breaking changes to note in §42: `scoped` is now always a modifier in a lambda parameter list; new
 span conversions and inference rules can break overload resolution; partial interface properties and
 events are now implicitly virtual and public (partial *methods* keep the old behaviour).
+
+---
+---
+
+# Plan: `csharp-dotnet10-linq-standards` skill
+
+## Context
+
+LINQ is the largest single topic inside the C# core-language plan above — it sits there as one
+section (§18) among 41, which is not enough room for it. It has its own execution model (deferred
+vs immediate), its own two competing syntaxes, its own failure modes that produce no compiler
+warning (repeat enumeration, silent client evaluation, deferred exception sites), and its own
+analyzer catalogue. It earns a skill.
+
+This skill is the **overlay**, `csharp-dotnet10-standards` is the **base** — the same relationship
+`java-21-springboot-standards` has to `java-21-standards`. It must work standalone when the base is
+absent, and must never contradict the base when both load.
+
+Scope is **core LINQ**: LINQ to Objects, plus the `IQueryable<T>` *boundary* rules, plus LINQ over
+`IAsyncEnumerable<T>`, plus PLINQ. Provider-specific querying (EF Core) is a later skill.
+
+Research is complete. Every source URL is inlined in the **LINQ reference sources** section at the
+end of this document.
+
+### Decisions already made by the user
+
+| Question | Decision |
+|---|---|
+| Style when the codebase has no LINQ, or an even query/method split | **Never ask. Default to method chaining.** It covers the whole operator surface (`Count`, `Max`, `Aggregate`, `Chunk`, `LeftJoin`, `Shuffle` have no query keyword) and every query expression compiles to it anyway |
+| Querying surfaces in scope | **All four**: LINQ to Objects, `IQueryable<T>` boundary rules only, LINQ over `IAsyncEnumerable<T>`, PLINQ |
+| How the codebase style check works | **Documented grep commands in `SKILL.md`.** No shipped script — nothing to install, nothing to go stale, consistent with the base skill's prose-only decision |
+
+## Structure
+
+```
+skills/csharp-dotnet10-linq-standards/
+  SKILL.md
+  references/03-query-syntax-and-method-syntax.md … 27-analyzer-enforcement.md
+```
+
+### `SKILL.md` (always loaded)
+
+Follows `skills/java-21-springboot-standards/SKILL.md` — the overlay shape — rather than the base
+shape, because this skill is an overlay:
+
+1. **Frontmatter** — `name: csharp-dotnet10-linq-standards` (must equal the directory name).
+2. **Overlay preamble** — "If the csharp-dotnet10-standards skill is available, apply it first."
+   Then the standalone fallback, listing the baseline it still holds without the base skill:
+   nullable enabled, immutable state where practical, no speculative abstractions, no unrelated
+   modernization, no silent behaviour changes.
+3. **Target Environment** table — .NET 10 / C# 14; `System.Linq.Enumerable`;
+   `System.Linq.AsyncEnumerable` **in-box as of .NET 10**; `System.Linq.ParallelEnumerable`;
+   `System.Linq.Queryable` boundary only.
+4. **Operating Rules** — ~16 numbered rules, active before writing any query. Includes: match the
+   prevailing query style; treat a query as deferred until proven otherwise; never enumerate a
+   sequence twice; no side effects in a query; materialize before crossing an API boundary; keep
+   `IQueryable` out of return types that outlive the provider; no PLINQ without measurement.
+5. **Query Style Consistency** — always-loaded, because it is this skill's headline behaviour. Spec
+   below.
+6. **Classification Meanings** — MUST / SHOULD / CONSIDER / AVOID / NEVER, reused verbatim.
+7. **General Query Design** — the rules that apply to every query regardless of operator: one
+   query does one thing; filter before projecting; name the query variable for its result; extract
+   a named method when a pipeline stops being readable.
+8. **Agent change discipline + AI overengineering guardrails** — LINQ-specific. AVOID: rewriting
+   working loops into LINQ (or LINQ into loops) as drive-by cleanup; building a private
+   `EnumerableExtensions` operator library; adding `.AsParallel()`; building expression-tree
+   machinery to make a query "generic"; a `Select` that only re-wraps the element.
+9. **Areas without universal rules** — the de-standardisation table (below).
+10. **Section Guide** — 25 rows, `./references/NN-*.md` + a "Consider When" routing column.
+11. **Workflow** — 5 steps, matching the base skill's, with style detection inserted as step 1.
+
+### Frontmatter description
+
+Verified against the audit's C12 overlap check (Jaccard ≥ 0.30 is a `medium` finding). Peaks at
+**0.164 against `csharp-dotnet10-standards`** and 0.082 against `java-21-standards` — clear. The
+distinguishing tokens are `deferred`, `enumeration`, `iqueryable`, `chaining`, `joins`, `plinq`,
+`iasyncenumerable`; keep them if the wording is revised.
+
+> Use when writing, reviewing, or refactoring LINQ queries in C# on .NET 10. Covers query syntax
+> versus method chaining and matching the existing codebase, deferred versus immediate execution,
+> multiple enumeration, IEnumerable and IQueryable boundaries, grouping, joins, sorting, projection,
+> custom operators, LINQ over IAsyncEnumerable, PLINQ, and analyzer rules for query performance.
+> In-memory LINQ to Objects only — no Entity Framework Core or database provider guidance.
+
+Note: the base skill is named **without backticks** here and in the overlay preamble. The audit's
+C4a check fires `high` on a backticked skill name that does not exist in the repo, and this skill
+may well be built before `csharp-dotnet10-standards`. Once the base skill exists, backticks are
+safe to add.
+
+### Query Style Consistency — the always-loaded spec
+
+This is the part the user asked for explicitly: the skill checks the codebase rather than imposing
+a house style.
+
+**Step 1 — detect.** Run both counts, scoped to the repo under edit:
+
+```bash
+grep -rInE '(^|[^.[:alnum:]_])from[[:space:]]+[A-Za-z_][A-Za-z0-9_]*[[:space:]]+in[[:space:]]' \
+  --include='*.cs' . | grep -vE '/(obj|bin)/' | wc -l
+```
+
+```bash
+grep -rInE '\.(Where|Select|SelectMany|OrderBy|OrderByDescending|GroupBy|Join|GroupJoin|Any|All|First|FirstOrDefault|Single|SingleOrDefault|Sum|Count)\(' \
+  --include='*.cs' . | grep -vE '/(obj|bin)/' | wc -l
+```
+
+Both are ratio heuristics, not parsers — `.Select(` matches non-LINQ methods too, and one query
+expression contributes one `from` hit per clause group. That is fine; only the ratio is used. State
+that limitation in the file so the number is not over-trusted.
+
+**Step 2 — decide, narrowest scope first.**
+
+1. The file being edited already contains queries → **match that file**, unconditionally.
+2. Otherwise the containing project/folder is ≥ 60% one style → use it.
+3. Otherwise the repo is ≥ 60% one style → use it.
+4. Otherwise, or both counts are zero → **method chaining**. Do not ask.
+
+**Step 3 — record the verdict** once per session so it is not re-derived per edit.
+
+**Per-query overrides**, which outrank the prevailing style only when the style genuinely cannot
+carry the query:
+
+- MUST use method syntax when the operator has no query keyword — `Count`, `Max`, `Sum`,
+  `Aggregate`, `Chunk`, `DistinctBy`, `CountBy`, `AggregateBy`, `Index`, `LeftJoin`, `RightJoin`,
+  `Shuffle`, `Sequence`, `ToLookup`, `TryGetNonEnumeratedCount`.
+- CONSIDER query syntax, even in a method-chaining codebase, for a query with a `join` /
+  `group … by … into` / multiple `from` / `let` that would otherwise need nested lambdas plumbing
+  anonymous types through several stages.
+- AVOID mixing the two forms inside one statement, except the documented hybrid of a query
+  expression wrapped by a single terminal method call: `(from … select …).Count()`.
+
+**Style rules that apply once query syntax is in play** (all from the official coding conventions):
+align clauses under `from`; `where` before other clauses so later clauses see the reduced set; use
+aliases so anonymous-type members are Pascal-cased; rename ambiguous result members
+(`CustomerName` / `DistributorName`, not two `Name`s); access an element's inner collection with a
+second `from`, not a `join`.
+
+### Reference files — 25 sections, numbered 3–27
+
+Numbering starts at 3 to match both existing standards skills.
+
+| # | File | # | File |
+|---|---|---|---|
+| 3 | query-syntax-and-method-syntax | 16 | partitioning-and-generation |
+| 4 | query-naming-and-readability | 17 | comparers-in-queries |
+| 5 | deferred-and-immediate-execution | 18 | purity-and-side-effects |
+| 6 | multiple-enumeration-and-materialization | 19 | nullability-in-queries |
+| 7 | ienumerable-iqueryable-and-expression-trees | 20 | exceptions-in-queries |
+| 8 | filtering-and-projection | 21 | performance-and-allocations |
+| 9 | element-operators | 22 | linq-versus-loops |
+| 10 | quantifiers-and-counting | 23 | custom-query-operators |
+| 11 | sorting | 24 | linq-over-iasyncenumerable |
+| 12 | grouping | 25 | plinq |
+| 13 | joins | 26 | testing-and-reviewing-queries |
+| 14 | set-operations | 27 | analyzer-enforcement |
+| 15 | aggregation | | |
+
+Sections worth pinning down now, because they carry the rules that have no compiler backstop:
+
+- **§5 deferred and immediate execution** — operators returning `IEnumerable<T>` /
+  `IOrderedEnumerable<T>` defer; scalar-returning operators (`Count`, `Max`, `Average`, `First`)
+  and the `To*` materializers execute immediately. Lazy vs eager *within* deferred operators:
+  `OrderBy` must consume the whole source before yielding its first element. A query variable is
+  a recipe, not a result — the source can change underneath it between definition and enumeration.
+- **§6 multiple enumeration and materialization** — `CA1851`, with the fact that it is **not
+  enabled by default in .NET 10** stated plainly, since the prose rule is the only guard by
+  default. `ToList` vs `ToArray` vs `ToHashSet` vs `ToDictionary` vs `ToLookup`;
+  `TryGetNonEnumeratedCount` for the count-without-enumerating case; the MUST to materialize
+  before returning a sequence whose source is a `using`-scoped resource, and before handing a
+  sequence to code that may enumerate it more than once.
+- **§7 `IEnumerable` / `IQueryable` / expression trees** — where the boundary sits and who owns
+  it; `AsEnumerable()` as the deliberate switch to client evaluation and `AsQueryable()` as the
+  usually-wrong inverse; the `foreach` typing trap the coding conventions call out by name
+  (accidentally binding an `IQueryable` as `IEnumerable` silently changes when and where the query
+  runs); the expression-tree limitation list — no statement lambdas, no `async`/`await`, no `?.`,
+  no interpolated strings, no collection expressions, no tuple literals, no pattern matching, no
+  local functions, no `ref struct` values. Provider guidance stays out; the boundary rule stays in.
+- **§10 quantifiers and counting** — this is where two analyzer rules read as contradicting each
+  other and must be reconciled once, explicitly, or the skill will emit both: `CA1827` forbids
+  `Count()` as an emptiness test on an `IEnumerable`; `CA1860` forbids `Any()` on a type that
+  exposes `Count` / `Length` / `IsEmpty`. Single resolution: **prefer the type's own member when
+  one exists (`.Count == 0`, `.IsEmpty`), otherwise `Any()`, never `Count()`.** Plus `CA1826`,
+  `CA1829`, `CA1836`, and `IDE0120` (`Where(p).Any()` → `Any(p)`).
+- **§19 nullability in queries** — `Where(x => x is not null)` does **not** narrow the element
+  type for the compiler; the sequence stays `IEnumerable<T?>` and the next `Select` warns. Use
+  `OfType<T>()`, or a `WhereNotNull` operator that does the `!` once in one audited place. NEVER
+  scatter `!` through a pipeline to silence it.
+- **§20 exceptions in queries** — a deferred query throws at the *enumeration* site, not the
+  definition site, so `try`/`catch` around query construction catches nothing. Custom operators
+  must validate arguments eagerly and defer the rest (§23). PLINQ wraps in `AggregateException`.
+- **§24 LINQ over `IAsyncEnumerable`** — `System.Linq.AsyncEnumerable` ships in-box in .NET 10 and
+  supersedes the community `System.Linq.Async` package; the migration rules (drop the package
+  reference or move to 7.0.0; `<ExcludeAssets>` for transitive pulls; `SelectAwait` → `Select`);
+  `await foreach`, `WithCancellation`, cancellation flowing into the operator delegates; the
+  deferred-execution trap where async work does not start until enumeration, so creating tasks
+  with LINQ needs an eager `ToArray`/`ToList` to get concurrency.
+- **§25 PLINQ** — `AsParallel` / `AsOrdered` / `AsUnordered` / `AsSequential` / `ForAll` /
+  `WithDegreeOfParallelism` / `WithCancellation` / `WithExecutionMode`; PLINQ is conservative by
+  default and silently runs sequentially; ordered parallel queries buffer and sort, so they can be
+  slower; PLINQ's sort is **not stable** where `Enumerable.OrderBy` is; exceptions arrive as
+  `AggregateException`; elements may still be processed after cancellation or after a throw. NEVER
+  add `.AsParallel()` without measurement; NEVER use it for I/O-bound work.
+- **§27 analyzer enforcement** — the LINQ-relevant rule catalogue with IDs, and which of them are
+  off by default. This is the advantage over prose: a reviewer can wire enforcement instead of
+  arguing.
+
+## Authoring conventions per reference file
+
+Identical to the base plan, so the two skills read as one family:
+
+- `## N. Title`, then only the applicable `### MUST` / `### SHOULD` / `### CONSIDER` / `### AVOID` /
+  `### NEVER` blocks as terse bullets. Omit empty levels.
+- Optional `### Examples` with `WRONG` / `CORRECT` pairs in ```csharp fences, reserved for traps
+  prose cannot convey. Budget ~8 of 25 files — higher than the Java skill's ~6 of 36, because LINQ's
+  worst failures are invisible in prose (repeat enumeration, deferred throw site, the NRT
+  `Where`-null gap, the `foreach` `IQueryable`→`IEnumerable` slip).
+- Cite the analyzer ID inline wherever one enforces the rule.
+- 15–65 lines per file. Do not pad.
+
+## Areas without universal rules (the de-standardisation table)
+
+| Topic | Why |
+|---|---|
+| Query syntax vs method chaining as a house style | Project decision — this skill detects it, it does not impose one |
+| One operator per line vs packed chains | Formatter/repository concern |
+| Where to break a chain, indentation of `.Where(` | Repository concern |
+| `ToList()` vs `ToArray()` as the default materializer | Context: `ToArray` is cheaper to re-enumerate, `ToList` allows mutation |
+| Naming every intermediate query variable | Context dependent |
+| Maximum operators per chain | No universal number |
+| Whether service/repository methods return `IEnumerable<T>` or a materialized collection | Architectural decision — but the choice MUST be consistent and documented |
+| `MoreLINQ` and other operator libraries | Dependency decision |
+| PLINQ adoption | Measurement, not policy |
+| Using LINQ at all in hot paths | Measurement, not policy |
+| Anonymous types vs named records for projections | Context dependent |
+
+## Complement, not conflict — the contract with the base skill
+
+Four places where the two skills touch. Each is resolved in one direction only, and the resolution
+is stated in the text so a reader never sees two answers:
+
+1. **`var` for query and range variables.** The official LINQ convention says to use implicit
+   typing for query and range variables and states that this *overrides* the general implicitly-
+   typed-local rule. The base skill's `var` rule comes from dotnet/runtime and is stricter (only
+   when the right-hand side names the type). **Ruling: inside a LINQ query, the LINQ convention
+   wins** — `var` for query variables and range variables, always. This must be written in the
+   LINQ skill as an explicit, cited override, and the base skill's §18 must not restate the strict
+   rule for queries. This is the one real conflict; everything else is a division of labour.
+2. **Base skill §18 stays, trimmed to essentials.** It keeps only what a developer needs without
+   loading this skill: deferred execution exists; do not enumerate twice; no side effects in a
+   pipeline; materialize before crossing an API boundary; name the query variable for its result.
+   Every one of those must be a verbatim-compatible subset of a rule in this skill. Nothing in §18
+   contradicts anything here; anything deeper lives here only.
+3. **Equality and ordering.** `Distinct`, `GroupBy`, `Join`, `ToDictionary` and `ToLookup` all
+   depend on `Equals`/`GetHashCode`, and `OrderBy` on `IComparable<T>`. The base skill's §14 owns
+   *how to implement* those contracts. This skill's §17 owns *how to supply a comparer to an
+   operator* and what breaks when the contract is wrong — referring to the base skill by name, not
+   by path (audit C3).
+4. **Async and cancellation.** The base skill owns `async`/`await`, TAP, and `CancellationToken`
+   plumbing. This skill's §24 owns only the querying of async streams. No restatement of TAP rules.
+
+## Conflict rulings to apply while writing
+
+1. **`where` before other clauses** — official, keep as SHOULD, but scope it: it is a readability
+   and reduce-the-set heuristic for in-memory queries. Over `IQueryable`, the provider reorders
+   anyway, so do not present clause order as a performance rule there.
+2. **"Multiple `from` clauses instead of `join`"** — official, but it is about reaching an
+   element's *inner collection* (`SelectMany`). It is not advice for correlating two independent
+   sequences, where `Join` is correct and O(n+m) rather than O(n×m). Scope the rule or it becomes
+   wrong advice.
+3. **`orderby` before a join** — the docs say they generally do not recommend it because some
+   providers do not preserve ordering after the join. Record as AVOID.
+4. **65-character line limit** — a docs-rendering artefact, as in the base plan. Discard.
+5. **`CA1827` vs `CA1860`** — reconciled once in §10 as above. Never state both raw.
+6. **`CA1851` is off by default in .NET 10** — so state the multiple-enumeration rule as a prose
+   MUST and note that the analyzer is opt-in. Do not imply the build catches it.
+7. **The PLINQ page is 2017-era** (`ms.date: 2017-03-30`) and its tooling references are stale
+   (Concurrency Visualizer, "Visual Studio Team Server"). The operator semantics are current; the
+   tooling advice is not. Cite the semantics, drop the tooling.
+
+## Repo constraints (from `skills/my-skills-audit/scripts/mechanical-checks.py`)
+
+Verified against the script:
+
+- **C1** — `name:` equals the directory name, kebab-case; `description:` ≤ 1024 chars.
+- **C2** — every `./references/NN-*.md` link in the Section Guide must resolve on disk (`high` if
+  not). External `https://` links are skipped, so inline Microsoft Learn citations are safe.
+- **C3** — no `../..` paths into sibling skill directories. Name other skills, never path them.
+- **C4a** — a backticked skill name that does not exist is a `high` finding, and the word "skill"
+  within 45 characters is what makes it read as a reference. Hence the unbackticked mention of the
+  base skill until that skill exists.
+- **C12** — description overlap, verified at 0.164 above.
+- **C15** — `git add` the new directory or it reports as untracked (`low`).
+
+`skills-lock.json` tracks only externally-installed skills, so no change. `README.md` already trips
+the `low` C14 readme-coverage finding for every skill but the `db-core` trio — out of scope.
+
+**No change needed to `code-review`**: it discovers standards skills with
+`grep -l '^name:.*-standards$'`, and `csharp-dotnet10-linq-standards` matches by construction.
+
+## Execution order
+
+1. `mkdir -p skills/csharp-dotnet10-linq-standards/references`.
+2. Write `SKILL.md` — frontmatter, overlay preamble, target environment, operating rules, the Query
+   Style Consistency spec, classification table, general query design, discipline sections,
+   de-standardisation table, the 25-row Section Guide, workflow.
+3. Write the 25 reference files, batched by theme so rulings stay consistent across neighbours:
+   syntax and readability (3–4), execution model (5–7), operator families (8–17), correctness
+   (18–20), cost and shape (21–22), extension (23), async and parallel (24–25), discipline (26–27).
+4. `git add` the directory.
+
+## Verification
+
+1. **Audit clean** — run the repo's own mechanical checks; filter the JSON to this skill and expect
+   nothing above `low`:
+   ```bash
+   python3 skills/my-skills-audit/scripts/mechanical-checks.py --repo-root .
+   ```
+2. **Link integrity** — the Section Guide row count equals the file count:
+   ```bash
+   ls skills/csharp-dotnet10-linq-standards/references | wc -l
+   ```
+   should be 25, and every `./references/...` target must resolve (C2 covers this).
+3. **Structural parity** — every reference file opens with `## N. `, uses only the five
+   classification headings, and no file is a stub.
+4. **Style detection behaves** — three spot-checks in fresh sessions, because this is the
+   behaviour the user asked for and the only part that is not just prose:
+   - a repo with method chains only → the skill writes method chains, silently;
+   - a repo whose joins are written in query syntax → the skill matches query syntax there;
+   - an empty repo → the skill writes method chaining and **does not ask**.
+5. **No provider bleed** — grep the finished skill for EF Core vocabulary:
+   ```bash
+   grep -rniE 'ef core|entity framework|dbcontext|dbset|tolistasync|includable|migrations' skills/csharp-dotnet10-linq-standards
+   ```
+   Hits are acceptable only in the scope disclaimer and in §7 as the named boundary example.
+   Anything else means provider scope leaked in.
+6. **No conflict with the base skill** — once both exist, diff the two on their shared vocabulary
+   and confirm each overlap is a labelled override or a division of labour, never a silent
+   contradiction:
+   ```bash
+   grep -rn 'var\b' skills/csharp-dotnet10-linq-standards skills/csharp-dotnet10-standards | grep -iE 'implicit|query|range variable'
+   ```
+   The `var`-in-queries override must appear as an override in this skill and must not be
+   contradicted in the base skill's §18.
+
+---
+
+# LINQ reference sources
+
+Researched 2026-08-25. Every URL below was surfaced by search or fetch during research; the
+`Enumerable` operator set was verified against the .NET 10 API page rather than inferred.
+
+## Tier 1 — normative
+
+| Source | URL |
+|---|---|
+| Language Integrated Query (LINQ) — C# | https://learn.microsoft.com/en-us/dotnet/csharp/linq/ |
+| LINQ overview — .NET | https://learn.microsoft.com/en-us/dotnet/standard/linq/ |
+| Standard query operators overview | https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/ |
+| Introduction to LINQ queries | https://learn.microsoft.com/en-us/dotnet/csharp/linq/get-started/introduction-to-linq-queries |
+| Write LINQ queries | https://learn.microsoft.com/en-us/dotnet/csharp/linq/get-started/write-linq-queries |
+| Walkthrough: writing queries | https://learn.microsoft.com/en-us/dotnet/csharp/linq/get-started/walkthrough-writing-queries-linq |
+| Working with LINQ (tutorial) | https://learn.microsoft.com/en-us/dotnet/csharp/tutorials/working-with-linq |
+| Language features that support LINQ | https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/features-that-support-linq |
+| .NET Coding Conventions — the *LINQ queries* section is the style authority | https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions |
+| LINQ query keywords (C# reference) | https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/query-keywords |
+| `System.Linq.Enumerable` (.NET 10 operator surface) | https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable?view=net-10.0 |
+| `System.Linq.Queryable` | https://learn.microsoft.com/en-us/dotnet/api/system.linq.queryable |
+| `System.Linq.AsyncEnumerable` | https://learn.microsoft.com/en-us/dotnet/api/system.linq.asyncenumerable |
+| `System.Linq.ParallelEnumerable` | https://learn.microsoft.com/en-us/dotnet/api/system.linq.parallelenumerable |
+
+### Operator category pages
+
+All under `https://learn.microsoft.com/en-us/dotnet/csharp/linq/standard-query-operators/`. The
+complete set, verified against the `dotnet/docs` folder listing — there are ten, and there is no
+separate element-operations or aggregation-operations page in the current docs:
+
+`filtering-data` · `projection-operations` · `sorting-data` · `grouping-data` · `join-operations` ·
+`set-operations` · `partitioning-data` · `quantifier-operations` · `converting-data-types` · `index`
+
+### Execution model
+
+| Topic | URL |
+|---|---|
+| Deferred execution and lazy evaluation | https://learn.microsoft.com/en-us/dotnet/standard/linq/deferred-execution-lazy-evaluation |
+| Deferred execution example | https://learn.microsoft.com/en-us/dotnet/standard/linq/deferred-execution-example |
+| Classification of operators by manner of execution | https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/classification-of-standard-query-operators-by-manner-of-execution |
+| Expression trees (see the *Limitations* section) | https://learn.microsoft.com/en-us/dotnet/csharp/advanced-topics/expression-trees/ |
+| How to use expression trees to build dynamic queries | https://learn.microsoft.com/en-us/dotnet/csharp/linq/how-to-build-dynamic-queries |
+
+### Extending LINQ and querying other sources
+
+| Topic | URL |
+|---|---|
+| Write your own extensions to LINQ (custom operators, C# 14 `extension` blocks) | https://learn.microsoft.com/en-us/dotnet/csharp/linq/how-to-extend-linq |
+| How to query collections | https://learn.microsoft.com/en-us/dotnet/csharp/linq/how-to-query-collections |
+| How to query strings | https://learn.microsoft.com/en-us/dotnet/csharp/linq/how-to-query-strings |
+| How to query files and directories | https://learn.microsoft.com/en-us/dotnet/csharp/linq/how-to-query-files-and-directories |
+
+### LINQ over `IAsyncEnumerable<T>` (§24)
+
+| Topic | URL |
+|---|---|
+| Breaking change: `System.Linq.AsyncEnumerable` in .NET 10 | https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/10.0/asyncenumerable |
+| `System.Linq.AsyncEnumerable` package (for multitargeting) | https://www.nuget.org/packages/System.Linq.AsyncEnumerable/ |
+| `System.Linq.Async` — the community package it supersedes | https://www.nuget.org/packages/System.Linq.Async |
+| Ix.NET v7.0 migration write-up (community, cited by the breaking-change page) | https://endjin.com/blog/2025/11/ix-v7-dotnet-10-linq-iasyncenumerable |
+
+### PLINQ (§25)
+
+All under `https://learn.microsoft.com/en-us/dotnet/standard/parallel-programming/`:
+
+`introduction-to-plinq` · `understanding-speedup-in-plinq` · `order-preservation-in-plinq` ·
+`merge-options-in-plinq` · `how-to-specify-the-execution-mode-in-plinq` ·
+`how-to-combine-parallel-and-sequential-linq-queries` · `how-to-handle-exceptions-in-a-plinq-query` ·
+`how-to-cancel-a-plinq-query` · `how-to-measure-plinq-query-performance` ·
+`custom-partitioners-for-plinq-and-tpl` · `lambda-expressions-in-plinq-and-tpl`
+
+Plus `https://learn.microsoft.com/en-us/dotnet/standard/threading/cancellation-in-managed-threads`
+for the cancellation contract, and
+`https://learn.microsoft.com/en-us/dotnet/api/system.linq.parallelenumerable.orderby?view=net-10.0`
+for the not-stable-sort statement.
+
+### Analyzer rules (§27, cited inline throughout)
+
+All under `https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/`:
+
+| Rule | Title | Path |
+|---|---|---|
+| CA1826 | Use property instead of LINQ `Enumerable` method | `quality-rules/ca1826` |
+| CA1827 | Do not use `Count`/`LongCount` when `Any` can be used | `quality-rules/ca1827` |
+| CA1828 | Do not use `CountAsync`/`LongCountAsync` when `AnyAsync` can be used | `quality-rules/ca1828` |
+| CA1829 | Use `Length`/`Count` property instead of `Enumerable.Count` | `quality-rules/ca1829` |
+| CA1836 | Prefer `IsEmpty` over `Count` when available | `quality-rules/ca1836` |
+| CA1841 | Prefer `Dictionary` `Contains` methods | `quality-rules/ca1841` |
+| CA1851 | Possible multiple enumerations of `IEnumerable` collection — **not enabled by default in .NET 10** | `quality-rules/ca1851` |
+| CA1860 | Avoid using `Enumerable.Any()` extension method | `quality-rules/ca1860` |
+| CA1862 | Use `StringComparison` overloads for case-insensitive comparison | `quality-rules/ca1862` |
+| CA1806 | Do not ignore method results (catches a discarded query) | `quality-rules/ca1806` |
+| IDE0120 | Simplify LINQ expression (`Where(p).Any()` → `Any(p)`) | `style-rules/ide0120` |
+| — | Performance rules index | `quality-rules/performance-warnings` |
+| — | Quality rules index | `quality-rules/` |
+| — | Style rules index | `style-rules/` |
+
+`CA1851` configuration knobs, for teams with custom operators —
+`enumeration_methods`, `linq_chain_methods`, `assume_method_enumerates_parameters`:
+https://github.com/dotnet/roslyn-analyzers/blob/main/docs/Analyzer%20Configuration.md
+
+### Operator semantics verified against the API docs
+
+| Claim | URL |
+|---|---|
+| `OrderBy`/`OrderByDescending`/`ThenBy`/`ThenByDescending` are **stable** sorts | https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.orderby?view=net-10.0 |
+| `Order`/`OrderDescending` (no key selector) exist | https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.order |
+| `Shuffle` (new in .NET 10) | https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.shuffle |
+| `LeftJoin` / `RightJoin` (new in .NET 10) | https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.leftjoin · https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.rightjoin |
+| `Sequence` (new in .NET 10) | https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.sequence |
+| `CountBy` / `AggregateBy` / `Index` (.NET 9) | https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.countby · https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.aggregateby · https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.index |
+| `TryGetNonEnumeratedCount` | https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.trygetnonenumeratedcount |
+
+Confirmed present on `Enumerable` in .NET 10 by inspecting the API page's method table:
+`Shuffle`, `Sequence`, `LeftJoin`, `RightJoin`, `CountBy`, `AggregateBy`, `Index`, `Order`,
+`OrderDescending`, `TryGetNonEnumeratedCount`, `Chunk`, `DistinctBy`, `MaxBy`, `MinBy`, `ExceptBy`,
+`IntersectBy`, `UnionBy`, `Zip`, `ToLookup`, `AsEnumerable`.
+
+### Tier 3 — community, non-normative
+
+| Source | URL |
+|---|---|
+| Roslyn issue: nullable tracking does not work well with LINQ (the §19 gap, from the compiler team's own tracker) | https://github.com/dotnet/roslyn/issues/37468 |
+| `WhereNotNull` / nullable references in enumerables | https://rendle.dev/posts/where-not-null/ |
+| `awesome-analyzers` (curated analyzer list, shared with the base plan) | https://github.com/cybermaxs/awesome-analyzers |
