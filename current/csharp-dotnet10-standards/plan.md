@@ -836,3 +836,637 @@ DI lifetimes, options validation and async correctness *inside* a framework over
 mistake as leaving LINQ inside the base skill, which is why this repo is getting a LINQ skill at
 all. Tier 2 can follow in any order; each has one open question that should be answered before its
 plan is written, since the answer changes most of the content.
+
+---
+---
+
+# Decision: skill depth
+
+Raised and settled 2026-08-25. Recorded so it is not re-opened without new information.
+
+**The challenge.** Language standards skills should arguably be thin policy layers, not
+knowledge bases — the model already knows C#, so re-teaching it duplicates training data, burns
+tokens, and creates documentation to maintain. Depth belongs in process skills (code review,
+refactoring, TDD, DDD) where judgement and sequencing matter, not in language skills where the
+valuable part is only *constraining choices for this environment*.
+
+**Decision: keep the depth as planned.** 41 base sections, 25 LINQ sections, full reference corpus.
+
+**Reasoning behind the decision:**
+
+1. **Progressive disclosure means reference files are near-free in context.** Only `SKILL.md` is
+   always loaded; `references/NN-*.md` files cost tokens only when the Section Guide routes to
+   them. The "miniature textbook" cost applies to a monolithic skill, not a routed one. What
+   remains is a maintenance cost, which was accepted.
+2. **The reference corpus is `code-review`'s checklist.** That skill discovers `*-standards` skills
+   and reads their `references/` when the diff touches an area detailed enough to need them. A thin
+   policy layer alone gives the reviewer nothing to check against. Thinning would trade
+   agent-writing efficiency for review depth.
+3. **Consistency with the existing repo.** `java-21-standards` (36 references) and
+   `java-21-springboot-standards` (40) already total 76 files. Thinning C# alone would give the
+   same reviewer asymmetric depth by language.
+4. **Version-specific facts are not duplicated training data.** A May-2026 model cannot be trusted
+   on what actually shipped in .NET 10 / C# 14. Verified, cited facts — `System.Linq.AsyncEnumerable`
+   in-box, `LeftJoin`/`RightJoin`/`Shuffle`/`Sequence` on `Enumerable`, `CA1851` off by default,
+   the `CA1827`/`CA1860` reconciliation, `var` for query variables as a documented override — are
+   the highest-value content in either plan precisely because they are not general knowledge.
+
+**Acknowledged costs, accepted rather than solved:**
+
+- **Signal dilution.** Where a reference file's rules are largely what the model would do anyway,
+  the rules that genuinely constrain it are weighted lower. Mitigation while writing: lead each
+  file with its MUST/NEVER rules and keep SHOULD/CONSIDER terse, so the binding rules sit first.
+- **Always-loaded generic prose.** The General Design and AI-guardrail blocks are the most generic
+  content in the skill and the only part paying context rent every turn. Mitigation: keep those
+  blocks at or below the Java skill's current length; put new material in reference files, never in
+  `SKILL.md`.
+- **Maintenance surface.** 66 new reference files across the two C# skills. The repo's own audit
+  (`my-skills-audit`) is the control for drift.
+
+**What would reopen this:** evidence that a thinner skill produces equal or better outcomes on the
+behavioural spot-checks in either plan's Verification section, or a `code-review` run that shows
+the reference corpus is not actually being consulted.
+
+---
+---
+
+# Plan: `csharp-dotnet10-winui3-standards` skill
+
+## Context
+
+The two C# plans above cover the language and its query surface. Neither says anything about the
+presentation layer, and WinUI 3 is the platform where a C#-competent model most reliably produces
+code that **compiles and then fails at runtime** — because a decade of UWP answers still type-check
+against the Windows projection but throw in a desktop app.
+
+This is the second overlay on `csharp-dotnet10-standards`, alongside the LINQ skill. Same
+relationship `java-21-springboot-standards` has to `java-21-standards`: works standalone, never
+contradicts the base, and states every point of contact as a one-directional ruling.
+
+Research is complete. Every source URL is inlined in the **WinUI reference sources** section at the
+end of this document.
+
+### Version investigation — the answer is "no LTS, and the line moved to 2.x"
+
+The user's question was whether an LTS version exists. It does not.
+
+| WinAppSDK | Released | Latest patch | Support level | End of servicing |
+|---|---|---|---|---|
+| 2.0 | 2026-04-29 | **2.4.0** (2026-08-13) | **Current** | 2027-04-29 |
+| 1.8 | 2025-09-09 | 1.8.260804001 | Maintenance | **2026-09-09** |
+| 1.7 | 2025-03-18 | 1.7.260224002 | Out of support | 2026-03-18 |
+
+The Windows App SDK is governed by the [Microsoft Modern
+Lifecycle](https://learn.microsoft.com/en-us/lifecycle/policies/modern) with only two servicing
+tiers — *Current* (latest stable, frequent fixes) and *Maintenance* (critical fixes only, higher
+bar). There is no LTS or LTSC channel; a major line gets roughly twelve months. The nearest thing
+to a long-term anchor is **.NET 10 (LTS)** paired with whichever WinAppSDK line is *Current*, on a
+Windows 10 1809 (build 17763) floor.
+
+Facts that follow, and that a May-2026 model will get wrong:
+
+- **WinAppSDK 2.0 (Apr 2026) is the first major bump since 1.0** and adopted SemVer 2.0.0, so the
+  NuGet version and the product version now agree (`2.4.0`, not `1.8.260804001`). The package
+  family name is tied to the major version; the next side-by-side major is 3.0.0.
+- **WinUI 3 keeps its name** in 2.0 — the release notes say so explicitly. Do not invent "WinUI 4".
+- **1.8 leaves support on 2026-09-09**, roughly two weeks after this plan was written. Anchoring
+  the skill to 1.8 would ship it stale.
+- Build 2026 designated WinUI as the native production platform for modern Windows apps, so the
+  platform is not a dead end — the churn is in the SDK version, not the framework.
+
+**Therefore: the version lives in a Target Environment table, not the skill name.** `winui3` is
+durable; `winappsdk2` is not.
+
+### Decisions already made by the user
+
+| Question | Decision |
+|---|---|
+| Name | **`csharp-dotnet10-winui3-standards`** — base name + framework, mirroring `java-21-springboot-standards` |
+| Scope beyond XAML and view models | **Windowing, app lifecycle, and UI-thread dispatch only.** Localization/MRT, packaging/deployment, and notifications/widgets/AI APIs are all out |
+| MVVM library stance | **`CommunityToolkit.Mvvm` is the documented default** — `ObservableObject`, `[ObservableProperty]`, `[RelayCommand]`, with the MVVMTK diagnostics cited as enforcement |
+| UWP → WinUI 3 migration | **One legacy-API section**, framed as forbidden APIs rather than a migration walkthrough |
+
+Explicit scope exclusions, recorded so they are not quietly re-added while writing:
+
+- **Localization and MRT** (`x:Uid`, `.resw`, `Microsoft.Windows.ApplicationModel.Resources`,
+  `FlowDirection`/RTL) — out, despite `x:Uid` being XAML markup. Added to the roadmap below.
+- **Packaging and deployment** (MSIX, packaged-with-external-location, unpackaged, framework-
+  dependent vs self-contained, Bootstrapper API, single-project MSIX, publish switches) — out,
+  deferred to the roadmap's build-and-project skill.
+- **Notifications, widgets, Windows AI APIs** — out; Windows App SDK surface that is not the UI
+  framework.
+- **Native AOT is a partial exception.** The *publish switches* are out with the rest of
+  deployment, but the *code-shape* rules that make a WinUI app AOT-viable (§29) are in, because
+  they change how bindings, converters and serialization are written — which is a standards
+  question, not a build question.
+
+## The content filter — what earns a section
+
+The base skill's rule was "big enough that the base can only afford a few sections." Here the rule
+is sharper, because the user asked not to rehash the obvious. A rule earns space only if it is in
+one of four classes:
+
+1. **Compiles, then fails at runtime.** WinUI 3's signature defect class. UWP types still resolve,
+   so decade-old answers type-check and then throw: `Window.Current`, `CoreDispatcher.RunAsync`,
+   `ContentDialog` without `XamlRoot`, `Windows.Storage.Pickers` without an HWND, `ApplicationView`,
+   `Window.Resources`, Visual State Manager on `Window`.
+2. **Silent misbehaviour with no compiler or analyzer backstop.** `x:Bind` defaulting to `OneTime`
+   while `Binding` defaults to `OneWay`; silent binding failures; `StaticResource` where
+   `ThemeResource` was required; unremoved event subscriptions; `ObservableCollection<T>` mutated
+   off the UI thread or bulk-loaded one item at a time.
+3. **Version-specific facts.** The 2.x lifecycle above; `SystemBackdropElement` (new in 2.0,
+   closing the in-app acrylic gap); `IXamlCondition` replacing the experimental `IXamlPredicate`;
+   `FileSavePicker` no longer creating an empty file (a behavioural break in 2.0);
+   `Microsoft.Windows.Storage.Pickers` taking a `WindowId` instead of an HWND and working elevated;
+   `TitleBar` custom drag regions; `ApplicationData` for unpackaged apps; `[ObservableProperty]` on
+   `partial` properties (Toolkit 8.4+), which supersedes the field form in nearly all existing
+   material.
+4. **Judgement the model gets wrong by default.** Accessibility, where to stop abstracting, and
+   which of three navigation/DI reconciliations to pick.
+
+Everything else — XAML syntax, what MVVM is, "await instead of blocking" — gets one line in an
+always-loaded block or nothing at all.
+
+## Structure
+
+```
+skills/csharp-dotnet10-winui3-standards/
+  SKILL.md
+  references/03-mvvm-layering-and-boundaries.md … 32-enforcement-and-diagnostics.md
+```
+
+### `SKILL.md` (always loaded)
+
+Follows `skills/java-21-springboot-standards/SKILL.md` — the overlay shape.
+
+1. **Frontmatter** — `name: csharp-dotnet10-winui3-standards` (must equal the directory name).
+2. **Overlay preamble** — "If the csharp-dotnet10-standards skill is available, apply it first."
+   Then the standalone fallback listing the baseline it holds without the base skill: nullable
+   enabled, async all the way, no speculative abstractions, no unrelated modernization, no silent
+   behaviour changes. Base skill named **without backticks** — see the C4a note below.
+3. **Target Environment** table — WinUI 3 in Windows App SDK **2.x (Current line; 2.4.0 at time of
+   writing)**; .NET 10 / C# 14; `net10.0-windows10.0.26100.0` with
+   `TargetPlatformMinVersion` 10.0.17763.0; `Microsoft.WindowsAppSDK` and
+   `CommunityToolkit.Mvvm` as the two assumed packages; a line stating there is no LTS channel and
+   the Current line rolls roughly annually.
+4. **Operating Rules** — ~18 numbered rules active before writing any WinUI code. Includes: never
+   reach for a `Windows.UI.Xaml.*` or UWP-lifecycle API; every `ContentDialog`/`Popup`/`Flyout`
+   gets a `XamlRoot`; every cross-thread UI update goes through the owning `DispatcherQueue`; view
+   models never reference `Microsoft.UI.Xaml`; `x:Bind` with an explicit `Mode`; every `+=` in a
+   view has a matching `-=`; no async work in a constructor; no `ConfigureAwait(false)` on a path
+   that resumes on the UI thread.
+5. **Forbidden UWP-era APIs** — always-loaded, and this skill's headline behaviour. Spec below.
+6. **Classification Meanings** — MUST / SHOULD / CONSIDER / AVOID / NEVER, reused verbatim.
+7. **General UI Design** — the rules that apply to every WinUI change: the MVVM layering contract,
+   the five sanctioned service abstractions, and the code-behind boundary.
+8. **Agent change discipline + AI overengineering guardrails** — WinUI-specific. AVOID: a
+   converter for something a view-model property could expose; a base view-model class with one
+   subclass; wrapping every control in a `UserControl`; re-templating a control to change a colour
+   lightweight styling already exposes; `IMessenger` where a direct reference would do; a
+   `Task.Run` in a click handler for I/O-bound work; an abstraction over `DispatcherQueue`
+   invented before a test needs it.
+9. **Areas without universal rules** — the de-standardisation table (below).
+10. **Section Guide** — 30 rows, `./references/NN-*.md` + a "Consider When" routing column.
+11. **Workflow** — 5 steps matching the other two skills.
+
+### Frontmatter description
+
+Verified against the audit's C12 overlap check with the script's own tokenizer. Peaks at **0.113
+against `java-21-springboot-standards`** (shared boilerplate only: *complements, standalone,
+refactoring, reviewing, writing*), 0.095 against `csharp-dotnet10-standards`, 0.085 against
+`csharp-dotnet10-linq-standards`. Threshold is 0.30. Length 574 of 1024.
+
+> Use when writing, reviewing, or refactoring WinUI 3 desktop apps built on the Windows App SDK and
+> .NET 10. Covers XAML markup, x:Bind compiled bindings, MVVM with the CommunityToolkit.Mvvm
+> generators, AppWindow and title bars, UI-thread dispatch, activation and single-instancing, page
+> navigation, theming and resource lookup, accessibility, visual-tree performance, view leaks, and
+> forbidden UWP-era APIs. Presentation layer only — no packaging, deployment, or localization
+> guidance. Complements csharp-dotnet10-standards when available and works standalone when it is not.
+
+The distinguishing tokens are `winui`, `xaml`, `bind`, `appwindow`, `dispatch`, `instancing`,
+`navigation`, `theming`, `leaks`, `uwp`; keep them if the wording is revised.
+
+**C4a note, same as the LINQ plan.** The audit flags a backticked skill name that does not exist on
+disk as `high` when the word "skill" appears within 45 characters. `csharp-dotnet10-standards` may
+not exist yet, so it is named unbackticked in the description and the preamble. Backticks become
+safe once the base skill lands.
+
+### Forbidden UWP-era APIs — the always-loaded table
+
+This is the analogue of the LINQ skill's Query Style Consistency block, and it is always loaded for
+the same reason: **routing to a reference file is too late.** The model emits `Window.Current`
+unprompted, before any Section Guide lookup happens. The table has to be in working context from
+the first token.
+
+Compact, one line per row — banned API, replacement, and the failure mode:
+
+| Do not use | Use instead | What happens if you don't |
+|---|---|---|
+| `Window.Current` | a window tracked by the app (e.g. `App.MainWindow`) | no desktop equivalent; null or unavailable |
+| `CoreDispatcher` / `Dispatcher.RunAsync` | `DispatcherQueue.TryEnqueue` | no `CoreDispatcher` on a desktop window |
+| `ContentDialog` / `Popup` / `Flyout` with no `XamlRoot` | set `XamlRoot` from the owning element | runtime exception, not a hidden dialog |
+| `Windows.Storage.Pickers.*` | `Microsoft.Windows.Storage.Pickers.*` (takes a `WindowId`) | UWP pickers need HWND interop and fail elevated |
+| `MessageDialog` | `ContentDialog` | needs `InitializeWithWindow`; wrong visual language |
+| `ApplicationView` / `CoreWindow` | `AppWindow`, `Microsoft.UI.Windowing` | not available to desktop apps |
+| `Window.Resources` / `Window.DataContext` / VSM on `Window` | a root `Grid` or `Page` inside the window | property does not exist; VSM silently does nothing |
+| `Application.Suspending` / `Resuming` | `AppInstance` activation, `AppLifecycle` APIs | desktop apps are not suspended; handler never fires |
+| `AcrylicBrush.BackgroundSource` | `SystemBackdropElement` (2.0+) or `DesktopAcrylicBackdrop` | property removed |
+| `DataTransferManager.ShowShareUI` | HWND-associated interop call | throws without window association |
+
+The full reasoning, the interop helpers (`WindowNative.GetWindowHandle`,
+`Win32Interop.GetWindowIdFromWindow`), and the `WRONG`/`CORRECT` pairs live in §31; the table is the
+guard rail, §31 is the explanation.
+
+### Reference files — 30 sections, numbered 3–32
+
+Numbering starts at 3 to match the other two standards skills.
+
+| # | File | # | File |
+|---|---|---|---|
+| 3 | mvvm-layering-and-boundaries | 18 | control-selection |
+| 4 | view-models-and-observable-state | 19 | ui-thread-and-dispatcherqueue |
+| 5 | commands-and-user-actions | 20 | windowing-appwindow-and-title-bar |
+| 6 | messaging-between-view-models | 21 | multiple-windows-and-xamlroot |
+| 7 | dependency-injection-and-composition | 22 | app-activation-and-instancing |
+| 8 | asynchronous-initialization-and-loading | 23 | page-navigation |
+| 9 | compiled-bindings-and-x-bind | 24 | dialogs-pickers-and-win32-interop |
+| 10 | classic-binding-and-datacontext | 25 | accessibility |
+| 11 | value-converters-and-formatting | 26 | exceptions-and-failure-handling |
+| 12 | collections-and-itemssource | 27 | element-lifetime-and-memory-leaks |
+| 13 | input-validation-and-error-display | 28 | performance-and-responsiveness |
+| 14 | xaml-file-structure-and-naming | 29 | aot-and-trimming-compatibility |
+| 15 | layout-and-panels | 30 | testability-and-view-model-testing |
+| 16 | styles-templates-and-lightweight-styling | 31 | forbidden-uwp-era-apis |
+| 17 | resources-and-theming | 32 | enforcement-and-diagnostics |
+
+Sections worth pinning down now, because they carry the rulings that have no compiler backstop or
+where the plan takes a position the docs decline to take:
+
+- **§3 MVVM layering.** The official `data-binding-and-mvvm` page describes the three layers and
+  then declines to recommend a framework, saying most of the benefit comes from data binding alone.
+  This skill goes further, because "no opinion" is what produces inconsistent codebases. The
+  layering MUSTs: a view model never references `Microsoft.UI.Xaml` or `Microsoft.UI.Windowing`;
+  the model layer knows nothing of either. **Code-behind is explicitly permitted for view
+  concerns** — focus, animation, visual states, `AutomationPeer`, drag/drop mechanics. The common
+  failure is not too little MVVM; it is a `ContentDialog` shown from a view model.
+- **§3 the five sanctioned services.** Navigation, dialog, UI-thread dispatch, settings, theme —
+  and *no others* without a concrete second implementation or test seam. Each of the five exists
+  because a view model must not touch what it wraps. Anything beyond is the speculative-abstraction
+  anti-pattern the base skill already forbids, and WinUI attracts it badly.
+- **§4 view models and observable state.** `ObservableObject` + **`[ObservableProperty]` on
+  `partial` properties**, not on fields — the field form predates Toolkit 8.4 and C# 13 partial
+  properties and dominates existing material, so this must be stated as the default with the field
+  form marked AVOID (legacy). `[NotifyPropertyChangedFor]`, `[NotifyCanExecuteChangedFor]`.
+  `MVVMTK0034` (referencing the backing field instead of the generated property, and so raising no
+  notification) cited inline. Also the NRT friction: a view model property bound from XAML but
+  assigned after construction needs `required` or a nullable annotation, not a `!`.
+- **§5 commands.** `[RelayCommand]`, `CanExecute` wiring, async commands with
+  `[RelayCommand(AllowConcurrentExecutions = false)]`, `IsRunning` for busy state, cancellation via
+  the generated `Cancel` command. NEVER: a command body that catches nothing (see §26).
+- **§6 messaging.** `IMessenger` is written up as a trap, not a feature: it is the fastest route to
+  an untraceable global event bus. CONSIDER only where a direct reference is genuinely wrong.
+  MUST unregister — `ObservableRecipient` handles it only if the lifetime is actually managed.
+- **§7 DI and composition.** `Microsoft.Extensions.DependencyInjection` wired in `App`; there is no
+  request scope in a desktop app, so the base skill's captive-dependency reasoning applies
+  differently and must be restated in WinUI terms. Division of labour with a future host/DI skill
+  is described in prose **without naming that skill**, because it does not exist (C4a).
+- **§8 asynchronous initialization.** There is no async constructor and no async property getter,
+  so the skill picks one pattern rather than leaving it open: a `[RelayCommand] LoadAsync` invoked
+  from `Loaded` or `OnNavigatedTo`. NEVER fire-and-forget in a constructor. This is also where the
+  `async void` override lands (see the conflict contract).
+- **§9 compiled bindings.** **`x:Bind` defaults to `OneTime`; `Binding` defaults to `OneWay`.**
+  Converting one to the other silently stops the UI updating, and nothing warns. Stated as a MUST:
+  always write `Mode` explicitly, or set `x:DefaultBindMode` at a container. Plus `x:DataType`
+  required in a `DataTemplate`; function bindings; `x:Load`/`x:DeferLoadStrategy`; `x:Bind` is
+  generated code, so it is compile-checked and AOT-friendly where `Binding` is reflection (→ §29);
+  and `x:Bind` event bindings hold strong references (→ §27).
+- **§12 collections and `ItemsSource`.** `ObservableCollection<T>` MUST be mutated on the UI
+  thread, and it raises one notification per item — so a bulk load is N layout passes. The LINQ
+  complement lives here: **NEVER bind `ItemsSource` to a deferred query**, because it re-enumerates;
+  materialize first. Referenced to the LINQ skill by name, never by path (C3).
+- **§17 resources and theming.** `StaticResource` resolves once; `ThemeResource` re-resolves on
+  theme change. Using `StaticResource` for a theme-varying brush is correct in light mode and wrong
+  in dark, with no diagnostic. Plus `ThemeDictionaries`, merge order, `x:Key` vs `x:Name` in a
+  dictionary, and high contrast (→ §25).
+- **§19 UI thread and `DispatcherQueue`.** `DispatcherQueue.GetForCurrentThread()`,
+  `HasThreadAccess`, and the fact that **`TryEnqueue` returns `bool`** and legitimately fails during
+  shutdown — ignoring the result is a silent dropped update. WinUI objects are thread-affine (STA).
+  `DispatcherQueueSynchronizationContext`. This is also where the `ConfigureAwait(false)` override
+  lands.
+- **§21 multiple windows and `XamlRoot`.** Each window has its own `XamlRoot` *and* its own
+  `DispatcherQueue`, so any static "current window" or "the dispatcher" thinking breaks the moment a
+  second window exists. This is the section that makes §24's dialog rules make sense.
+- **§23 page navigation — the one genuine structural conflict, resolved.**
+  `Frame.Navigate(typeof(Page), param)` requires a parameterless page constructor, which is
+  incompatible with constructor injection. Three real answers exist; the skill names one as the
+  default rather than surveying them: **the page's parameterless constructor resolves its view model
+  from the container**, and `Frame.Navigate` is retained so the back stack keeps working. Written
+  honestly as a service locator confined to one line, with `ActivatorUtilities`-based page creation
+  as the CONSIDER for when pages themselves need constructor injection. Also: `NavigationCacheMode`,
+  and the requirement that a navigation parameter be serializable if `GetNavigationState` is used.
+- **§26 exceptions and failure handling.** An escaped exception in an `async void` event handler
+  **terminates the process**; `Application.UnhandledException` does not reliably catch it. So the
+  `async void` allowance in §8 comes with a MUST: the handler body is fully guarded. Plus the UX
+  half — what a user sees (`InfoBar` vs `ContentDialog` vs a inline field error) is a standards
+  question, not just a design one.
+- **§27 element lifetime and memory leaks.** The classic XAML leak set, none of which the compiler
+  sees: view-model-to-view subscriptions, `Loaded` without `Unloaded` teardown, static event
+  sources, `x:Bind` event bindings, `CompositionTarget.Rendering`, a retained `ItemsSource`. MUST:
+  every `+=` in a view has a matching `-=`.
+- **§28 performance.** Built on the official `develop/performance` corpus rather than folklore —
+  `winui-perf` frames everything as a frame budget (a frame should finish inside one refresh
+  interval or input stalls) and points at WPR plus the XAML Frame Analysis plugin;
+  `optimize-xaml-loading` (element count, `x:Load`), `optimize-xaml-layout` (Grid over nested
+  StackPanel, avoid forced re-layout), `optimize-gridview-and-listview` and
+  `listview-and-gridview-data-optimization` (template complexity, `ItemsStackPanel`,
+  `ContainerContentChanging`, incremental loading), `mvvm-performance-tips`,
+  `app-startup-performance`, `improve-garbage-collection-performance`.
+- **§29 AOT and trimming compatibility** — code shape only. `x:Bind` over `Binding`;
+  source-generated `System.Text.Json` over reflection; no reflection-based converters; the
+  `IL2026`/`IL3050` analyzer warnings as the signal. Native AOT has been supported since WinAppSDK
+  1.6; **the current caveats need re-verification before this file is written** (see Open items).
+- **§30 testability.** View models are plain .NET and belong in an ordinary test project; that is
+  the main argument for §3's boundaries. `TimeProvider` for time (deferring to the base skill).
+  The one WinUI-specific seam worth abstracting is `DispatcherQueue`, and only when a test needs
+  it — consistent with §3's "five services and no more".
+- **§32 enforcement and diagnostics — stated honestly as weaker than in C#.** XAML has no CA
+  rules. What genuinely exists: the MVVMTK diagnostics (`MVVMTK0034` and siblings), XAML compiler
+  errors, **`CA1416` platform compatibility** (which actually bites given a 17763 floor against a
+  26100 SDK), the trim/AOT analyzers, and the `Microsoft.Windows.CsWinRT` diagnostics. Prose rules
+  carry more weight here than in the base skill, and the file should say so rather than implying a
+  build gate exists.
+
+## Authoring conventions per reference file
+
+Identical to both plans above, so the three skills read as one family:
+
+- `## N. Title`, then only the applicable `### MUST` / `### SHOULD` / `### CONSIDER` / `### AVOID` /
+  `### NEVER` blocks as terse bullets. Omit empty levels. Lead with MUST/NEVER, per the depth
+  decision's signal-dilution mitigation.
+- Optional `### Examples` with `WRONG` / `CORRECT` pairs, reserved for traps prose cannot convey.
+  Budget ~10 of 30 files — the highest ratio of the three skills, because WinUI's worst failures are
+  invisible in prose: the `x:Bind` `OneTime` default, the missing `XamlRoot`, the `StaticResource`
+  theme bug, the unremoved handler, the off-thread `ObservableCollection` mutation. Fences are
+  ```csharp and ```xml (XAML is XML — do not invent a ```xaml fence, it will not highlight).
+- Cite the diagnostic ID inline wherever one exists, and say so when none does.
+- 15–65 lines per file. Do not pad.
+
+## Areas without universal rules (the de-standardisation table)
+
+| Topic | Why |
+|---|---|
+| `Views/`+`ViewModels/` folders vs feature folders | Architectural decision |
+| One `ResourceDictionary` vs many merged | Project scale |
+| `x:DefaultBindMode="OneWay"` at page root vs per-binding `Mode` | Either satisfies the §9 MUST |
+| Converter vs function binding vs a computed view-model property | Context dependent |
+| `ContentDialog` vs `InfoBar` vs `TeachingTip` for a given message | Design decision |
+| `Page` vs `UserControl` as the navigation unit | Project convention |
+| Threshold for replacing `ObservableCollection<T>` with an incremental source | Measurement |
+| Whether the view or the view model owns visual state | Context dependent |
+| Mica vs Acrylic vs a solid backdrop | Design decision |
+| Windows Community Toolkit (`CommunityToolkit.WinUI.*`) adoption | Dependency decision |
+| Test framework and UI-automation tooling | Separate concern |
+| Adopting Native AOT | Measurement, not policy |
+| Tabs/spaces, XAML attribute-per-line, line length | Formatter/repository concern |
+
+## Complement, not conflict — the contract with the base skill
+
+Six points of contact. Each resolved in one direction only, written so a reader never sees two
+answers. Items 1–3 are genuine reversals of a base-skill rule and must be written as **cited
+overrides in both directions** — the base skill's corresponding section must not restate its rule
+in a way that covers WinUI event handlers or UI-thread continuations.
+
+1. **`async void`.** The base skill forbids it. WinUI event-handler delegate signatures require it.
+   **Ruling: permitted for event handlers only**, and only with a fully guarded body, because an
+   escaped exception terminates the process (§8, §26). Not permitted anywhere else, including
+   commands — `[RelayCommand]` already returns a `Task`.
+2. **`ConfigureAwait(false)`.** Inverted here. On any path that resumes on the UI thread — view
+   models, code-behind, command bodies — `ConfigureAwait(false)` loses the UI context and is a bug.
+   **Ruling: do not use it in presentation-layer code**; the base skill's library-oriented guidance
+   applies below the view-model boundary (§19).
+3. **`partial` types.** Base skills discourage them. WinUI *requires* them: XAML code-behind, and
+   `[ObservableProperty]` on partial properties. **Ruling: partial is the norm here**, and the
+   related base rule on private-field naming simply does not arise, because the field form of
+   `[ObservableProperty]` is marked AVOID in §4.
+4. **Immutability.** The base skill prefers immutable state; a view model is inherently mutable
+   observable state. This is scope, not contradiction — but it must be said explicitly, or the two
+   skills read as opposed. Models and DTOs stay immutable; view models do not.
+5. **LINQ.** Complement, not conflict, and the only touchpoint with
+   `csharp-dotnet10-linq-standards`: never bind `ItemsSource` to a deferred query, materialize
+   first (§12). One rule, referencing that skill by name, not by path (C3).
+6. **Equality, disposal, cancellation, `TimeProvider`.** All owned by the base skill. This skill
+   references them by name and adds only the WinUI-specific consequence (e.g. `Unloaded` as the
+   disposal trigger for a view, §27).
+
+## Conflict rulings to apply while writing
+
+1. **The official docs decline to recommend an MVVM framework.** `data-binding-and-mvvm` says most
+   of the benefit comes from data binding "without using any external frameworks". This skill takes
+   a stronger position by user decision. Record the divergence honestly in §3 rather than implying
+   Microsoft mandates the Toolkit.
+2. **`x:Bind` is not universally better than `Binding`.** It cannot bind element-to-element without
+   help, does not inherit `DataContext`, and needs a compile-time-known type. §10 must give
+   `Binding` a real remit rather than framing it as legacy.
+3. **The `github/awesome-copilot` WinUI 3 instructions are prior art, not a source.** They are
+   ~2,000 words over ~20 topics and contain at least one claim to check rather than copy
+   (`Window.Current` → "`App.Window`" as though that were a platform API; it is a convention the
+   app defines). Useful as a coverage cross-check; not citable.
+4. **The UWP docs are a partial trap.** Many XAML concepts are documented only under
+   `/windows/uwp/`, and most of it transfers — but lifecycle, dispatcher, windowing and pickers do
+   not. Prefer a `/windows/apps/` page whenever one exists; when citing a UWP page, verify the API
+   is not on the §31 forbidden list.
+5. **The Windows App SDK version will drift.** Every version-specific claim goes in the Target
+   Environment table or is written with its version named inline, so a future reader can tell what
+   is stale. Do not scatter bare "new in 2.0" without the number.
+
+## Repo constraints (from `skills/my-skills-audit/scripts/mechanical-checks.py`)
+
+Verified against the script:
+
+- **C1** — `name:` equals the directory name, kebab-case; `description:` ≤ 1024 chars (574 above).
+- **C2** — every `./references/NN-*.md` link in the Section Guide must resolve on disk (`high` if
+  not). External `https://` links are skipped, so inline Microsoft Learn citations are safe.
+- **C3** — no `../..` paths into sibling skill directories. Name other skills, never path them.
+- **C4a** — a backticked skill name that does not exist, with "skill" within 45 characters, is a
+  `high` finding. Hence the unbackticked base-skill mentions, and no named reference to any
+  roadmap skill that has not been built.
+- **C12** — description overlap, verified above: peak 0.113 against `java-21-springboot-standards`.
+- **C15** — `git add` the new directory or it reports as untracked (`low`).
+
+`skills-lock.json` tracks only externally-installed skills, so no change. `README.md` already trips
+the `low` C14 finding for every skill but the `db-core` trio — out of scope.
+
+**No change needed to `code-review`**: it discovers standards skills with
+`grep -l '^name:.*-standards$'`, and `csharp-dotnet10-winui3-standards` matches by construction.
+
+## Open items to re-verify at writing time
+
+Recorded rather than guessed, so nothing unverified reaches the skill:
+
+- **Native AOT status for WinUI 3 on .NET 10 / WinAppSDK 2.x.** Supported since 1.6 per the
+  Windows Developer Blog, but the only current-state signals found were issue reports
+  (`dotnet/sdk#53387`: cross-architecture AOT publish via `.wapproj` regressed in .NET 10.0.103;
+  reports that AOT worked only for packaged apps in some .NET 10 previews). Find the Learn page if
+  one now exists, and state the caveats with versions attached. **Do not assert blanket AOT
+  support in §29.**
+- **`Microsoft.Windows.CsWinRT` diagnostic IDs.** Named as a package, not by rule ID, because no ID
+  was verified. Either verify IDs or keep it at package level in §32.
+- **`x:DefaultBindMode`** was confirmed from community sources and the UWP-era docs; confirm it on a
+  current `/windows/apps/` page before stating it as the sanctioned alternative in §9.
+- **`develop/ui/controls/`, `design/style/`, `design/layout/`, `design/basics/`** were verified to
+  exist as folders but their file lists were not enumerated. Enumerate before writing §15–§18.
+
+## Execution order
+
+1. `mkdir -p skills/csharp-dotnet10-winui3-standards/references`.
+2. Resolve the four Open items above.
+3. Write `SKILL.md` — frontmatter, overlay preamble, target environment, operating rules, the
+   forbidden-API table, classification table, general UI design, discipline sections,
+   de-standardisation table, the 30-row Section Guide, workflow.
+4. Write the 30 reference files, batched by theme so rulings stay consistent across neighbours:
+   architecture (3–8), binding (9–13), XAML surface (14–18), threading and windowing (19–24),
+   quality (25–30), legacy and enforcement (31–32).
+5. `git add` the directory.
+
+## Verification
+
+1. **Audit clean** — run the repo's own mechanical checks; filter the JSON to this skill and expect
+   nothing above `low`:
+   ```bash
+   python3 skills/my-skills-audit/scripts/mechanical-checks.py --repo-root .
+   ```
+2. **Link integrity** — the Section Guide row count equals the file count:
+   ```bash
+   ls skills/csharp-dotnet10-winui3-standards/references | wc -l
+   ```
+   should be 30, and every `./references/...` target must resolve (C2 covers this).
+3. **Structural parity** — every reference file opens with `## N. `, uses only the five
+   classification headings, and no file is a stub.
+4. **The forbidden-API guard actually fires** — the behavioural test that matters, because it is
+   the reason the table is always-loaded rather than routed. In fresh sessions, ask for code that a
+   UWP-trained answer would write with a banned API, and confirm the correct replacement without
+   prompting:
+   - "show a confirmation dialog from this button handler" → `ContentDialog` **with `XamlRoot` set**,
+     not `MessageDialog`;
+   - "update the list when the background download finishes" → `DispatcherQueue.TryEnqueue`, not
+     `CoreDispatcher.RunAsync`;
+   - "let the user pick a file to open" → `Microsoft.Windows.Storage.Pickers`, not
+     `Windows.Storage.Pickers` plus HWND interop;
+   - "centre the main window on screen" → `AppWindow`, not `ApplicationView`.
+5. **The `x:Bind` mode rule fires** — ask for a XAML fragment bound to a view-model property that
+   changes at runtime, and confirm an explicit `Mode=OneWay` rather than a bare `{x:Bind Prop}`.
+6. **No scope bleed** — grep for the three excluded areas:
+   ```bash
+   grep -rniE 'msix|wapproj|self-contained|bootstrapper|x:uid|\.resw|resourceloader|apptoast|widgetprovider' skills/csharp-dotnet10-winui3-standards
+   ```
+   Hits are acceptable only in the scope disclaimer and in §29's AOT caveat. Anything else means
+   packaging, localization, or the notification surface leaked in.
+7. **No conflict with the base skill** — once both exist, confirm each of the three reversals is a
+   labelled override on both sides, never a silent contradiction:
+   ```bash
+   grep -rn -iE 'async void|configureawait|partial' \
+     skills/csharp-dotnet10-winui3-standards skills/csharp-dotnet10-standards
+   ```
+
+---
+
+# WinUI reference sources
+
+Researched 2026-08-25. Microsoft Learn URLs are relative to `https://learn.microsoft.com/en-us/`.
+Where a source is given as a docs-repo path, the file's existence was verified by enumerating the
+`MicrosoftDocs/windows-dev-docs` folder listing on the `docs` branch; the corresponding Learn URL is
+that path minus `hub/` and the `.md` extension. Anything not verified is called out in **Open
+items** above rather than cited.
+
+## Tier 1 — normative, the skill's spine
+
+| Source | URL |
+|---|---|
+| WinUI 3 (index) | `windows/apps/winui/winui3/` |
+| Build desktop Windows apps with the Windows App SDK | `windows/apps/windows-app-sdk/` |
+| **Windows App SDK release channels + release-lifecycle table** | `windows/apps/windows-app-sdk/release-channels` |
+| Windows App SDK and supported Windows releases (OS matrix) | `windows/apps/windows-app-sdk/support` |
+| Windows App SDK 2.0 release notes (all channels, pivoted) | `windows/apps/windows-app-sdk/release-notes/windows-app-sdk-2-0` |
+| Stable channel release notes | `windows/apps/windows-app-sdk/stable-channel` |
+| What's new: SDK, WinUI, tools | `windows/apps/whats-new/whats-new-for-developers` |
+| Downloads for the Windows App SDK | `windows/apps/windows-app-sdk/downloads` |
+| Microsoft Modern Lifecycle (the governing policy) | `lifecycle/policies/modern` |
+| Windows versions and SDK overview | `windows/apps/get-started/versioning-overview` |
+| Design principles / guidelines overview | `windows/apps/design/design-principles` · `windows/apps/design/guidelines-overview` |
+| Windows App SDK features overview | `windows/apps/develop/features-overview` · `windows/apps/develop/user-interface` |
+
+## Tier 2 — official topic guidance, mapped to sections
+
+| § | Topic | Source paths (under `windows/apps/`) |
+|---|---|---|
+| 3 | MVVM layering | `develop/data-binding/data-binding-and-mvvm` · `develop/data-binding/index` |
+| 3, 4, 5 | MVVM tutorial with the Toolkit | `windows/apps/tutorials/winui-mvvm-toolkit/mvvm-implementation` |
+| 9, 10, 11 | Binding | `develop/data-binding/data-binding-overview` · `develop/data-binding/data-binding-in-depth` · `develop/data-binding/function-bindings` · `develop/data-binding/bind-to-hierarchical-data-and-create-a-master-details-view` · `develop/platform/xaml/x-bind-markup-extension` |
+| 14–18 | XAML surface, layout, theming, materials | `develop/ui/layouts-with-xaml` · `develop/ui/layout-panels` · `develop/ui/alignment-margin-padding` · `develop/ui/theming` · `develop/ui/materials` · `develop/ui/system-backdrops` · `develop/ui/in-app-acrylic` · `develop/ui/shadows` · `develop/ui/visual-tree` · `develop/ui/display-ui-objects` · `develop/ui/xaml-runtime-design-tools` · `develop/ui/controls/` *(folder — enumerate before writing)* · `design/style/` · `design/layout/` · `design/basics/` · `design/motion/` · `design/iconography/` *(folders — enumerate)* |
+| 19 | UI thread and dispatch | `develop/dispatcherqueue` |
+| 20, 21 | Windowing, title bar, HWND | `develop/ui/windowing-overview` · `develop/ui/manage-app-windows` · `develop/ui/multiple-windows` · `develop/ui/retrieve-hwnd` · `develop/title-bar` |
+| 22 | Activation, instancing, lifecycle | `windows-app-sdk/applifecycle/applifecycle` · `…/applifecycle-instancing` · `…/applifecycle-single-instance` · `…/applifecycle-rich-activation` · `…/applifecycle-restart` · `…/applifecycle-power` · `…/background-tasks` · `develop/app-lifecycle-and-system-services` |
+| 23 | Navigation | `develop/ui/navigation/navigate-between-two-pages` · `develop/ui/navigation/navigation-history-and-backwards-navigation` |
+| 24 | Pickers and interop | `develop/files/using-file-folder-pickers` · `develop/files/pickers-save-file` · `develop/ui/retrieve-hwnd` |
+| 25 | Accessibility | `develop/accessibility` · `design/accessibility/accessibility-overview` · `…/accessibility-checklist` · `…/accessibility-testing` · `…/basic-accessibility-information` · `…/keyboard-accessibility` · `…/high-contrast-themes` · `…/accessible-text-requirements` · `…/control-patterns-and-interfaces` · `…/custom-automation-peers` · `…/landmarks-and-headings` · `…/designing-inclusive-software` · `…/system-button-narration` |
+| 28 | Performance | `develop/performance/index` · `…/winui-perf` · `…/optimize-xaml-loading` · `…/optimize-xaml-layout` · `…/optimize-gridview-and-listview` · `…/listview-and-gridview-data-optimization` · `…/mvvm-performance-tips` · `…/app-startup-performance` · `…/improve-garbage-collection-performance` · `…/responsive` · `…/disk-memory` · `…/optimize-animations-and-media` · `…/optimize-file-access` · `…/power` · `…/choose-between-tools` |
+| 30 | Testing | `develop/testing/index` *(one page only — thin; expect to reason from §3 instead)* |
+| 31 | Forbidden UWP-era APIs | `windows-app-sdk/migrate-to-windows-app-sdk/guides/winui3` · `develop/ai-assisted/migrate/uwp-to-winui` · `develop/ai-assisted/migrate/wpf-to-winui` |
+| 32 | Platform compatibility analyzer | `dotnet/fundamentals/code-analysis/quality-rules/ca1416` |
+
+### MVVM Toolkit (§4, §5, §6, §13, §32)
+
+All under `https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/`:
+
+`index` · `observableobject` · `observablerecipient` · `observablevalidator` · `relaycommand` ·
+`messenger` · `ioc` · `generators/overview` · `generators/observableproperty` ·
+`generators/relaycommand` · `generators/errors/mvvmtk0034`
+
+Plus the release that introduced partial-property support, which is the basis for the §4 ruling:
+https://devblogs.microsoft.com/dotnet/announcing-the-dotnet-community-toolkit-840/
+
+### Version-specific claims and where they were verified
+
+| Claim | Source |
+|---|---|
+| No LTS channel; Current vs Maintenance only; 2.0 line Current to 2027-04-29; 1.8 Maintenance to 2026-09-09 | `windows/apps/windows-app-sdk/release-channels` (release-lifecycle table, page dated 2026-08-13) |
+| Latest stable 2.4.0, released 2026-08-13 | same page, Stable channel row |
+| 2.0 adopted SemVer 2.0.0; package family name tied to major; next SxS major is 3.0.0; **WinUI 3 name unchanged**; `IXamlPredicate` → `IXamlCondition`; `FileSavePicker` no longer creates an empty file; `SystemBackdropElement` added | `windows/apps/windows-app-sdk/release-notes/windows-app-sdk-2-0` |
+| `Microsoft.Windows.Storage.Pickers` takes a `WindowId`, needs no HWND init, works elevated, returns paths | `windows/apps/windows-app-sdk/release-notes/windows-app-sdk-1-8` · `windows/apps/develop/files/using-file-folder-pickers` · spec: https://github.com/microsoft/WindowsAppSDK/blob/main/specs/Storage.Pickers/Microsoft.Windows.Storage.Pickers.md |
+| Windows 10 1809 (17763) floor; OS support matrix | `windows/apps/windows-app-sdk/support` |
+| Native AOT supported since WinAppSDK 1.6 (~50% startup reduction, ~8× package-size reduction in the Contoso Camera sample) | https://blogs.windows.com/windowsdeveloper/2024/09/04/whats-new-in-windows-app-sdk-1-6/ — **current-state caveats unverified, see Open items** |
+| `[ObservableProperty]` on partial properties (Toolkit 8.4+, C# 13 partial properties) | https://devblogs.microsoft.com/dotnet/announcing-the-dotnet-community-toolkit-840/ |
+| `x:Bind` defaults to `OneTime`, `Binding` defaults to `OneWay` | `windows/apps/develop/platform/xaml/x-bind-markup-extension` |
+| The UWP→WinUI 3 change list (`Window.Current`, `CoreDispatcher.RunAsync`, `XamlRoot` on `ContentDialog`/`Popup`, HWND for pickers/`MessageDialog`/`DataTransferManager`, `Window` has no `Resources`/`DataContext`/`Loaded`, no VSM on `Window`, `AcrylicBrush.BackgroundSource` removed, manual `Frame` navigation) | `windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/guides/winui3` |
+
+### Tier 3 — community and reference implementations, non-normative
+
+| Source | URL |
+|---|---|
+| WinUI 3 Gallery (the reference app; 2.9 is the first build on WinAppSDK 2.0) | https://github.com/microsoft/WinUI-Gallery |
+| Template Studio for WinUI (the de facto reference for navigation + DI wiring) | https://github.com/microsoft/TemplateStudio |
+| Windows App SDK repo (issues, specs, release discussions) | https://github.com/microsoft/WindowsAppSDK |
+| `microsoft-ui-xaml` repo (WinUI issues and release tags) | https://github.com/microsoft/microsoft-ui-xaml |
+| Windows Community Toolkit (`CommunityToolkit.WinUI.*`) | https://github.com/CommunityToolkit/Windows |
+| `github/awesome-copilot` WinUI 3 instructions + migration skill — **prior-art coverage check only, not citable** | https://github.com/github/awesome-copilot/blob/main/instructions/winui3.instructions.md · https://github.com/github/awesome-copilot/blob/main/skills/winui3-migration-guide/SKILL.md |
+| `dotnet/sdk#53387` — .NET 10 cross-arch Native AOT regression via `.wapproj` | https://github.com/dotnet/sdk/issues/53387 |
+
+---
+
+# Roadmap amendments (2026-08-25)
+
+Following the WinUI scope decisions above, two changes to the roadmap recorded earlier in this file:
+
+- **`csharp-dotnet10-winui3-standards` is now planned** (this document). It is a Tier-1-equivalent
+  overlay in its own right; the sequencing argument that Tier 1 precedes framework skills does not
+  apply to it, because WinUI *is* the framework and the user has an immediate need.
+- **New Tier 2 candidate: a WinUI localization and resources skill.** `x:Uid`, `.resw`,
+  `Microsoft.Windows.ApplicationModel.Resources.ResourceManager` (MRT Core, *not* the UWP
+  `ResourceLoader`), PRI files, `FlowDirection`/RTL, pseudo-localisation. Deliberately excluded
+  from the WinUI skill by user decision. Small, self-contained, and currently unowned — nothing
+  else in the repo or the roadmap covers it.
+- **Confirmed: packaging and deployment belong to `csharp-dotnet10-build-and-project-standards`.**
+  MSIX, packaged-with-external-location, unpackaged, framework-dependent vs self-contained, the
+  Bootstrapper API, single-project MSIX, and the AOT publish switches all land there rather than in
+  the WinUI skill. That skill's open question ("prose only, ship no copyable config?") now has a
+  second consumer, so answer it before writing either.
