@@ -19,7 +19,7 @@ Follow this reference only when the active execution shell is `bash` or `zsh`.
 
 ## Create pattern
 
-Assume `issue_title` contains the approved title, `issue_body` the approved body, `issue_label` the approved type label such as `type:story`, and `repo_args` expands either to nothing or to the explicit repository override.
+Assume `issue_title` contains the approved title, `issue_body` the approved body, `repo_args` expands either to nothing or to the explicit repository override, and `label_args` expands either to nothing or to one or more explicitly approved `--label` arguments.
 
 ```bash
 (
@@ -28,7 +28,7 @@ Assume `issue_title` contains the approved title, `issue_body` the approved body
 
     printf '%s' "$issue_body" > "$issue_body_file" || exit 1
 
-    issue_url=$(gh issue create "${repo_args[@]}" --title "$issue_title" --body-file "$issue_body_file" --label "$issue_label") || exit 1
+    issue_url=$(gh issue create "${repo_args[@]}" "${label_args[@]}" --title "$issue_title" --body-file "$issue_body_file") || exit 1
     [ -n "$issue_url" ] || exit 1
 
     verified_issue=$(gh issue view "$issue_url" "${repo_args[@]}" --json number,url,title,body) || exit 1

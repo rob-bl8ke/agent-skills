@@ -6,7 +6,7 @@ Every item produces one combined issue body — business content and task conten
 
 This is the exact content used for `gh issue create`'s `--body` value; the `### {title}` line becomes the GitHub issue title instead of staying in the body.
 
-**Issue type:** defaults to the `type:story` label; only use another type label (`type:bug`, `type:spike`, and so on) if the requester specifically asked for it.
+**Issue type:** do not assume any default type label. Only add a type label (`type:bug`, `type:spike`, and so on) if the requester specifically asked for it or the repository instructions in scope require it.
 
 **Acceptance Criteria location:** the acceptance criteria bullet list lives in the body only, in the `#### Acceptance Criteria` section, written as markdown checkboxes.
 

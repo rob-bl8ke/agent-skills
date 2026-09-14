@@ -16,7 +16,6 @@ argument-hint: A phase/task reference (3.3, Phase 3, 3.1-3.4), a free-text requi
 - **GitHub write guardrail:** you may *read* any GitHub issue/comment freely, and *edit* an existing issue when the user is explicitly evolving it (with confirmation — see Stage 6). You must **never create a new GitHub issue** unless the user explicitly asks you to create one.
 - **Always report the issue number and URL back to the requestor immediately after creating a new GitHub issue** — this is the one piece of information the user needs to find their issue, and it must never be left implicit in a longer message.
 - **GitHub authentication guardrail:** before any create or edit operation, check that `gh` is available and authenticated. If it is not, stop the write path and return the drafted body plus the intended `gh` command shape for manual use.
-- **GitHub issue type:** default to the `type:story` label. Only use a different type label (for example `type:bug` or `type:spike`) when the requester specifically asks for that type — never infer bug or spike from the content alone.
 - **Acceptance Criteria location:** the acceptance criteria live in the issue body only, in the `#### Acceptance Criteria` section, as markdown checkboxes. Do not assume any separate GitHub field exists for them.
 - **Dependency representation:** when blockers are supported by the source material or approved breakdown, represent them in the issue body as explicit references such as `Blocked by #123`. Also add matching dependency labels such as `blocked-by:123` when those labels already exist or the user has asked for that convention. If label management is out of scope, keep the body references and do not invent label-creation work.
 - **No separate task-spec comment:** the task detail already lives in the issue body itself (below the business content, in the same issue), so do not post a duplicate task write-up as a comment.
@@ -101,7 +100,7 @@ Full template: [references/templates.md](references/templates.md). In short, for
 3. Per the GitHub write guardrail, do **not** call `gh issue create` until the user explicitly confirms creation of the shown draft — ask `Want me to create this as a GitHub issue?` if that confirmation is still missing. Once confirmed:
    - Resolve the shell path using `references/shell-selection.md`, then follow exactly one of `references/github-cli-powershell.md` or `references/github-cli-bash.md`.
    - Resolve the target repository from the current directory unless the user explicitly supplied `--repo owner/name`.
-   - Create the issue with title = the concise domain-vocabulary title, body = the full combined body, and labels including the default `type:story` label unless the user requested a different type label.
+   - Create the issue with title = the concise domain-vocabulary title and body = the full combined body. Add labels only when they were explicitly requested or are already part of an approved repository convention in scope.
    - Carry approved dependency labels such as `blocked-by:123` when they are part of the repo's working convention or the user explicitly asked for them.
    - If this issue was carried over from an approved breakdown with a parent grouping issue, reference that parent in the body as context if the source material supports it — but never modify the parent issue itself.
    - **Immediately verify creation and report the exact issue number and URL back to the user** using fresh successful `gh issue view` or `gh issue list` output.
@@ -114,7 +113,7 @@ Full template: [references/templates.md](references/templates.md). In short, for
 - **Before writing an update back to the live GitHub issue**, draft the change and show it to the user, then get explicit confirmation before calling the edit command — this is a side-effectful action on a shared system.
 - Execute the confirmed edit by first resolving the shell via `references/shell-selection.md`, then following exactly one of `references/github-cli-powershell.md` or `references/github-cli-bash.md`, including the temporary body payload and immediate verification.
 - If the change affects the Acceptance Criteria section, update the issue body so the checklists stay accurate.
-- If the change affects dependency references or type labels, update those too, but only where the new information actually justifies it.
+- If the change affects dependency references or explicitly requested labels, update those too, but only where the new information actually justifies it.
 - Never create a new GitHub issue while evolving (or in any other mode) unless the user explicitly asks for that.
 - If `gh` is unavailable or unauthenticated, stop before the write and return the revised body plus the intended `gh issue edit` command shape for manual use.
 

@@ -19,14 +19,14 @@ Follow this reference only when the active execution shell is PowerShell or `pws
 
 ## Create pattern
 
-Assume `$issueTitle` contains the approved title, `$issueBody` the approved body, `$issueLabel` the approved type label such as `type:story`, and `$repoArgs` is either empty or the explicit repository override.
+Assume `$issueTitle` contains the approved title, `$issueBody` the approved body, `$repoArgs` is either empty or the explicit repository override, and `$labelArgs` expands either to nothing or to one or more explicitly approved `--label` arguments.
 
 ```powershell
 $issueBodyFile = [System.IO.Path]::GetTempFileName()
 try {
     [System.IO.File]::WriteAllText($issueBodyFile, $issueBody, [System.Text.UTF8Encoding]::new($false))
 
-    $issueUrl = gh issue create @repoArgs --title $issueTitle --body-file $issueBodyFile --label $issueLabel
+    $issueUrl = gh issue create @repoArgs @labelArgs --title $issueTitle --body-file $issueBodyFile
     if ($LASTEXITCODE -ne 0) { throw 'Issue creation failed; stop.' }
     if ([string]::IsNullOrWhiteSpace($issueUrl)) { throw 'No issue URL returned; stop and reconcile.' }
 
