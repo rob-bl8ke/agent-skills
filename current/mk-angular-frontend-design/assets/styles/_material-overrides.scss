@@ -1,0 +1,248 @@
+// ============================================================================
+// GLOBAL COMPONENT OVERRIDES
+// ============================================================================
+//
+// Re-skins Angular Material with the design tokens. MUST load after
+// _material-theme.scss. `!important` is permitted HERE ONLY - MDC ships high
+// specificity - and is never acceptable in a component stylesheet.
+
+// ============================================================================
+
+// --- Cards ---
+mat-card {
+  background-color: var(--surface-2) !important;
+  color: var(--text-1) !important;
+  box-shadow: var(--shadow-1) !important;
+  border: 1px solid var(--divider);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+// --- Dialogs ---
+.mat-mdc-dialog-surface {
+  background-color: var(--surface-2) !important;
+  color: var(--text-1) !important;
+}
+
+// --- Sidenav/Drawer ---
+.mat-drawer {
+  background-color: var(--surface-2) !important;
+  border-right: 1px solid var(--divider) !important;
+}
+
+// --- Tables ---
+.mat-mdc-table {
+  background-color: transparent !important;
+
+  .mat-mdc-header-row {
+    background-color: var(--surface-1);
+  }
+
+  .mat-mdc-row {
+    border-bottom-color: var(--divider);
+
+    &:hover {
+      background-color: var(--surface-hover);
+    }
+  }
+
+  .mat-mdc-header-cell {
+    color: var(--text-2);
+    border-bottom-color: var(--border);
+  }
+
+  .mat-mdc-cell {
+    color: var(--text-1);
+    border-bottom-color: var(--divider);
+  }
+}
+
+// --- Paginator ---
+.mat-mdc-paginator {
+  background-color: transparent !important;
+  color: var(--text-2) !important;
+  border-top: 1px solid var(--divider);
+}
+
+// --- Form Fields ---
+.mat-mdc-form-field {
+  .mdc-text-field--outlined .mdc-notched-outline__leading,
+  .mdc-text-field--outlined .mdc-notched-outline__notch,
+  .mdc-text-field--outlined .mdc-notched-outline__trailing {
+    border-color: var(--input-border);
+    transition: border-color 0.2s ease;
+  }
+
+  .mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__leading,
+  .mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__notch,
+  .mdc-text-field--outlined.mdc-text-field--focused .mdc-notched-outline__trailing {
+    border-color: var(--primary) !important;
+  }
+
+  .mdc-text-field--outlined:hover .mdc-notched-outline__leading,
+  .mdc-text-field--outlined:hover .mdc-notched-outline__notch,
+  .mdc-text-field--outlined:hover .mdc-notched-outline__trailing {
+    border-color: var(--primary) !important;
+  }
+
+  .mat-mdc-input-element {
+    color: var(--input-text) !important;
+
+    &::placeholder {
+      color: var(--input-placeholder) !important;
+    }
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    color: var(--text-3);
+  }
+}
+
+.mat-mdc-text-field-wrapper {
+  background-color: var(--input-bg) !important;
+}
+
+// --- Select / Dropdown ---
+.mat-mdc-select-panel {
+  background-color: var(--surface-2) !important;
+}
+
+.mat-mdc-option {
+  color: var(--text-1) !important;
+  transition: background-color 0.2s ease, color 0.2s ease;
+
+  &:hover:not(.mdc-list-item--disabled) {
+    background-color: rgba(var(--primary-rgb), 0.08) !important;
+    color: var(--primary) !important;
+  }
+
+  &.mdc-list-item--selected:not(.mdc-list-item--disabled) {
+    background-color: rgba(var(--primary-rgb), 0.12) !important;
+    color: var(--primary) !important;
+  }
+
+  .mat-icon {
+    color: var(--primary) !important;
+  }
+}
+
+// --- Buttons ---
+.mat-mdc-button,
+.mat-mdc-outlined-button {
+  &:not(:disabled) {
+    color: var(--primary);
+  }
+
+  &:hover:not(:disabled) {
+    background-color: var(--surface-hover);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+.mat-mdc-raised-button,
+.mat-mdc-unelevated-button,
+.mat-mdc-fab,
+.mat-mdc-mini-fab {
+  &.mat-primary {
+    background-color: var(--primary) !important;
+    color: var(--primary-contrast) !important;
+
+    &:hover:not(:disabled) {
+      background-color: var(--primary-hover) !important;
+    }
+  }
+}
+
+.mat-mdc-icon-button {
+  color: var(--text-2) !important;
+  transition: color 0.2s ease, background-color 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: rgba(var(--primary-rgb), 0.08);
+    color: var(--primary) !important;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+// --- Menu ---
+.mat-mdc-menu-panel {
+  background-color: var(--surface-2) !important;
+  border: 1px solid var(--primary);
+  transition: border-color 0.2s ease;
+}
+
+.mat-mdc-menu-item {
+  color: var(--text-1) !important;
+  transition: background-color 0.2s ease, color 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: rgba(var(--primary-rgb), 0.08) !important;
+    color: var(--primary) !important;
+  }
+
+  .mat-icon {
+    color: var(--text-2) !important;
+    transition: color 0.2s ease;
+  }
+
+  &:hover:not(:disabled) .mat-icon {
+    color: var(--primary) !important;
+  }
+}
+
+// --- Chips ---
+.mat-mdc-chip {
+  background-color: var(--chip-bg) !important;
+  color: var(--chip-text) !important;
+  border: 1px solid var(--chip-border) !important;
+}
+
+// --- List ---
+.mat-mdc-list-item {
+  color: var(--text-1) !important;
+
+  &:hover {
+    background-color: var(--surface-hover) !important;
+  }
+
+  &.mdc-list-item--selected,
+  &.mdc-list-item--activated {
+    background-color: var(--surface-hover) !important;
+  }
+}
+
+mat-list-option {
+  border-bottom: 1px solid var(--divider) !important;
+}
+
+// --- Expansion Panel ---
+.mat-expansion-panel {
+  background-color: var(--surface-2) !important;
+  color: var(--text-1) !important;
+}
+
+.mat-expansion-panel-header {
+  color: var(--text-1) !important;
+
+  &:hover:not([aria-disabled='true']) {
+    background-color: var(--surface-hover) !important;
+  }
+}
+
+// --- Progress Bar ---
+.mat-mdc-progress-bar {
+  --mdc-linear-progress-active-indicator-color: var(--primary);
+  --mdc-linear-progress-track-color: var(--surface-3);
+}
+
+// --- Divider ---
+.mat-divider {
+  border-color: var(--divider) !important;
+}

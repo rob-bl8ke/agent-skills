@@ -1,0 +1,30 @@
+<button
+  mat-icon-button
+  [matMenuTriggerFor]="paletteMenu"
+  aria-label="Select color palette"
+  matTooltip="Color palette"
+>
+  <mat-icon>palette</mat-icon>
+</button>
+
+<mat-menu #paletteMenu="matMenu" aria-label="Color palette selection" class="palette-menu">
+  @for (palette of palettes; track palette.id) {
+    <button
+      mat-menu-item
+      (click)="selectPalette(palette.id)"
+      [class.active]="isSelected(palette)"
+      role="menuitemradio"
+      [attr.aria-checked]="isSelected(palette)"
+    >
+      <span
+        class="color-swatch"
+        [style.background-color]="palette.color"
+        aria-hidden="true"
+      ></span>
+      <span>{{ palette.name }}</span>
+      @if (isSelected(palette)) {
+        <mat-icon class="check-icon">check</mat-icon>
+      }
+    </button>
+  }
+</mat-menu>

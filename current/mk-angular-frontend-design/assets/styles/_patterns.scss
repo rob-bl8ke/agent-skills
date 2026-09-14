@@ -1,0 +1,189 @@
+// ============================================================================
+// UI PATTERN LIBRARY
+// ============================================================================
+//
+// Shared presentational vocabulary. Consume these classes from templates
+// rather than re-declaring their anatomy in a component stylesheet - a
+// component should only ever contribute its own layout delta (margins, grid).
+
+// ============================================================================
+// JSON SYNTAX HIGHLIGHTING
+// ============================================================================
+// ============================================================================
+
+.json-key { color: var(--json-key); }
+.json-string { color: var(--json-string); }
+.json-number { color: var(--json-number); }
+.json-boolean,
+.json-null { color: var(--json-boolean); }
+
+// ============================================================================
+// STATUS CLASSES (for chips/pills)
+// ============================================================================
+// ============================================================================
+
+// Success status (e.g., SUCCESS chips/badges)
+.status-success,
+.success {
+  background-color: var(--success-bg) !important;
+  color: var(--success-text) !important;
+  border: 1px solid var(--success-border) !important;
+}
+
+// Error/Danger status
+.status-error,
+.status-failed,
+.error {
+  background-color: var(--danger-bg) !important;
+  color: var(--danger-text) !important;
+  border: 1px solid var(--danger-border) !important;
+}
+
+// Warning status
+.status-warning,
+.warning {
+  background-color: var(--warning-bg) !important;
+  color: var(--warning-text) !important;
+  border: 1px solid var(--warning-border) !important;
+}
+
+// Info status
+.status-info,
+.info {
+  background-color: var(--info-bg) !important;
+  color: var(--info-text) !important;
+  border: 1px solid var(--info-border) !important;
+}
+
+// ============================================================================
+// STATUS BADGE (icon container with proper centering)
+// ============================================================================
+// ============================================================================
+
+.status-badge {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+  flex-shrink: 0;
+
+  // Icon styling within badge
+  mat-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+    line-height: 18px;
+    display: block; // prevents baseline misalignment
+  }
+}
+
+// Success badge variant
+.status-badge--success {
+  background-color: var(--success-bg);
+  color: var(--success-text);
+  border: 1px solid var(--success-border);
+}
+
+// Error/Danger badge variant
+.status-badge--error,
+.status-badge--failed {
+  background-color: var(--danger-bg);
+  color: var(--danger-text);
+  border: 1px solid var(--danger-border);
+}
+
+// Warning badge variant
+.status-badge--warning {
+  background-color: var(--warning-bg);
+  color: var(--warning-text);
+  border: 1px solid var(--warning-border);
+}
+
+// Info badge variant
+.status-badge--info {
+  background-color: var(--info-bg);
+  color: var(--info-text);
+  border: 1px solid var(--info-border);
+}
+
+// Pending/neutral badge variant
+.status-badge--pending {
+  background-color: var(--chip-bg);
+  color: var(--text-2);
+  border: 1px solid var(--border);
+}
+
+// ============================================================================
+// ERROR BANNER
+// ============================================================================
+// ============================================================================
+
+.error-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background-color: var(--danger-bg);
+  color: var(--danger-text);
+  border: 1px solid var(--danger-border);
+  border-radius: 6px;
+
+  mat-icon {
+    color: var(--danger-text);
+  }
+
+  // The message takes the slack so a trailing action button sits flush right
+  span {
+    flex: 1;
+  }
+}
+
+// Warning variant - for degraded/recoverable conditions rather than failures
+.error-banner--warning {
+  background-color: var(--warning-bg);
+  color: var(--warning-text);
+  border-color: var(--warning-border);
+  font-size: 14px;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: var(--warning-text);
+  }
+}
+
+// ============================================================================
+// SNACKBAR COLORS
+// ============================================================================
+// ============================================================================
+
+.snackbar-success {
+  --mdc-snackbar-container-color: #2e7d32;
+  --mdc-snackbar-supporting-text-color: #fff;
+  --mat-snack-bar-button-color: #fff;
+}
+
+.snackbar-error {
+  --mdc-snackbar-container-color: #c62828;
+  --mdc-snackbar-supporting-text-color: #fff;
+  --mat-snack-bar-button-color: #fff;
+}
+
+.snackbar-warning {
+  --mdc-snackbar-container-color: #e65100;
+  --mdc-snackbar-supporting-text-color: #fff;
+  --mat-snack-bar-button-color: #fff;
+}
+
+.snackbar-info {
+  --mdc-snackbar-container-color: #0d47a1;
+  --mdc-snackbar-supporting-text-color: #fff;
+  --mat-snack-bar-button-color: #fff;
+}
