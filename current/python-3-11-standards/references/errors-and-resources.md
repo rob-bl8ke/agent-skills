@@ -14,6 +14,7 @@ Use when changing exceptions, validation, cleanup, context managers, logging bou
 
 ## SHOULD
 
+- Prefer EAFP (Easier to Ask for Forgiveness than Permission): attempt the operation and handle specific failures, rather than pre-checking conditions (LBYL).
 - Derive application exceptions from `Exception`, not `BaseException`.
 - Design exception types around what callers can recover from or handle programmatically.
 - Include actionable context in exception messages without leaking secrets.

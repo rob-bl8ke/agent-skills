@@ -11,6 +11,15 @@ Use when changing annotations, data models, collections, mutability, strings, nu
 - Preserve equality, ordering, and hashing contracts when implementing `__eq__`, ordering methods, or `__hash__`.
 - Use timezone-aware datetimes for real instants; do not mix naive and aware datetimes in comparisons or persistence boundaries.
 - Decode bytes to `str` at boundaries using an explicit encoding when data is not already guaranteed text.
+- Prefer truthiness for emptiness checks: `if items:` / `if not items:`.
+- Use `is None` / `is not None` when specifically checking for absence.
+- Do not conflate falsy values with `None`; `0`, `""`, `[]`, `{}`, and `False` may be valid values.
+- Prefer `if condition:` / `if not condition:` over comparisons with `True` or `False`.
+- Use `x or default` only when every falsy value should trigger the default.
+- Prefer `any()` and `all()` for aggregate truth tests.
+- Use conditional expressions for value selection: `a if condition else b`.
+- Custom truthiness via `__bool__()` or `__len__()` should have clear, intuitive semantics.
+- Prefer explicit comparisons when truthiness would hide meaningful domain states.
 
 ## SHOULD
 
@@ -47,6 +56,7 @@ Use when changing annotations, data models, collections, mutability, strings, nu
 ## NEVER
 
 - Rely on truthiness when the code specifically needs to know whether a value is `None`.
+- Conflate `None` with other falsy values; treat them as distinct states.
 - Make a mutable object hashable based on mutable state.
 - Use Python 2 typing comment style in new Python 3.11 code unless maintaining an unannotated legacy file.
 

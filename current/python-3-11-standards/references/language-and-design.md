@@ -23,6 +23,7 @@ Use when changing Python modules, public APIs, imports, naming, functions, class
 - Write docstrings for public modules, functions, classes, and methods; follow PEP 257 conventions.
 - Use comments to explain non-obvious intent, constraints, or tradeoffs; keep comments synchronized with code.
 - Prefer explicit control flow over dense expressions when behavior is easier to read step by step.
+- Follow Python's EAFP principle: prefer attempting operations and handling exceptions over pre-checking conditions (see [Errors And Resources](./errors-and-resources.md)).
 
 ## CONSIDER
 
