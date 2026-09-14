@@ -17,13 +17,21 @@ These rules apply to every implementation, regardless of stage:
 1. **One issue per invocation** — handle a single GitHub issue from start to finish. Multi-issue orchestration is out of scope.
 2. **Read-only until closure** — never modify the issue during implementation. The issue body and acceptance criteria are the contract; implementation adapts to them, not vice versa.
 3. **Verify all acceptance criteria** — before closing, confirm every checkbox in the issue's acceptance criteria section can be ticked. If any cannot, pause and ask the user how to proceed.
-4. **Close with summary** — use `gh issue close --comment "..."` with a completion summary listing which acceptance criteria were verified and how. Never close silently.
+4. **Close with summary** — post the completion summary as a separate verified issue comment, then close the issue. Never rely on shell-embedded multi-line `--comment` text and never close silently.
 5. **Check gh authentication** — before any `gh` command, verify `gh` is available and authenticated. If not, stop and tell the user.
 6. **Respect existing context** — if the issue was already read earlier in this session, use that content instead of re-fetching. If codebase exploration already happened, use that knowledge.
 7. **Pause on ambiguity** — if acceptance criteria are missing, incomplete, or contradict each other, stop and ask the user to clarify or update the issue before implementing. Do not invent requirements.
 8. **Apply language-specific standards** — detect the project type (Java, TypeScript, Python, etc.) and search for matching `*-standards` skills dynamically. Apply them alongside implementation.
 9. **Default to test-driven development** — unless the work is pure configuration/glue (see escape hatches below), apply the tdd-by-example skill for all behavior implementation.
 10. **No branch creation** — focus on the implement → verify → close cycle. Branch-per-issue workflows are handled separately via git conventions or hooks.
+
+## Cross-shell GitHub commands
+
+- Treat issue reading and issue closure as shell-sensitive operations.
+- Before any `gh` read or close command, classify the active shell using `../to-github-issues/references/shell-selection.md`.
+- For PowerShell command shape, follow `../to-github-issues/references/github-cli-powershell.md`.
+- For bash/zsh command shape, follow `../to-github-issues/references/github-cli-bash.md`.
+- Do not mix Bash quoting, redirection, or command substitution into PowerShell, and do not mix PowerShell `try`/`finally` or `$LASTEXITCODE` checks into bash/zsh.
 
 ---
 
@@ -37,7 +45,7 @@ Fetch and read the GitHub issue in full before any implementation work.
 
 ### If the issue has not been read yet
 1. **Validate input** — ensure the user provided a GitHub issue number (e.g., `#123`, `123`) or URL
-2. **Apply to-github-issues Stage 1** — use `gh issue view <number>` to fetch the full issue body, not a summary
+2. **Apply to-github-issues Stage 1** — use `gh issue view <number>` to fetch the full issue body, not a summary, following the active shell path from the cross-shell guidance above
 3. **Read the entire issue** — including title, description, acceptance criteria, comments if needed for context
 4. **Confirm acceptance criteria exist** — look for the `#### Acceptance Criteria` section with markdown checkboxes
    - If missing or empty, pause and ask: "This issue has no acceptance criteria. Should I suggest some based on the description, or would you like to update the issue first?"
@@ -179,13 +187,15 @@ Do not invent or skip criteria to force a green status.
 Close the issue with a completion summary listing what was verified.
 
 ### Before closing
-1. **Check gh authentication** — verify `gh` is available and authenticated
+1. **Resolve the shell path** — use the cross-shell guidance above so the close flow stays in one shell dialect.
+
+2. **Check gh authentication** — verify `gh` is available and authenticated
    - If not: tell the user and stop (do not attempt to close)
    
-2. **Confirm all acceptance criteria verified** — from Stage 5
+3. **Confirm all acceptance criteria verified** — from Stage 5
    - If any are unverified, do not close without user confirmation
 
-3. **Draft the close comment** — format as a completion summary:
+4. **Draft the close comment** — format as a completion summary:
    ```
    Completed all acceptance criteria:
    - ✓ Criterion 1 description
@@ -196,12 +206,15 @@ Close the issue with a completion summary listing what was verified.
    ```
 
 ### Close the issue
-1. Use `gh issue close <number> --comment "<summary>"`
-2. Report the result to the user: "✓ Closed issue #N"
+1. Write the approved completion summary to a UTF-8 temporary file and post it with `gh issue comment <number> --body-file <tempfile>` using the shell-specific temp-file and cleanup pattern from the active reference.
+2. Verify that the comment post succeeded.
+3. Close the issue with `gh issue close <number>`.
+4. Verify the closed state with a fresh `gh issue view <number>` call.
+5. Report the result to the user only after both the comment and close have been verified.
 
 ### If closing fails
 - Show the error message
-- Tell the user they can close manually with the drafted comment
+- Tell the user they can post the drafted comment and close manually using the shell-matched command shape from the active reference
 
 ---
 
@@ -217,7 +230,7 @@ This skill orchestrates other skills rather than duplicating their logic:
 | Stage 4 | **tdd-by-example** | When implementing behavior (not config/glue) |
 | Stage 4 | **java-springboot-unit-tests** | When implementing Java Spring Boot tests |
 | Stage 4 | Language-specific standards skills | When writing code in that language |
-| Stage 6 | **to-github-issues** (gh commands) | Always — to close the issue |
+| Stage 6 | **to-github-issues** cross-shell references | Always — to comment on and close the issue safely |
 
 **Symmetric collaboration:**
 - **tdd-by-example** says "For Java projects, apply alongside java-springboot-unit-tests"
@@ -236,9 +249,10 @@ This skill orchestrates other skills rather than duplicating their logic:
 - **Closing without verification** — never close an issue without executing the verification steps and confirming they pass.
 - **Modifying the issue during implementation** — the issue is the contract. If requirements change mid-implementation, stop and tell the user to update the issue first (via to-github-issues Stage 6 evolve mode).
 - **Implementing multiple issues at once** — this skill handles one issue per invocation. For multiple issues, run this skill multiple times.
-- **Silent closure** — always close with `--comment` including a summary. Never just `gh issue close <number>`.
+- **Silent closure** — always post the completion summary before closing. Never just `gh issue close <number>`.
 - **Skipping TDD for "simple" logic** — if it has a conditional, loop, or transformation, it's not glue. Apply the TDD cycle.
 - **Hardcoding language assumptions** — dynamically detect project type and discover standards skills. Do not assume Java or any specific stack.
+- **Embedding multi-line close text in the shell command** — post the summary via `gh issue comment --body-file` instead of relying on shell quoting.
 
 ---
 

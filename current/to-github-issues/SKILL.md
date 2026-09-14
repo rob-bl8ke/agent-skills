@@ -25,50 +25,19 @@ argument-hint: A phase/task reference (3.3, Phase 3, 3.1-3.4), a free-text requi
 
 ---
 
-## Shell compatibility and safe GitHub writes
+## Cross-shell GitHub writes
 
-- Before **any** `gh` command, identify the active execution shell from the runner configuration (PowerShell, bash, or zsh); do not infer it from the OS or `$SHELL` alone. If unknown, select a known available shell explicitly before proceeding.
-- Check CLI availability with `Get-Command gh -ErrorAction Stop` in PowerShell or `command -v gh` in bash/zsh, then run `gh auth status`. Check every command's exit status immediately (`$LASTEXITCODE` for native commands in PowerShell; `$?` or an explicit conditional in bash/zsh). Stop on failure; if unavailable or unauthenticated, return the conversational draft and intended create/edit command shape for manual use. Do not attempt a write.
+- Keep the workflow shell-neutral until the moment you actually need to run `gh`. Drafting, breakdown, and review are identical across shells.
+- Before any create or edit, consult `references/shell-selection.md` to classify the active shell path as PowerShell or bash/zsh. Do not mix syntax between them.
+- After shell selection, follow exactly one write-path reference:
+   - PowerShell: `references/github-cli-powershell.md`
+   - bash/zsh: `references/github-cli-bash.md`
+- If the shell cannot be identified confidently, stop the write path and return the approved draft plus the matching manual command shape from the relevant reference. Do not guess.
 - Show the complete proposed body in the conversation and obtain explicit confirmation before any `gh issue create` or `gh issue edit`. Approval of a breakdown alone does not approve creation.
-- Build the approved body in memory first. Preserve it exactly using a structured file-writing tool or the shell-specific patterns below; never interpolate issue text into executable command syntax. When assigning literal strings, escape them for the selected shell, including embedded single quotes. Do not use heredocs, PowerShell here-strings, or redirection copied from another shell.
-- Use a unique OS temporary file encoded as UTF-8, passed via `--body-file`. It is a transient CLI payload, never a local Markdown mirror. Stop if writing the payload fails. Remove only that temporary file after the attempt, including failure paths.
+- Preserve the approved body exactly. Never paste multi-line issue text directly into executable command syntax; write a UTF-8 temporary payload file and pass it with `--body-file`.
+- Immediately verify any successful create or edit with a fresh `gh issue view` call and report the exact verified issue number and URL back to the user.
 
-Command patterns below assume `issue_body` / `$issueBody` already contains the complete approved body and `issue_title` / `$issueTitle` the approved title. The label defaults to `type:story`; substitute only an explicitly requested type. Append existing approved dependency labels to creation and the explicit `--repo owner/name` override, if any, consistently to create and view commands.
-
-PowerShell (use `try`/`finally` to clean up even when creation or verification fails):
-
-```powershell
-$issueBodyFile = [System.IO.Path]::GetTempFileName()
-try {
-    [System.IO.File]::WriteAllText($issueBodyFile, $issueBody, [System.Text.UTF8Encoding]::new($false))
-    $issueUrl = gh issue create --title $issueTitle --body-file $issueBodyFile --label 'type:story'
-    if ($LASTEXITCODE -ne 0) { throw 'Issue creation failed; stop.' }
-    if ([string]::IsNullOrWhiteSpace($issueUrl)) { throw 'No issue URL returned; stop and reconcile.' }
-    gh issue view $issueUrl.Trim() --json number,url,title,body
-    if ($LASTEXITCODE -ne 0) { throw 'Issue verification failed; do not retry creation.' }
-} finally {
-    Remove-Item -LiteralPath $issueBodyFile -ErrorAction Stop
-}
-```
-
-bash/zsh (run in a subshell so the cleanup trap does not replace the caller's traps; `printf` redirection is used only after confirming bash/zsh):
-
-```bash
-(
-    issue_body_file=$(mktemp) || exit 1
-    trap 'rm -f -- "$issue_body_file"' EXIT
-    printf '%s' "$issue_body" > "$issue_body_file" || exit 1
-    issue_url=$(gh issue create --title "$issue_title" --body-file "$issue_body_file" --label 'type:story') || exit 1
-    [ -n "$issue_url" ] || exit 1
-    gh issue view "$issue_url" --json number,url,title,body || exit 1
-)
-```
-
-- Immediately after a successful create, verify that exact returned URL with `gh issue view` as above (or an unambiguous `gh issue list` result). Check the returned identity, title, and body against the approved draft; report the **exact issue number and URL from fresh verification output**. Never claim success based on an attempted command or an assumed number.
-- Fail fast on any nonzero exit, shell syntax error, missing URL, or verification mismatch. Report the failure and any returned URL. If creation may have succeeded but verification failed, reconcile with read-only `view`/`list` before any retry to avoid duplicates; do not claim verified success.
-- For edits, apply the same approval, payload, cleanup, and exit-status rules using `gh issue edit <number-or-url> --body-file <tempfile>`, then verify with `gh issue view`. For manual fallback, return the relevant command shape with the approved title, labels, and repository context; explain that `<tempfile>` must contain the supplied draft as UTF-8.
-
-**Why this matters:** shell-specific redirection and heredocs can fail in PowerShell before GitHub receives the body. A shell-aware temporary payload plus checked creation and fresh verification prevents silent failure.
+**Why this matters:** the recurring failure mode is not GitHub itself; it is shell syntax leakage. A shell-neutral main flow plus an explicit per-shell write path prevents Bash redirection patterns from being emitted in PowerShell and vice versa.
 
 ## Stage 1 — Resolve the source
 
@@ -130,7 +99,7 @@ Full template: [references/templates.md](references/templates.md). In short, for
 1. Draft the combined issue body — business content (title, user story, short description, estimation factors, blocker note), kept high-level enough that the team can gauge impact and scope for estimation without reading code, then a horizontal rule, then `## Task Details` (goal, spec foundation, inputs, scope, deliverables, acceptance criteria, dependencies/blockers, verification, notes/risks, and an embedded diagram if one is warranted).
 2. Show the drafted body to the user in the conversation for review — this is the only draft artifact; the temporary CLI payload is written only after confirmation.
 3. Per the GitHub write guardrail, do **not** call `gh issue create` until the user explicitly confirms creation of the shown draft — ask `Want me to create this as a GitHub issue?` if that confirmation is still missing. Once confirmed:
-   - Follow **Shell compatibility and safe GitHub writes** above, including availability and authentication checks.
+   - Resolve the shell path using `references/shell-selection.md`, then follow exactly one of `references/github-cli-powershell.md` or `references/github-cli-bash.md`.
    - Resolve the target repository from the current directory unless the user explicitly supplied `--repo owner/name`.
    - Create the issue with title = the concise domain-vocabulary title, body = the full combined body, and labels including the default `type:story` label unless the user requested a different type label.
    - Carry approved dependency labels such as `blocked-by:123` when they are part of the repo's working convention or the user explicitly asked for them.
@@ -143,8 +112,16 @@ Full template: [references/templates.md](references/templates.md). In short, for
 - The target is always a live GitHub issue — use the body and comments already fetched in Stage 1 as the existing artifact being evolved.
 - Merge the new information into the existing structure: update only the sections it actually affects, leave everything else untouched. This is an edit, not a regeneration — never rewrite the issue from scratch when evolving it.
 - **Before writing an update back to the live GitHub issue**, draft the change and show it to the user, then get explicit confirmation before calling the edit command — this is a side-effectful action on a shared system.
-- Execute the confirmed edit using **Shell compatibility and safe GitHub writes** above, including the temporary body payload and immediate verification.
+- Execute the confirmed edit by first resolving the shell via `references/shell-selection.md`, then following exactly one of `references/github-cli-powershell.md` or `references/github-cli-bash.md`, including the temporary body payload and immediate verification.
 - If the change affects the Acceptance Criteria section, update the issue body so the checklists stay accurate.
 - If the change affects dependency references or type labels, update those too, but only where the new information actually justifies it.
 - Never create a new GitHub issue while evolving (or in any other mode) unless the user explicitly asks for that.
 - If `gh` is unavailable or unauthenticated, stop before the write and return the revised body plus the intended `gh issue edit` command shape for manual use.
+
+## Anti-patterns specific to this skill
+
+- Do not emit a Bash heredoc, `printf` redirection, or command substitution while operating in PowerShell.
+- Do not emit PowerShell `try`/`finally`, `Remove-Item`, or `$LASTEXITCODE` checks while operating in bash/zsh.
+- Do not treat "Windows" as meaning PowerShell or "Linux/macOS" as meaning bash. The active runner shell decides the command shape.
+- Do not inline the full issue body into a single shell command argument when `--body-file` is available.
+- Do not retry `gh issue create` after an ambiguous failure until you have reconciled with `gh issue view` or `gh issue list` to avoid duplicates.
