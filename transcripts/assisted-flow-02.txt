@@ -1,0 +1,3049 @@
+Taurai Benhura
+0 minutes 4 seconds0:04
+Taurai Benhura 0 minutes 4 seconds
+Got Temper's face there when you were going through it, you was like, "Ohh, just kill me already."
+RB
+
+Robert Blake
+0 minutes 8 seconds0:08
+Robert Blake 0 minutes 8 seconds
+Yeah, yeah, yeah, so, so I jumped, I jumped the gun of it, I had, I had...
+TM
+
+Themba Mkhize
+0 minutes 11 seconds0:11
+Themba Mkhize 0 minutes 11 seconds
+No, because it's obviously massive.
+RB
+
+Robert Blake
+0 minutes 14 seconds0:14
+Robert Blake 0 minutes 14 seconds
+I said, I set up a bunch of use cases. I said, okay, we got generate drafts, right? We've got review and create envelope, we've got manage envelope, we've got client sign stores and verifiers, bank reviews and approves, and then client rejects or envelope recon and void. And that recon is basically just management. So I just set up these sequence diagrams to get this.
+TB
+
+Taurai Benhura
+0 minutes 22 seconds0:22
+Taurai Benhura 0 minutes 22 seconds
+Mhm.
+TM
+
+Themba Mkhize
+0 minutes 27 seconds0:27
+Themba Mkhize 0 minutes 27 seconds
+Hold on.
+Themba Mkhize 0 minutes 28 seconds
+Mute.
+RB
+
+Robert Blake
+0 minutes 39 seconds0:39
+Robert Blake 0 minutes 39 seconds
+stuff in my head. I mean, we could use them or we could just carry on with the same, with the Halama. The same, and this thing's in my way.
+TM
+
+Themba Mkhize
+0 minutes 44 seconds0:44
+Themba Mkhize 0 minutes 44 seconds
+The.
+Themba Mkhize 0 minutes 45 seconds
+Mm.
+Themba Mkhize 0 minutes 50 seconds
+That really questioned.
+TB
+
+Taurai Benhura
+0 minutes 51 seconds0:51
+Taurai Benhura 0 minutes 51 seconds
+Yeah, that's fine.
+RB
+
+Robert Blake
+0 minutes 52 seconds0:52
+Robert Blake 0 minutes 52 seconds
+But yeah, so I'm happy, but I mean, this is good. I mean, it's showing us already 3, 4, 5. We can see what happens generally in sequence. So I'm happy just to traverse this thing. But I think for me, the first thing that, so the first thing I think of whenever I think of a service,
+TM
+
+Themba Mkhize
+0 minutes 58 seconds0:58
+Themba Mkhize 0 minutes 58 seconds
+It is.
+Themba Mkhize 1 minute 6 seconds
+I love you.
+RB
+
+Robert Blake
+1 minute 13 seconds1:13
+Robert Blake 1 minute 13 seconds
+is identity. What is the main, what is the main entity and what is, how do I identify it? So when I look at it, I think, okay, signing service, this is no longer, as we were speaking about, this is no longer an application. This is more than just an application now. This is a bundle or an envelope and I think envelope is the right.
+TM
+
+Themba Mkhize
+1 minute 14 seconds1:14
+Themba Mkhize 1 minute 14 seconds
+And.
+Themba Mkhize 1 minute 17 seconds
+No, that's it.
+Themba Mkhize 1 minute 23 seconds
+No.
+Themba Mkhize 1 minute 27 seconds
+I, I just can't find. Well, it's I just can't find.
+RB
+
+Robert Blake
+1 minute 36 seconds1:36
+Robert Blake 1 minute 36 seconds
+right term for the entity, the main general entity. Do you agree on that at least?
+TB
+
+Taurai Benhura
+1 minute 45 seconds1:45
+Taurai Benhura 1 minute 45 seconds
+Yes.
+RB
+
+Robert Blake
+1 minute 47 seconds1:47
+Robert Blake 1 minute 47 seconds
+Okay, cool. Then we got that soft.
+UM
+
+Ushanta Mooloo
+1 minute 47 seconds1:47
+Ushanta Mooloo 1 minute 47 seconds
+I think, well, can we discuss? So the envelope for me is an external thing. Contracting could happen without an envelope, which is what we're doing today on.
+Ushanta Mooloo 2 minutes
+On the AP.
+RB
+
+Robert Blake
+2 minutes 3 seconds2:03
+Robert Blake 2 minutes 3 seconds
+Okay, because our main table is where we're going to track these things. This is where item potency is going to take place, everything. So we've got to establish straight away what this thing is before we can even work with the use cases, because this is going to be the one thing we're always querying, the one thing we're always updating, because I assume we're not going to reject.
+Robert Blake 2 minutes 24 seconds
+A document, Chante, we gonna, we gonna reject a bundle or an envelope or whatever it is, try it.
+UM
+
+Ushanta Mooloo
+2 minutes 25 seconds2:25
+Ushanta Mooloo 2 minutes 25 seconds
+Maybe I can just say.
+Ushanta Mooloo 2 minutes 30 seconds
+Yes, but in the event, so you're rejecting the contract, which is a could be a pack of documents. So it's a it's so there's contracting between the bank and the client. And as part of that contracting, you can have one or more documents that need to be signed.
+Ushanta Mooloo 2 minutes 50 seconds
+And if the client rejects or expires, it's rejecting the entire pack of documents. And in terms of how the client signs, that may be on the app or via DocuSign, which encloses it in an envelope.
+RB
+
+Robert Blake
+3 minutes 5 seconds3:05
+Robert Blake 3 minutes 5 seconds
+Okay, so in our case, the the the in our case, the the the vendor specific term is envelope, right? But but are you saying we should encapsulate this with something that's more domain specific like a bundle or something like that? So I don't know.
+UM
+
+Ushanta Mooloo
+3 minutes 14 seconds3:14
+Ushanta Mooloo 3 minutes 14 seconds
+Yes.
+Ushanta Mooloo 3 minutes 23 seconds
+I think contracts, yeah, contracts, something along those lines, because it's a contract between the bank and the client. And the contract contracting can consist of, you know, multiple documents, but that's all forms part of that contracting document.
+
+Robert Blake
+3 minutes 24 seconds3:24
+Robert Blake 3 minutes 24 seconds
+And a different tip.
+Robert Blake 3 minutes 32 seconds
+Okay.
+Robert Blake 3 minutes 43 seconds
+So, could you say, would you, would you say a term like contract pack?
+Robert Blake 3 minutes 48 seconds
+Is is.
+UM
+Ushanta Mooloo
+3 minutes 48 seconds3:48
+Ushanta Mooloo 3 minutes 48 seconds
+I would just, I'm leaning towards contract ID.
+RB
+Robert Blake
+3 minutes 55 seconds3:55
+Robert Blake 3 minutes 55 seconds
+Okay.
+UM
+Ushanta Mooloo
+3 minutes 55 seconds3:55
+Ushanta Mooloo 3 minutes 55 seconds
+And then associated that to that contract are multiple documents, one or more documents, which we we've we which has states of a draft state and assigned state. And associated to the contract is could be an envelope.
+RB
+Robert Blake
+4 minutes 2 seconds4:02
+Robert Blake 4 minutes 2 seconds
+Okay.
+Robert Blake 4 minutes 16 seconds
+Because when I create my top level entity now, it's going to be called contract. So I'm just establishing that. And that will be the thing that's rejected. That will be the thing that's expired. That will be the thing that's updated.
+UM
+Ushanta Mooloo
+4 minutes 23 seconds4:23
+Ushanta Mooloo 4 minutes 23 seconds
+Okay.
+Ushanta Mooloo 4 minutes 32 seconds
+I'm happy with that. But a contract is in relation to a business process. And a business process could be an application take up process. Generally, we thinking that's what it would be. So you'd have an associated, I don't know if you would call it like a value object, but you would be able to look up the contracts by the application.
+Ushanta Mooloo 4 minutes 51 seconds
+Notification.
+RB
+Robert Blake
+4 minutes 56 seconds4:56
+Robert Blake 4 minutes 56 seconds
+Okay, that's fair. If they do have an application ID.
+UM
+Ushanta Mooloo
+5 minutes 1 second5:01
+Ushanta Mooloo 5 minutes 1 second
+If they do, yeah.
+RB
+Robert Blake
+5 minutes 2 seconds5:02
+Robert Blake 5 minutes 2 seconds
+Yeah, okay, but that's fair because at least we've already got a small little graph going in our head in our head here. Now, the other question I want to ask is, and sorry, I don't want to take this away from everybody, but the other question I want to ask is at the moment we've got messages that says signing completed, signing rejected, signing updated, and signing expired.
+UM
+Ushanta Mooloo
+5 minutes 7 seconds5:07
+Ushanta Mooloo 5 minutes 7 seconds
+Big.
+RB
+Robert Blake
+5 minutes 22 seconds5:22
+Robert Blake 5 minutes 22 seconds
+These are all based around the concept of an application ID. So my question is, if we are going to consolidate around the concept of a contract, which could be one or more documents, do those, are we going to split, is it useful to split our messages through the same topic?
+UM
+Ushanta Mooloo
+5 minutes 25 seconds5:25
+Ushanta Mooloo 5 minutes 25 seconds
+Teams.
+Ushanta Mooloo 5 minutes 30 seconds
+Okay, fine.
+RB
+Robert Blake
+5 minutes 44 seconds5:44
+Robert Blake 5 minutes 44 seconds
+They call them different names, so these new ones would be contract completed, contract rejected, contract updated, contract expired.
+UM
+Ushanta Mooloo
+5 minutes 53 seconds5:53
+Ushanta Mooloo 5 minutes 53 seconds
+I don't really want to go back and forth on that. I mean, my mind is a contract. Let's discuss it in a way that means it's the least amount of work, but it still can evolve. So
+Ushanta Mooloo 6 minutes 11 seconds
+All that I was kind of leaning towards in our discussion last week was...
+Ushanta Mooloo 6 minutes 18 seconds
+I didn't want you to be too tightly coupled, too.
+Ushanta Mooloo 6 minutes 22 seconds
+one application, one document, that's something to take into account. And that it may evolve beyond an application.
+RB
+Robert Blake
+6 minutes 32 seconds6:32
+Robert Blake 6 minutes 32 seconds
+You see, the thing, the reason why I bring this up, and it's not about doing back and forth, the reason why I'm bringing it up is because we've got this whole thing about Avro schemas that need to be compatible, and any changes to them always end up in these nullable fields that have to be in sequence. So when we expand this concept from a single
+Robert Blake 6 minutes 52 seconds
+currently application to a contract. There's like a whole different concept behind that almost. And it just makes me feel that at one point, we might look at these messages and go, but we need more information in them. But we need information in these new ones that don't go in that.
+Robert Blake 7 minutes 11 seconds
+old ones. That's the reason why I'm asking the question. Is there going to be some sort of divergence here?
+
+UM
+Ushanta Mooloo
+7 minutes 15 seconds7:15
+Ushanta Mooloo 7 minutes 15 seconds
+So.
+Ushanta Mooloo 7 minutes 18 seconds
+I don't see that divergence. I think that those schemas can be expanded if we need to. And like if we do get to a place where there is a loan number, I would say that the way it evolves is you add a loan number to the schema and maybe some sort of.
+Ushanta Mooloo 7 minutes 40 seconds
+Process, so string that identifies gives the consumer an inclination as to what this has to do with. OK, just before anyways, yeah, OK, so I've been looking at it when we said it once.
+RB
+Robert Blake
+7 minutes 50 seconds7:50
+Robert Blake 7 minutes 50 seconds
+OK, I'm happy with that.
+Robert Blake 7 minutes 56 seconds
+Okay, so then I don't know if you want to drive the sequence again, Ushanta, because you say there have been changes.
+UM
+Ushanta Mooloo
+7 minutes 58 seconds7:58
+Ushanta Mooloo 7 minutes 58 seconds
+So, so, so the conversation here, no, it was a changes that we discussed, where it was more those four and five needs to come through the signing service, just so they are they are tightly coupled. You can only change an envelope if signing is still in progress.
+Ushanta Mooloo 8 minutes 19 seconds
+So two of those bold arrows now point to signing as opposed to previously. It pointed to the envelope service. That's the only change that I've made.
+RB
+Robert Blake
+8 minutes 20 seconds8:20
+Robert Blake 8 minutes 20 seconds
+Okay.
+Robert Blake 8 minutes 27 seconds
+Sorry, I got us lost there. Okay, so I'll drive this then, because I'll drive this and ask the questions. Themba, feel free to jump in, man. Don't put your hand up, because I can't see.
+UM
+Ushanta Mooloo
+8 minutes 31 seconds8:31
+Ushanta Mooloo 8 minutes 31 seconds
+This.
+Ushanta Mooloo 8 minutes 38 seconds
+Should we? I just want to know, I think DC is offline. Should we record for these purposes? Oh, you are recording. OK, cool.
+TM
+Themba Mkhize
+8 minutes 41 seconds8:41
+Themba Mkhize 8 minutes 41 seconds
+Yeah, sure.
+RB
+Robert Blake
+8 minutes 44 seconds8:44
+Robert Blake 8 minutes 44 seconds
+Yeah.
+Robert Blake 8 minutes 46 seconds
+I am recording, I think.
+Robert Blake 8 minutes 49 seconds
+Yeah, I started a bit late. Yeah. Okay, so I'm going to start with... So what I'm going to do is I'm going to drive this. Chante, you tell me where I'm going wrong. Maybe that's a good way because...
+UM
+Ushanta Mooloo
+8 minutes 51 seconds8:51
+Ushanta Mooloo 8 minutes 51 seconds
+Oh, you did? Yes, sure.
+RB
+Robert Blake
+9 minutes 5 seconds9:05
+Robert Blake 9 minutes 5 seconds
+That way, we'll catch things quickly, right? And I'll try and go into a little bit more detail. Okay, so the way I understand the way everything went yesterday is we said there were a couple of flows. The first one was the unassisted flow, which was digital. Is that right?
+UM
+Ushanta Mooloo
+9 minutes 11 seconds9:11
+Ushanta Mooloo 9 minutes 11 seconds
+Okay.
+RB
+Robert Blake
+9 minutes 24 seconds9:24
+Robert Blake 9 minutes 24 seconds
+And then there was the assisted flow, which is the one we're going to do now. And then there was the, what is the other one again? It was the complicated one.
+Robert Blake 9 minutes 36 seconds
+Um...
+UM
+Ushanta Mooloo
+9 minutes 36 seconds9:36
+Ushanta Mooloo 9 minutes 36 seconds
+to come that's intuitive.
+
+Robert Blake
+9 minutes 38 seconds9:38
+Robert Blake 9 minutes 38 seconds
+Yeah, but that's to come, so that's not in Skype for this. OK, but whatever we do here has to has to sort of sort of light the way for that, if if possible. So, we've got this concept. I just took Timber through this, but so we've got this concept of with assisted flow, we've got this concept of a banker who reaches out to a client and says, "Listen, I'll help you.
+UM
+Ushanta Mooloo
+9 minutes 40 seconds9:40
+Ushanta Mooloo 9 minutes 40 seconds
+Yes, yeah.
+RB
+Robert Blake
+10 minutes 1 second10:01
+Robert Blake 10 minutes 1 second
+Let me take your client details. And he takes his client details and he updates client domain or core. And I think at some point that ends up going to banks, right? And then also he would at some point maybe want to update that. But let's just stick to the main sequence.
+Robert Blake 10 minutes 22 seconds
+So he goes and he updates the guy's detail. And then we are developing something now in our service where this used to happen somewhere else, but we're developing OmniCredit, which is the way the banker now contacts.
+Robert Blake 10 minutes 41 seconds
+sorry, not context, interfaces with our world, okay, through the credit gateway, etc, etc. So he's going to use OmniCredit to get pretty much all of the stuff done. So he's going to come through our gateway and he's going to access our domain and make
+Robert Blake 11 minutes
+changes this way. So everything comes through from a REST call. It says async here, but it's not really async when it comes through here. So what first happens is it goes through granting, an application gets created, and all that stuff. I'm not going to go into detail there because that really doesn't affect Timber and me at the moment.
+Robert Blake 11 minutes 25 seconds
+And it doesn't affect, it does affect Drafting, so.
+Robert Blake 11 minutes 32 seconds
+So this I don't know too much about, but I know that Drafting will consume from granting to get what it needs. The details and everything is hazy to me because I just haven't seen the design for the service for a long time. So I don't know if you want to add anything here, Shant.
+UM
+Ushanta Mooloo
+11 minutes 51 seconds11:51
+Ushanta Mooloo 11 minutes 51 seconds
+Sure. So for Drafting, it will generally remain the same in that it does get granting data and customer data to generate a draft. The 2 differences that we need to take into account for drafting. Currently in Drafting, we assume who the signers will be.
+Ushanta Mooloo 12 minutes 11 seconds
+for the digital platform, so based on the relationships between, so we're dealing with an entity here, not a sole prop, but even with a sole prop, we resolve the signers based on customer relationships. So if it's a sole prop, then that's the person who signs. If it's a company, then we've.
+Ushanta Mooloo 12 minutes 32 seconds
+we fetch the related shareholders, directors, and that's information that we use to populate signing information if that's needed on the document. However, with the assisted flow, you're dealing with citing more complex entities where you may have 10 directors or more.
+Ushanta Mooloo 12 minutes 53 seconds
+And the bank is actually selecting who signs. And that signing information is being sent through to us as part of the initial signing request. And that needs to be propagated to the drafting service because it may be needed for generating the draft.
+RB
+Robert Blake
+13 minutes 4 seconds13:04
+Robert Blake 13 minutes 4 seconds
+Okay, so...
+Robert Blake 13 minutes 8 seconds
+Okay, that's perfect. So the first question, the first, the first change here is that this call that comes through to signing to generate the draft is going to get a number of things that it didn't have in before. And in fact, I did see this. It's going to send a list of documents and each are going to have a list of signers.
+Robert Blake 13 minutes 28 seconds
+Is that right in its in its response in its in its request body?
+UM
+Ushanta Mooloo
+13 minutes 32 seconds13:32
+Ushanta Mooloo 13 minutes 32 seconds
+Yes, and there's something that they call a signing order. So we want to assume the sequence, but they will explicitly have to give us a signing order because there are cases where they do want it signed in order, although that's not necessarily true for school, for assisted, sorry.
+RB
+Robert Blake
+13 minutes 52 seconds13:52
+Robert Blake 13 minutes 52 seconds
+I have actually built a service similar to this before at one of my older companies we were using.
+Robert Blake 14 minutes
+Signing hub, I think it was. So I'm aware of the order in which the signers have to sign. It's not always the case, right? But it's sometimes the case.
+TM
+Themba Mkhize
+14 minutes 4 seconds14:04
+Themba Mkhize 14 minutes 4 seconds
+Bing.
+Themba Mkhize 14 minutes 11 seconds
+So when the document needs to be signed in order, does it mean it gets sent to?
+Themba Mkhize 14 minutes 17 seconds
+the different directors in order. So, or we wait for the first one to sign, and then it moves on to the second one to sign.
+RB
+Robert Blake
+14 minutes 27 seconds14:27
+Robert Blake 14 minutes 27 seconds
+Yeah, that's right. So they handle, sorry, Chante, you carry on.
+UM
+Ushanta Mooloo
+14 minutes 28 seconds14:28
+Ushanta Mooloo 14 minutes 28 seconds
+So that, yeah.
+Ushanta Mooloo 14 minutes 32 seconds
+I think Robert is leaning here, but that's something that DocuSign handles for us. So we pass them, sign a detail, sign an order, and they orchestrate that if need be.
+
+Themba Mkhize
+14 minutes 39 seconds14:39
+Themba Mkhize 14 minutes 39 seconds
+Okay.
+RB
+Robert Blake
+14 minutes 41 seconds14:41
+Robert Blake 14 minutes 41 seconds
+Yeah, they got their own workflow, so they will send out emails or whatever to the document has been signed by this, you sign this one, etcetera, etcetera. I remember how it worked, so, so, but that process we've got nothing to do with, so we just get so we so so with this information that comes through plus plus the order, so this...
+TM
+Themba Mkhize
+14 minutes 42 seconds14:42
+Themba Mkhize 14 minutes 42 seconds
+Okay.
+UM
+Ushanta Mooloo
+14 minutes 42 seconds14:42
+Ushanta Mooloo 14 minutes 42 seconds
+So yeah.
+RB
+Robert Blake
+15 minutes 1 second15:01
+Robert Blake 15 minutes 1 second
+This request body is going to change. I recommend we use a completely different endpoint here, Ushanta. I don't think we should try and reuse the endpoint we're using apparently for this draft generator. Okay, so then it'll request drafts from the drafting service. It'll generate the drafts.
+UM
+Ushanta Mooloo
+15 minutes 14 seconds15:14
+Ushanta Mooloo 15 minutes 14 seconds
+Happy?
+RB
+Robert Blake
+15 minutes 22 seconds15:22
+Robert Blake 15 minutes 22 seconds
+This guy will generate the draft and store the draft contents in the content proxy, and it's going to return draft info with all that, including the tab info. Is that right?
+UM
+Ushanta Mooloo
+15 minutes 30 seconds15:30
+Ushanta Mooloo 15 minutes 30 seconds
+So initially, that's what I thought, but I think the tab info is debatable. That could sit in the envelope service as well. Yeah.
+RB
+Robert Blake
+15 minutes 37 seconds15:37
+Robert Blake 15 minutes 37 seconds
+Okay.
+Robert Blake 15 minutes 39 seconds
+Okay, so let's, okay, so that's not going to happen. So right now this is up in there. And then basically those drafts come back to the bank. So that's pretty much what's happening here. But now the difference is this guy wants to review that doc and he might need to start this process again. So you'll go, okay, I like this, I like this, but no,
+Robert Blake 16 minutes
+that document was a mistake, so I need to regenerate this thing. So at this point, Signing Service will have to go and ask to request for a new set of documents with exactly the same structure, et cetera, and it would go stored alongside the other one. I would follow like a master detail approach there.
+Robert Blake 16 minutes 22 seconds
+But, but yeah, it would it would go and store it would store the new set, and that would become the latest or the current the current contract to be signed.
+TM
+Themba Mkhize
+16 minutes 35 seconds16:35
+Themba Mkhize 16 minutes 35 seconds
+So, we don't we don't clean up the the old one.
+RB
+Robert Blake
+16 minutes 39 seconds16:39
+Robert Blake 16 minutes 39 seconds
+I think we said we were going to just maintain that audit trail. I don't know. Chante, you know, I'm open to comment.
+TM
+Themba Mkhize
+16 minutes 44 seconds16:44
+Themba Mkhize 16 minutes 44 seconds
+I can.
+UM
+Ushanta Mooloo
+16 minutes 49 seconds16:49
+Ushanta Mooloo 16 minutes 49 seconds
+Smit.
+Ushanta Mooloo 16 minutes 51 seconds
+Fair, I think in Obelix, yes, because you can save it against the same document ID and it will automatically kind of version it for you. It is somewhat debatable if we need to sort of complete.
+Ushanta Mooloo 17 minutes 7 seconds
+A draft, like, as in the BLOB in drafting and signing, if it's if it's no longer, yeah.
+RB
+Robert Blake
+17 minutes 7 seconds17:07
+Robert Blake 17 minutes 7 seconds
+Yeah.
+Robert Blake 17 minutes 12 seconds
+I would, I would, I would say not because we always have the object ID of the BLOB, and we know it's always stored in one place, and that place is central, and and and this BLOB storage stuff, as far as I understand it, I mean, I'm not AWS, I'm not an AWS expert, but I remember in Azure, it's very highly available.
+Robert Blake 17 minutes 33 seconds
+Right, so this stuff's always going to be there. Everybody relies on it, it's going to be there. It should be good enough for an audit. I don't see why we should store that BLOB inside.
+UM
+Ushanta Mooloo
+17 minutes 34 seconds17:34
+Ushanta Mooloo 17 minutes 34 seconds
+Yeah, it is.
+Ushanta Mooloo 17 minutes 43 seconds
+Happy.
+RB
+Robert Blake
+17 minutes 43 seconds17:43
+Robert Blake 17 minutes 43 seconds
+We currently do it, but I don't think we do need to do it.
+UM
+Ushanta Mooloo
+17 minutes 47 seconds17:47
+Ushanta Mooloo 17 minutes 47 seconds
+Yeah, I also don't think we really need to, as long as we have that reference, and we we do trust the reference, yeah.
+RB
+Robert Blake
+17 minutes 54 seconds17:54
+Robert Blake 17 minutes 54 seconds
+Yeah. And it will stop a lot of database bloat. In fact, I wonder if that change should actually be made to what exists in signing, but I'm not going to bring that up now. I'm just going to leave it as is. But the point is, good question, Timber. Any other questions before I move on?
+
+Ushanta Mooloo
+17 minutes 59 seconds17:59
+Ushanta Mooloo 17 minutes 59 seconds
+OK, so let's send them the line.
+Ushanta Mooloo 18 minutes 12 seconds
+Yes.
+TM
+Themba Mkhize
+18 minutes 14 seconds18:14
+Themba Mkhize 18 minutes 14 seconds
+No, it's fine. We can move on.
+RB
+Robert Blake
+18 minutes 16 seconds18:16
+Robert Blake 18 minutes 16 seconds
+Okay.
+UM
+Ushanta Mooloo
+18 minutes 16 seconds18:16
+Ushanta Mooloo 18 minutes 16 seconds
+Can I make one comment just because we're on the Drafting step and we might look back at the recording. So the one difference, so currently drafting gets customer information from the customer API and the customer API looks at its local replica of data and if it exists it then
+TM
+Themba Mkhize
+18 minutes 31 seconds18:31
+Themba Mkhize 18 minutes 31 seconds
+Bing.
+Themba Mkhize 18 minutes 33 seconds
+Going.
+UM
+Ushanta Mooloo
+18 minutes 36 seconds18:36
+Ushanta Mooloo 18 minutes 36 seconds
+returns it to Drafting. As a safety or defensive mechanism, I think we're going to have to go, we're going to have to do like a hard fetch from the core because of that first leg where customer data can be updated.
+Ushanta Mooloo 18 minutes 57 seconds
+And so we believe that our architecture, we know that it will generally work, will be eventually consistent because as data changes in core, we're getting those events and we then it's propagated to us and we store it in our database, but we don't have a control over the lag from their part.
+Ushanta Mooloo 19 minutes 16 seconds
+So it might be that our data is inconsistent. It might be that this process happens fairly quickly, that we might not be completely consistent. So for Drafting, we may need to consider getting maybe a query parameter or something where we actually fetch data from Paul.
+TM
+Themba Mkhize
+19 minutes 34 seconds19:34
+Themba Mkhize 19 minutes 34 seconds
+Okay.
+RB
+Robert Blake
+19 minutes 34 seconds19:34
+Robert Blake 19 minutes 34 seconds
+Okay, are you talking, is this specific to the Drafting Service?
+UM
+Ushanta Mooloo
+19 minutes 38 seconds19:38
+Ushanta Mooloo 19 minutes 38 seconds
+Yes, it's that bold line on the Drafting. If you just follow to your right on the bold line, it goes to the customer API.
+RB
+Robert Blake
+19 minutes 48 seconds19:48
+Robert Blake 19 minutes 48 seconds
+Ah, okay.
+TM
+Themba Mkhize
+19 minutes 49 seconds19:49
+Themba Mkhize 19 minutes 49 seconds
+Just on that, Ushanta, I mean, if we're not able to get data from banks at that point, we're doing that hard fetch, do we trust then that what we have?
+Themba Mkhize 20 minutes 2 seconds
+Correct, or what do we do? Do we abandon this project? I mean, sorry, the process.
+UM
+Ushanta Mooloo
+20 minutes 8 seconds20:08
+Ushanta Mooloo 20 minutes 8 seconds
+It's very difficult because I was thinking about how do we know that our data is up to date? Can we look at like, can we say, oh, it's been updated in the last 5 minutes? But it's not concrete.
+TM
+Themba Mkhize
+20 minutes 17 seconds20:17
+Themba Mkhize 20 minutes 17 seconds
+Yeah.
+Themba Mkhize 20 minutes 22 seconds
+Yeah, because there are some temporary glitches where banks could be down.
+UM
+Ushanta Mooloo
+20 minutes 26 seconds20:26
+Ushanta Mooloo 20 minutes 26 seconds
+For Bancs.
+TM
+Themba Mkhize
+20 minutes 29 seconds20:29
+Themba Mkhize 20 minutes 29 seconds
+I might have some sort of timeout.
+Themba Mkhize 20 minutes 32 seconds
+then we are not able to do that hard fetch.
+
+UM
+Ushanta Mooloo
+20 minutes 33 seconds20:33
+Ushanta Mooloo 20 minutes 33 seconds
+Mm.
+Ushanta Mooloo 20 minutes 36 seconds
+So, thank you.
+TM
+Themba Mkhize
+20 minutes 39 seconds20:39
+Themba Mkhize 20 minutes 39 seconds
+So then the rule then would be what we have. We default to what we have.
+Themba Mkhize 20 minutes 44 seconds
+and trust what we have.
+Themba Mkhize 20 minutes 46 seconds
+I know that.
+UM
+Ushanta Mooloo
+20 minutes 47 seconds20:47
+Ushanta Mooloo 20 minutes 47 seconds
+Yeah, potentially. I mean, there's a human reviewing the documents as well.
+TM
+Themba Mkhize
+20 minutes 50 seconds20:50
+Themba Mkhize 20 minutes 50 seconds
+Call.
+Themba Mkhize 20 minutes 56 seconds
+Okay.
+RB
+Robert Blake
+20 minutes 57 seconds20:57
+Robert Blake 20 minutes 57 seconds
+My question is, if this, if so, what are we getting from customer API? Yeah, are we just, are we just getting the e-mail address or are we getting all the, oh, it's Drafting, so we can get a whole bunch of stuff. Okay, yeah.
+TM
+Themba Mkhize
+21 minutes 5 seconds21:05
+Themba Mkhize 21 minutes 5 seconds
+Yeah.
+UM
+Ushanta Mooloo
+21 minutes 8 seconds21:08
+Ushanta Mooloo 21 minutes 8 seconds
+Yeah, we'll get like the business address, phone numbers, stuff like that.
+TM
+Themba Mkhize
+21 minutes 10 seconds21:10
+Themba Mkhize 21 minutes 10 seconds
+Singh.
+Themba Mkhize 21 minutes 13 seconds
+Yeah.
+RB
+Robert Blake
+21 minutes 14 seconds21:14
+Robert Blake 21 minutes 14 seconds
+Yeah, OK.
+TM
+Themba Mkhize
+21 minutes 15 seconds21:15
+Themba Mkhize 21 minutes 15 seconds
+I'll do that.
+RB
+Robert Blake
+21 minutes 15 seconds21:15
+Robert Blake 21 minutes 15 seconds
+Okay, cool. So, can I move on?
+TM
+Themba Mkhize
+21 minutes 17 seconds21:17
+Themba Mkhize 21 minutes 17 seconds
+LRN.
+UM
+Ushanta Mooloo
+21 minutes 18 seconds21:18
+Ushanta Mooloo 21 minutes 18 seconds
+Yes, you can.
+TM
+Themba Mkhize
+21 minutes 19 seconds21:19
+Themba Mkhize 21 minutes 19 seconds
+Yes, please.
+RB
+Robert Blake
+21 minutes 20 seconds21:20
+Robert Blake 21 minutes 20 seconds
+Okay, okay, so so at this point, whether we've regenerated, whether we've just generated for the first time, and by the way, that's another question. Is the endpoint for the regenerate going to be exactly the same as generate? I assume maybe we just we want to build some sort of.
+TM
+Themba Mkhize
+21 minutes 27 seconds21:27
+Themba Mkhize 21 minutes 27 seconds
+But some.
+Themba Mkhize 21 minutes 36 seconds
+Of.
+RB
+Robert Blake
+21 minutes 38 seconds21:38
+Robert Blake 21 minutes 38 seconds
+We probably want to hit the same endpoint. We just need to make it re-runnable, right? I don't know if Drafting does have that capability, but I'm assuming it will just regenerate again and send me those documents. So maybe that API call won't need to change. That's something I'll have to speak to.
+UM
+Ushanta Mooloo
+21 minutes 42 seconds21:42
+Ushanta Mooloo 21 minutes 42 seconds
+To.
+TM
+Themba Mkhize
+21 minutes 44 seconds21:44
+Themba Mkhize 21 minutes 44 seconds
+What's the lyric of the pizza?
+UM
+Ushanta Mooloo
+21 minutes 45 seconds21:45
+Ushanta Mooloo 21 minutes 45 seconds
+Ohh.
+TM
+Themba Mkhize
+21 minutes 51 seconds21:51
+Themba Mkhize 21 minutes 51 seconds
+Od.
+Themba Mkhize 21 minutes 53 seconds
+Yeah.
+Themba Mkhize 21 minutes 56 seconds
+No, it says, and we will not go.
+RB
+Robert Blake
+22 minutes22:00
+Robert Blake 22 minutes
+to DC about. So it's something I'll keep in mind. But then also we know that that call is going to change slightly because there's review and there's a bunch of stuff that I think there were a couple of properties you mentioned last week, Ushanta. I think the one was review. Reviews too, if it's.
+
+TM
+Themba Mkhize
+22 minutes 3 seconds22:03
+Themba Mkhize 22 minutes 3 seconds
+No.
+Themba Mkhize 22 minutes 5 seconds
+BB.
+Themba Mkhize 22 minutes 7 seconds
+Yes, we do.
+RB
+Robert Blake
+22 minutes 20 seconds22:20
+Robert Blake 22 minutes 20 seconds
+Can it be, won't it always be reviewable?
+UM
+Ushanta Mooloo
+22 minutes 25 seconds22:25
+Ushanta Mooloo 22 minutes 25 seconds
+Yeah, it's a, I'm trying to think back. I think the only point I was trying to make is that it can be regenerated and in this process, oh, I was, the signing service would need to know.
+Ushanta Mooloo 22 minutes 44 seconds
+Do these documents need to be reviewed. Because you'd only, this is a little later, you would only publish signing completed once the review is complete.
+RB
+Robert Blake
+23 minutes23:00
+Robert Blake 23 minutes
+Okay, but wouldn't it always be reviewable? What I'm saying, what I'm asking is wouldn't it always be reviewable? So if it's always reviewable, do we need to even need a flag that says can be reviewed?
+UM
+Ushanta Mooloo
+23 minutes 1 second23:01
+Ushanta Mooloo 23 minutes 1 second
+So, this is 2 doc reviews, yeah.
+Ushanta Mooloo 23 minutes 12 seconds
+There's 2 review points. The first is before you send the envelope, where a banker just checks the generated documents. Then the second review point is after the client has signed. The banker needs to check that they, that's, you know, it's filled out properly.
+Ushanta Mooloo 23 minutes 30 seconds
+and then only do we say Contracting is complete.
+RB
+Robert Blake
+23 minutes 34 seconds23:34
+Robert Blake 23 minutes 34 seconds
+Okay, so this potentially, so another thing I want to ask you is, this doc review is just, so when we finish this call, once I've generated this, I'm going to, am I returning enough back for the customer to review?
+UM
+Ushanta Mooloo
+23 minutes 49 seconds23:49
+Ushanta Mooloo 23 minutes 49 seconds
+Thank you so much.
+RB
+Robert Blake
+23 minutes 53 seconds23:53
+Robert Blake 23 minutes 53 seconds
+Or is he going to call in to another endpoint? I assume that he might want another endpoint because he might want to review it any time.
+UM
+Ushanta Mooloo
+23 minutes 58 seconds23:58
+Ushanta Mooloo 23 minutes 58 seconds
+That's.
+Ushanta Mooloo 24 minutes 2 seconds
+Yeah, yes, true. So you want to retrieve the documents via your another endpoint. I think there's a get, get, get, there should be something that says get documents.
+RB
+Robert Blake
+24 minutes 8 seconds24:08
+Robert Blake 24 minutes 8 seconds
+I guess, yeah.
+Robert Blake 24 minutes 10 seconds
+Yes, I've.
+Robert Blake 24 minutes 13 seconds
+I believe, yeah, but it wasn't going through the signing service.
+TM
+Themba Mkhize
+24 minutes 14 seconds24:14
+Themba Mkhize 24 minutes 14 seconds
+Yeah, fetch document.
+RB
+Robert Blake
+24 minutes 20 seconds24:20
+Robert Blake 24 minutes 20 seconds
+Um, so...
+TM
+Themba Mkhize
+24 minutes 21 seconds24:21
+Themba Mkhize 24 minutes 21 seconds
+I think there's one on the on the content proxy, because we're just fetching the document from from Oblix, right? Okay.
+UM
+Ushanta Mooloo
+24 minutes 21 seconds24:21
+Ushanta Mooloo 24 minutes 21 seconds
+Yeah.
+Ushanta Mooloo 24 minutes 24 seconds
+David.
+Ushanta Mooloo 24 minutes 27 seconds
+Yeah, basically.
+
+Robert Blake
+24 minutes 28 seconds24:28
+Robert Blake 24 minutes 28 seconds
+Yeah, no, I'm talking about, yeah, I'm just talking about the interface from...
+UM
+Ushanta Mooloo
+24 minutes 30 seconds24:30
+Ushanta Mooloo 24 minutes 30 seconds
+She's got to your left there, I think it's might be to get docked back that one, yeah.
+RB
+Robert Blake
+24 minutes 36 seconds24:36
+Robert Blake 24 minutes 36 seconds
+OK, OK, so that guy is the review. OK, so just that doc review is get doc pack. OK, fine.
+UM
+Ushanta Mooloo
+24 minutes 43 seconds24:43
+Ushanta Mooloo 24 minutes 43 seconds
+Yeah.
+RB
+Robert Blake
+24 minutes 45 seconds24:45
+Robert Blake 24 minutes 45 seconds
+Okay, then I'm going to move on. Right, so once that's done, everything's cooled, go.
+UM
+Ushanta Mooloo
+24 minutes 50 seconds24:50
+Ushanta Mooloo 24 minutes 50 seconds
+Can we just talk about it a little bit? So I was thinking that the document generation would be asynchronous in a sense. Because if you're generating a large document back, then you don't want the front end kind of waiting for the generation to take place.
+Ushanta Mooloo 25 minutes 9 seconds
+place. So generating, so the request to generate should, this was my thinking and we can debate it, is when they request it, you send an acknowledgement and then you generate the documents and then you publish an event to say.
+Ushanta Mooloo 25 minutes 30 seconds
+I don't know, documents ready or signing updates, whatever it may be.
+RB
+Robert Blake
+25 minutes 35 seconds25:35
+Robert Blake 25 minutes 35 seconds
+Okay, that makes sense. So from my side, I would publish a 203 accepted, or I think it's a 202 accepted, which is basically saying your request has been accepted and is being processed on the other end. And then what I would do is I would process these documents, and then we would have to send
+Robert Blake 25 minutes 54 seconds
+Would it be fair to say that we're going to be sending signing updated or are we going to need some other form?
+UM
+Ushanta Mooloo
+25 minutes 57 seconds25:57
+Ushanta Mooloo 25 minutes 57 seconds
+Switch.
+Ushanta Mooloo 26 minutes 1 second
+I think, so one of the debates we had was the explosion of events, so we can use signing updated.
+RB
+Robert Blake
+26 minutes 13 seconds26:13
+Robert Blake 26 minutes 13 seconds
+Yeah, so we need to just make sure that the design of this thing is going to work for all these cases, I guess. Mind you, it will always be the same because it'll be, I suppose we could put a state on it, like created or something. I don't know.
+UM
+Ushanta Mooloo
+26 minutes 26 seconds26:26
+Ushanta Mooloo 26 minutes 26 seconds
+ML.
+Ushanta Mooloo 26 minutes 30 seconds
+The.
+TB
+Taurai Benhura
+26 minutes 31 seconds26:31
+Taurai Benhura 26 minutes 31 seconds
+Yeah, but, but the...
+TM
+Themba Mkhize
+26 minutes 32 seconds26:32
+Themba Mkhize 26 minutes 32 seconds
+Yeah.
+TB
+Taurai Benhura
+26 minutes 33 seconds26:33
+Taurai Benhura 26 minutes 33 seconds
+So that that generates requests, will proxy through signing, you log that, that's still gonna go to Drafting, right? So that's the initial post and acknowledgement, I guess we said, wow, that's happening with signing.
+UM
+Ushanta Mooloo
+26 minutes 39 seconds26:39
+Ushanta Mooloo 26 minutes 39 seconds
+You see, I think.
+Ushanta Mooloo 26 minutes 46 seconds
+I can speak to it.
+Ushanta Mooloo 26 minutes 50 seconds
+Yeah.
+TB
+Taurai Benhura
+26 minutes 51 seconds26:51
+Taurai Benhura 26 minutes 51 seconds
+Okay, signing needs to push that request to Drafting.
+Taurai Benhura 26 minutes 57 seconds
+which then is the component that actually is responsible for the generation. It will generate, send an event, which Signing will consume, then Signing will send an event again. Is that the thinking?
+UM
+Ushanta Mooloo
+26 minutes 59 seconds26:59
+Ushanta Mooloo 26 minutes 59 seconds
+So, I think the good.
+Ushanta Mooloo 27 minutes 4 seconds
+Okay.
+Ushanta Mooloo 27 minutes 11 seconds
+I didn't put it up, I didn't put, I didn't make Drafting asynchronous because currently it is synchronous. So Signing would call Drafting to generate these documents. That's synchronous at the moment. And then when it generates all of the documents, it will publish that it is.
+Ushanta Mooloo 27 minutes 31 seconds
+that the generation is done.
+TB
+Taurai Benhura
+27 minutes 34 seconds27:34
+Taurai Benhura 27 minutes 34 seconds
+Are you not running into the same problem, though?
+Taurai Benhura 27 minutes 37 seconds
+Because now you've got like a long-running process, depending on how...
+Taurai Benhura 27 minutes 44 seconds
+How many docs you need to generate there for a single request between signing and Drafting? How long will that take?
+UM
+Ushanta Mooloo
+27 minutes 54 seconds27:54
+Ushanta Mooloo 27 minutes 54 seconds
+Mmh.
+RB
+Robert Blake
+27 minutes 54 seconds27:54
+Robert Blake 27 minutes 54 seconds
+It could bug signing down.
+TB
+Taurai Benhura
+27 minutes 55 seconds27:55
+Taurai Benhura 27 minutes 55 seconds
+And that's a blocking call that will keep signing working for every single request for some period of time.
+UM
+Ushanta Mooloo
+28 minutes 4 seconds28:04
+Ushanta Mooloo 28 minutes 4 seconds
+Okay, so student drafting also needs to do draft and acknowledgements as well initially, or are we using a command pattern there?
+TB
+Taurai Benhura
+28 minutes 15 seconds28:15
+Taurai Benhura 28 minutes 15 seconds
+Yeah, so I'm trying, I don't have an opinion yet. I'm trying to process what exactly would work. So the concern around a blocking call on a long running process is valid. It's just that how then do we then update the integration pattern. So from.
+
+Ushanta Mooloo
+28 minutes 16 seconds28:16
+Ushanta Mooloo 28 minutes 16 seconds
+Okay.
+Ushanta Mooloo 28 minutes 18 seconds
+Yeah.
+Ushanta Mooloo 28 minutes 33 seconds
+Did my job, yes, yeah, I think it was wrong, dude.
+TB
+Taurai Benhura
+28 minutes 34 seconds28:34
+Taurai Benhura 28 minutes 34 seconds
+from the channel to some component in our ecosystem with an acknowledgement. I think that's good enough. What I'm trying to get to is maybe the acknowledgement should come from drafting as opposed to signing.
+UM
+Ushanta Mooloo
+28 minutes 39 seconds28:39
+Ushanta Mooloo 28 minutes 39 seconds
+You take it.
+Ushanta Mooloo 28 minutes 42 seconds
+Mhm.
+TB
+Taurai Benhura
+28 minutes 49 seconds28:49
+Taurai Benhura 28 minutes 49 seconds
+and we respond all the way back, at least we get a correlation ID from Drafting that we can use to check the outcome directly to the caller as opposed to, because what's going to happen here is that.
+UM
+Ushanta Mooloo
+28 minutes 50 seconds28:50
+Ushanta Mooloo 28 minutes 50 seconds
+Error.
+TB
+Taurai Benhura
+29 minutes 5 seconds29:05
+Taurai Benhura 29 minutes 5 seconds
+Drafting is going to have to send an outcome after it's done generating the documents, right? And that outcome is going to be some object IDs, because we're not going to put that BLOB on an event.
+UM
+Ushanta Mooloo
+29 minutes 5 seconds29:05
+Ushanta Mooloo 29 minutes 5 seconds
+Careful.
+Ushanta Mooloo 29 minutes 10 seconds
+Yeah.
+Ushanta Mooloo 29 minutes 18 seconds
+No, sure.
+TB
+Taurai Benhura
+29 minutes 19 seconds29:19
+Taurai Benhura 29 minutes 19 seconds
+Right, OK.
+UM
+Ushanta Mooloo
+29 minutes 22 seconds29:22
+Ushanta Mooloo 29 minutes 22 seconds
+I just wanted to comment there. So, in terms of the doc pack, so I was thinking that you would, irrespective of the communication person of whether it's synchronous or asynchronous, which we can discuss, the drafting would always get a request for a single document. And so signing would have to
+Ushanta Mooloo 29 minutes 44 seconds
+If there are two documents or five documents, signing would publish or send those amount of requests to drafting. It keeps drafting simple because of it. Drafting currently doesn't have the concept of a document back.
+Ushanta Mooloo 30 minutes 3 seconds
+That's one part of it. The other is you could say, well, maybe it should generate a document back.
+Ushanta Mooloo 30 minutes 11 seconds
+Yeah, manage generating all of them.
+TB
+Taurai Benhura
+30 minutes 12 seconds30:12
+Taurai Benhura 30 minutes 12 seconds
+Yeah.
+Taurai Benhura 30 minutes 14 seconds
+Yeah, because now that...
+Taurai Benhura 30 minutes 18 seconds
+Yeah, I don't know. What's the trade-off? Because signing in that instance then has to stage all of those docs from the doc pack and then it orchestrates calling through to Drafting doc by doc. Is that what you're saying?
+UM
+Ushanta Mooloo
+30 minutes 35 seconds30:35
+Ushanta Mooloo 30 minutes 35 seconds
+Yeah.
+TB
+Taurai Benhura
+30 minutes 38 seconds30:38
+Taurai Benhura 30 minutes 38 seconds
+This is just setting.
+RB
+Robert Blake
+30 minutes 38 seconds30:38
+Robert Blake 30 minutes 38 seconds
+So...
+TB
+Taurai Benhura
+30 minutes 40 seconds30:40
+Taurai Benhura 30 minutes 40 seconds
+A single request.
+RB
+Robert Blake
+30 minutes 44 seconds30:44
+Robert Blake 30 minutes 44 seconds
+So, the risk today, um...
+Robert Blake 30 minutes 47 seconds
+Think about this. The risk there is that...
+Robert Blake 30 minutes 53 seconds
+The signing service is sitting with, let's say, 10 documents that it's iterating over, or let's say it does, it tries to do a couple, let's say, 8 calls in parallel, right? And the service dies for some reason, it's in memory. So now you're going to lose that.
+Robert Blake 31 minutes 13 seconds
+That request to Drafting, so you're almost now looking at another HCT3 outbox, like we, like we, like we did for that, like we're doing for communication.
+
+UM
+Ushanta Mooloo
+31 minutes 17 seconds31:17
+Ushanta Mooloo 31 minutes 17 seconds
+Just a bit.
+Ushanta Mooloo 31 minutes 25 seconds
+OK, but that's if it's synchronous.
+RB
+Robert Blake
+31 minutes 28 seconds31:28
+Robert Blake 31 minutes 28 seconds
+This.
+UM
+Ushanta Mooloo
+31 minutes 28 seconds31:28
+Ushanta Mooloo 31 minutes 28 seconds
+Okay. Oh, okay, I understand what you're getting at. So you were saying, send, we kind of debating this and we're thinking about the contract and maybe what we should send to Drafting is a request with all of the document details, like yeah, these are the documents you need to generate, go and generate it and then let me know when you're done.
+RB
+Robert Blake
+31 minutes 52 seconds31:52
+Robert Blake 31 minutes 52 seconds
+Yes, because if it fails now,
+Robert Blake 31 minutes 56 seconds
+Well, they're still going to have the issue of, if it sends back a failure now, then we can just set the status to pending or something and try and retry maybe off a schedule or something. I don't know. I'm not sure. But I'm just worried about, like you send three and maybe 2 don't make it or something like that.
+UM
+Ushanta Mooloo
+32 minutes 15 seconds32:15
+Ushanta Mooloo 32 minutes 15 seconds
+Okay, I'm happy with it. Will you send a request to generate back? Yeah.
+TM
+Themba Mkhize
+32 minutes 18 seconds32:18
+Themba Mkhize 32 minutes 18 seconds
+Sorry.
+Themba Mkhize 32 minutes 23 seconds
+Sorry, just a question from my understanding. Are we saying for the generation we will send to the draft date?
+Themba Mkhize 32 minutes 31 seconds
+A single request with all the documents that need to be generated.
+Themba Mkhize 32 minutes 36 seconds
+or we're going to send as a request per document.
+UM
+Ushanta Mooloo
+32 minutes 37 seconds32:37
+Ushanta Mooloo 32 minutes 37 seconds
+Yeah, but...
+Ushanta Mooloo 32 minutes 41 seconds
+That's what we're discussing here and we discussing the letter, sorry, the form of sending a request to generate all the documents.
+TM
+Themba Mkhize
+32 minutes 44 seconds32:44
+Themba Mkhize 32 minutes 44 seconds
+Yeah.
+Themba Mkhize 32 minutes 45 seconds
+Is that a good one?
+TB
+Taurai Benhura
+32 minutes 54 seconds32:54
+Taurai Benhura 32 minutes 54 seconds
+I've got a different question, you know what I mean?
+TM
+Themba Mkhize
+32 minutes 56 seconds32:56
+Themba Mkhize 32 minutes 56 seconds
+But why don't we send a request per document? That gives us an ability to retry if there's any failures.
+TB
+Taurai Benhura
+33 minutes 7 seconds33:07
+Taurai Benhura 33 minutes 7 seconds
+Who's going to be orchestrating that?
+UM
+Ushanta Mooloo
+33 minutes 9 seconds33:09
+Ushanta Mooloo 33 minutes 9 seconds
+Okay.
+TM
+Themba Mkhize
+33 minutes 9 seconds33:09
+Themba Mkhize 33 minutes 9 seconds
+Okay.
+Themba Mkhize 33 minutes 12 seconds
+The Signing Service.
+UM
+Ushanta Mooloo
+33 minutes 13 seconds33:13
+Ushanta Mooloo 33 minutes 13 seconds
+Yeah, so, so, so.
+RB
+Robert Blake
+33 minutes 19 seconds33:19
+Robert Blake 33 minutes 19 seconds
+If something happens to the instance, Themba.
+TM
+Themba Mkhize
+33 minutes 21 seconds33:21
+Themba Mkhize 33 minutes 21 seconds
+Yeah, what a yeah.
+RB
+Robert Blake
+33 minutes 24 seconds33:24
+Robert Blake 33 minutes 24 seconds
+If something happens to the instance and that code is still running.
+Robert Blake 33 minutes 28 seconds
+Then let's say I've sent three, right, but two haven't been sent.
+
+Themba Mkhize
+33 minutes 34 seconds33:34
+Themba Mkhize 33 minutes 34 seconds
+Yo, we are.
+RB
+Robert Blake
+33 minutes 35 seconds33:35
+Robert Blake 33 minutes 35 seconds
+Then it gets a little bit complicated now, so, so the the best thing is to, like, from my point of view, it'd be easier to send a whole bunch of them through, because if if it fails on if it fails on Drafting side, it can send an event or something back to me that I can I can possibly retry off a scheduler or something.
+TM
+Themba Mkhize
+33 minutes 38 seconds33:38
+Themba Mkhize 33 minutes 38 seconds
+They are.
+Themba Mkhize 33 minutes 41 seconds
+Yeah, yeah, let's let's not go into the business system and instruct something that.
+RB
+Robert Blake
+33 minutes 55 seconds33:55
+Robert Blake 33 minutes 55 seconds
+But if, if, if, even if I do this stuff in parallel, right, let's say I'm not, I'm not iterating over these documents, sending them one at a time to to Drafting, even if I do them in parallel, if if the service fails, there's a possibility that two or three of them have been sent, they have been drafted.
+Robert Blake 34 minutes 16 seconds
+But the other two didn't make it because those two threads didn't.
+Robert Blake 34 minutes 22 seconds
+Those 2 threads were they terminated.
+TM
+Themba Mkhize
+34 minutes 27 seconds34:27
+Themba Mkhize 34 minutes 27 seconds
+But then how do you then handle...
+Themba Mkhize 34 minutes 30 seconds
+Those 2 that didn't make it.
+RB
+Robert Blake
+34 minutes 33 seconds34:33
+Robert Blake 34 minutes 33 seconds
+Well, that's the thing. Now you're looking possibly app box, you know, that kind of thing. And that gets quite complicated.
+TM
+Themba Mkhize
+34 minutes 41 seconds34:41
+Themba Mkhize 34 minutes 41 seconds
+But you'd still need an outbox anyways, right, between signing and out and drafting for the generation.
+RB
+Robert Blake
+34 minutes 41 seconds34:41
+Robert Blake 34 minutes 41 seconds
+For HTTP.
+Robert Blake 34 minutes 47 seconds
+Yeah, but no, because you're going to HCP.
+TM
+Themba Mkhize
+34 minutes 52 seconds34:52
+Themba Mkhize 34 minutes 52 seconds
+Between Drafting and signing, no, this time.
+RB
+Robert Blake
+34 minutes 56 seconds34:56
+Robert Blake 34 minutes 56 seconds
+The 2 signing and Drafting.
+TM
+Themba Mkhize
+35 minutes35:00
+Themba Mkhize 35 minutes
+Okay.
+RB
+Robert Blake
+35 minutes 3 seconds35:03
+Robert Blake 35 minutes 3 seconds
+No, I'm not being argumentative for no reason. I'm trying to think it through.
+TM
+Themba Mkhize
+35 minutes 4 seconds35:04
+Themba Mkhize 35 minutes 4 seconds
+Soon.
+Themba Mkhize 35 minutes 6 seconds
+And you.
+UM
+Ushanta Mooloo
+35 minutes 8 seconds35:08
+Ushanta Mooloo 35 minutes 8 seconds
+Yeah, it is a fair point though. You're saying that if one of those HTTP Requests, and that can easily happen, then you kind of have to manage that to retry it and so forth. Yeah, I do, I see that complexity.
+RB
+Robert Blake
+35 minutes 10 seconds35:10
+Robert Blake 35 minutes 10 seconds
+Yeah.
+Robert Blake 35 minutes 19 seconds
+Yeah.
+Robert Blake 35 minutes 21 seconds
+Go.
+TB
+Taurai Benhura
+35 minutes 23 seconds35:23
+Taurai Benhura 35 minutes 23 seconds
+What about if...
+Taurai Benhura 35 minutes 26 seconds
+for those complex scenarios.
+Taurai Benhura 35 minutes 30 seconds
+Um...
+Taurai Benhura 35 minutes 32 seconds
+We let there be a relationship between...
+Taurai Benhura 35 minutes 35 seconds
+the channel in Drafting directly and not have to proxy through siding.
+UM
+Ushanta Mooloo
+35 minutes 42 seconds35:42
+Ushanta Mooloo 35 minutes 42 seconds
+To generate. Notification.
+TB
+Taurai Benhura
+35 minutes 44 seconds35:44
+Taurai Benhura 35 minutes 44 seconds
+Yes.
+TM
+Themba Mkhize
+35 minutes 49 seconds35:49
+Themba Mkhize 35 minutes 49 seconds
+Sorry, between the channel and Drafting directly.
+UM
+Ushanta Mooloo
+35 minutes 49 seconds35:49
+Ushanta Mooloo 35 minutes 49 seconds
+Is that all right?
+TB
+Taurai Benhura
+35 minutes 52 seconds35:52
+Taurai Benhura 35 minutes 52 seconds
+and Drafting. Yeah, so just go through the process of.
+TM
+Themba Mkhize
+35 minutes 57 seconds35:57
+Themba Mkhize 35 minutes 57 seconds
+Bye.
+TB
+Taurai Benhura
+35 minutes 57 seconds35:57
+Taurai Benhura 35 minutes 57 seconds
+Generating the dogs.
+Taurai Benhura 36 minutes
+Validation the dogs.
+TM
+Themba Mkhize
+36 minutes 1 second36:01
+Themba Mkhize 36 minutes 1 second
+Alright.
+UM
+Ushanta Mooloo
+36 minutes 1 second36:01
+Ushanta Mooloo 36 minutes 1 second
+We love you.
+TB
+Taurai Benhura
+36 minutes 3 seconds36:03
+Taurai Benhura 36 minutes 3 seconds
+And once you're happy, you then call signing.
+
+Ushanta Mooloo
+36 minutes 5 seconds36:05
+Ushanta Mooloo 36 minutes 5 seconds
+I already.
+TM
+Themba Mkhize
+36 minutes 5 seconds36:05
+Themba Mkhize 36 minutes 5 seconds
+Can I have it?
+Themba Mkhize 36 minutes 8 seconds
+with the document ID.
+TB
+Taurai Benhura
+36 minutes 10 seconds36:10
+Taurai Benhura 36 minutes 10 seconds
+With with those document IDs.
+UM
+Ushanta Mooloo
+36 minutes 11 seconds36:11
+Ushanta Mooloo 36 minutes 11 seconds
+Up above.
+TB
+Taurai Benhura
+36 minutes 13 seconds36:13
+Taurai Benhura 36 minutes 13 seconds
+Um, and then we start from there.
+TM
+Themba Mkhize
+36 minutes 13 seconds36:13
+Themba Mkhize 36 minutes 13 seconds
+BB.
+UM
+Ushanta Mooloo
+36 minutes 14 seconds36:14
+Ushanta Mooloo 36 minutes 14 seconds
+But the.
+Ushanta Mooloo 36 minutes 16 seconds
+Okay.
+TM
+Themba Mkhize
+36 minutes 17 seconds36:17
+Themba Mkhize 36 minutes 17 seconds
+I said that a lot.
+TB
+Taurai Benhura
+36 minutes 19 seconds36:19
+Taurai Benhura 36 minutes 19 seconds
+And that's when we create the first initial application.
+UM
+Ushanta Mooloo
+36 minutes 24 seconds36:24
+Ushanta Mooloo 36 minutes 24 seconds
+I gotta be.
+TM
+Themba Mkhize
+36 minutes 24 seconds36:24
+Themba Mkhize 36 minutes 24 seconds
+Don't we lose certain context in this generation call when we do that? I mean, it would be easier.
+UM
+Ushanta Mooloo
+36 minutes 27 seconds36:27
+Ushanta Mooloo 36 minutes 27 seconds
+Thank you.
+Ushanta Mooloo 36 minutes 31 seconds
+Join the speaking, keep brief about that. So, this is where I'm at. I'm stopping. Every reason is too, actually.
+TM
+Themba Mkhize
+36 minutes 32 seconds36:32
+Themba Mkhize 36 minutes 32 seconds
+But don't we lose certain context?
+TB
+Taurai Benhura
+36 minutes 34 seconds36:34
+Taurai Benhura 36 minutes 34 seconds
+I'm trying to process it. There's certain things that, so the context will be there some way. It's just that the problem is that, but the context was always coming from the channel around the signing order, who needs to sign and and and so we're not breaking that, but we're just moving all of that.
+UM
+Ushanta Mooloo
+36 minutes 48 seconds36:48
+Ushanta Mooloo 36 minutes 48 seconds
+Yes, so.
+Ushanta Mooloo 36 minutes 53 seconds
+Stop working.
+Ushanta Mooloo 36 minutes 55 seconds
+YouTube.
+TB
+Taurai Benhura
+36 minutes 55 seconds36:55
+Taurai Benhura 36 minutes 55 seconds
+Complexity there that is just Drafting related in which signing is proxy, because at that point in time, we're not even ready to actually start doing the contracting, the signing of the document, so maybe we just do the generation, the back and forth between the channel and...
+UM
+Ushanta Mooloo
+36 minutes 57 seconds36:57
+Ushanta Mooloo 36 minutes 57 seconds
+She was sleeping.
+Ushanta Mooloo 37 minutes
+So much.
+Ushanta Mooloo 37 minutes 6 seconds
+It will change where it is.
+TB
+Taurai Benhura
+37 minutes 16 seconds37:16
+Taurai Benhura 37 minutes 16 seconds
+the end user and Drafting until the draft is good. And once it's good, then we...
+UM
+Ushanta Mooloo
+37 minutes 16 seconds37:16
+Ushanta Mooloo 37 minutes 16 seconds
+At least, prepare for it.
+TB
+Taurai Benhura
+37 minutes 23 seconds37:23
+Taurai Benhura 37 minutes 23 seconds
+We sort of go into into the Signing Service, I don't know.
+UM
+Ushanta Mooloo
+37 minutes 25 seconds37:25
+Ushanta Mooloo 37 minutes 25 seconds
+Can you actually do you need better screens?
+TB
+Taurai Benhura
+37 minutes 29 seconds37:29
+Taurai Benhura 37 minutes 29 seconds
+That's.
+Taurai Benhura 37 minutes 31 seconds
+That's what I was trying to process, if it if it does make sense, because right now what we're debating is I've got this BLOB of documents that I need to generate, and it's a long-running request, right? I'm gonna push that into signing, right? Signing creates an instance of there is an intent to contract.
+UM
+Ushanta Mooloo
+37 minutes 33 seconds37:33
+Ushanta Mooloo 37 minutes 33 seconds
+Again.
+Ushanta Mooloo 37 minutes 40 seconds
+Say it.
+Ushanta Mooloo 37 minutes 49 seconds
+Should be.
+TB
+Taurai Benhura
+37 minutes 52 seconds37:52
+Taurai Benhura 37 minutes 52 seconds
+right? That is what we create initially up front. And for me to be able to contract, I need a drafted contract, right? And I delegate that to the drafting service. The drafting service will do its magic. It will respond with a drafting and metadata that is required within the actual signing ceremony.
+
+Ushanta Mooloo
+37 minutes 53 seconds37:53
+Ushanta Mooloo 37 minutes 53 seconds
+If you want, I mentioned to you, what is so much?
+Ushanta Mooloo 38 minutes 5 seconds
+Yeah, you getting assistance?
+Ushanta Mooloo 38 minutes 8 seconds
+Paw, thank you.
+TB
+Taurai Benhura
+38 minutes 13 seconds38:13
+Taurai Benhura 38 minutes 13 seconds
+Then it then orchestrates thereafter. And I'm saying for the complex scenario where there's a lot of this drafting of these documents.
+UM
+Ushanta Mooloo
+38 minutes 17 seconds38:17
+Ushanta Mooloo 38 minutes 17 seconds
+It would be.
+Ushanta Mooloo 38 minutes 20 seconds
+What's up?
+TB
+Taurai Benhura
+38 minutes 24 seconds38:24
+Taurai Benhura 38 minutes 24 seconds
+Why don't we just get to the sign-in service after we've prepped the documents validated? Because I'm going to generate the document. I'm not happy with the document. I want to go to the client domain. I want to update some stuff. I'm going to go back, review the document, generate it again until I'm happy.
+UM
+Ushanta Mooloo
+38 minutes 31 seconds38:31
+Ushanta Mooloo 38 minutes 31 seconds
+Yeah, I can see that.
+Ushanta Mooloo 38 minutes 38 seconds
+And if it is good, change benefits.
+Ushanta Mooloo 38 minutes 41 seconds
+I think at the end of the restoration.
+TB
+Taurai Benhura
+38 minutes 43 seconds38:43
+Taurai Benhura 38 minutes 43 seconds
+Once I'm happy, then I send that final request that says, OK, cool. The dogs are good. Now let's start.
+UM
+Ushanta Mooloo
+38 minutes 47 seconds38:47
+Ushanta Mooloo 38 minutes 47 seconds
+So, now it will come back.
+TB
+Taurai Benhura
+38 minutes 51 seconds38:51
+Taurai Benhura 38 minutes 51 seconds
+That is a very different way from how we work in the self-service model where things are straightforward. So do we need to make it fit into that current design pattern? And is it legit to fit it in there? That's the question.
+UM
+Ushanta Mooloo
+39 minutes 1 second39:01
+Ushanta Mooloo 39 minutes 1 second
+Excellent.
+Ushanta Mooloo 39 minutes 5 seconds
+If I...
+Ushanta Mooloo 39 minutes 8 seconds
+That's possible. Yeah, go ahead.
+RB
+Robert Blake
+39 minutes 8 seconds39:08
+Robert Blake 39 minutes 8 seconds
+So, to me...
+Robert Blake 39 minutes 10 seconds
+Yeah.
+Robert Blake 39 minutes 12 seconds
+So to me, this is almost moving towards, hesitate to say, it's almost leaning towards, what's it where you're going CQRS, right? So you have a command, you send that command through, it does its thing, it updates the database, and once the database reaches a certain state,
+Robert Blake 39 minutes 36 seconds
+for that like in envelope or whatever it is or that draft or whatever it is, it creates an event, creates another record and that event circulates out and then Signing Service can go, oh, this thing's ready now. You know, I can fetch the object IDs. That's another way of looking at it, I suppose, without going into the channel. And I think to now that's kind of.
+
+Ushanta Mooloo
+39 minutes 46 seconds39:46
+Ushanta Mooloo 39 minutes 46 seconds
+Okay.
+Ushanta Mooloo 39 minutes 48 seconds
+So much.
+RB
+Robert Blake
+39 minutes 57 seconds39:57
+Robert Blake 39 minutes 57 seconds
+Where you were looking, right?
+UM
+Ushanta Mooloo
+40 minutes40:00
+Ushanta Mooloo 40 minutes
+Just.
+TB
+Taurai Benhura
+40 minutes40:00
+Taurai Benhura 40 minutes
+Yeah.
+Taurai Benhura 40 minutes 2 seconds
+Pretty much, so, so, so I'm thinking, I guess what I'm trying to get to is...
+RB
+Robert Blake
+40 minutes 3 seconds40:03
+Robert Blake 40 minutes 3 seconds
+Yeah.
+TB
+Taurai Benhura
+40 minutes 10 seconds40:10
+Taurai Benhura 40 minutes 10 seconds
+The use cases are actually very different.
+Taurai Benhura 40 minutes 13 seconds
+Right, where I've got, where I'm really trying to contact a very complex entity for a complex process and I've got a myriad of documents that I need to do a lot of stuff up front versus a self-service scenario where I've got that single contract. I just, the way I process and there's no.
+UM
+Ushanta Mooloo
+40 minutes 14 seconds40:14
+Ushanta Mooloo 40 minutes 14 seconds
+What?
+TB
+Taurai Benhura
+40 minutes 35 seconds40:35
+Taurai Benhura 40 minutes 35 seconds
+You may need to look to validate and do some funky stuff, right? I can govern that properly through the sign-in service, and that tight governance is valid for that self-service model.
+UM
+Ushanta Mooloo
+40 minutes 42 seconds40:42
+Ushanta Mooloo 40 minutes 42 seconds
+Thank you.
+Ushanta Mooloo 40 minutes 45 seconds
+Like.
+Ushanta Mooloo 40 minutes 46 seconds
+So you.
+TB
+Taurai Benhura
+40 minutes 47 seconds40:47
+Taurai Benhura 40 minutes 47 seconds
+But in this assisted flow, right, where I've got the human with the final say, who has to do a myriad of things in drafting before I actually do signing, to me it feels like there is an actual drafting step here that creates a relationship between the business actor and directly with drafting.
+UM
+Ushanta Mooloo
+40 minutes 54 seconds40:54
+Ushanta Mooloo 40 minutes 54 seconds
+So, what's up? What's up?
+Ushanta Mooloo 40 minutes 56 seconds
+Yes, it was in the.
+Ushanta Mooloo 41 minutes 3 seconds
+Find Mr. Shadley.
+Ushanta Mooloo 41 minutes 7 seconds
+Sorry, call the production.
+TB
+Taurai Benhura
+41 minutes 7 seconds41:07
+Taurai Benhura 41 minutes 7 seconds
+before I can actually get into signing. But once I've validated it, I'm good that those documents are fine, then I can get into signing. Maybe that should be the model. I don't know. That's me thinking out aloud, because the complexity that we're facing here is this middle component here called signing.
+Taurai Benhura 41 minutes 27 seconds
+getting this list of documents. And we're saying, even if we proxy and we push that, we do an acknowledgement on signing, that acknowledgement is...
+Taurai Benhura 41 minutes 38 seconds
+is not actually accurate because it's not the master. I still need to tell Drafting that, hey, can you do this? Drafting will then say, okay, cool, I can do it. Once Drafting is done, it will emit an event, right, with object IDs of the documents that have been generated. Then Signing is acting as another proxy that says,
+
+Ushanta Mooloo
+41 minutes 39 seconds41:39
+Ushanta Mooloo 41 minutes 39 seconds
+I'll put the watch on.
+Ushanta Mooloo 41 minutes 46 seconds
+So, what?
+Ushanta Mooloo 41 minutes 52 seconds
+Okay, I should.
+Ushanta Mooloo 41 minutes 55 seconds
+To everything.
+TB
+Taurai Benhura
+41 minutes 58 seconds41:58
+Taurai Benhura 41 minutes 58 seconds
+Cool, give me this, and then I'll tell the channel that the document has been drafted.
+UM
+Ushanta Mooloo
+41 minutes 59 seconds41:59
+Ushanta Mooloo 41 minutes 59 seconds
+Creating it.
+TB
+Taurai Benhura
+42 minutes 4 seconds42:04
+Taurai Benhura 42 minutes 4 seconds
+But I'm not the context that actually owns this. I'm just a pass through that's to keep that that relays the message. Or the other part could be, does the channel just have to listen directly to a Drafting event to say those are the documents that are there and they do a call to retrieve the documents themselves directly from the.
+UM
+Ushanta Mooloo
+42 minutes 9 seconds42:09
+Ushanta Mooloo 42 minutes 9 seconds
+Just think so.
+TB
+Taurai Benhura
+42 minutes 25 seconds42:25
+Taurai Benhura 42 minutes 25 seconds
+from the content management to display them. I don't know.
+UM
+Ushanta Mooloo
+42 minutes 29 seconds42:29
+Ushanta Mooloo 42 minutes 29 seconds
+I think it's far easier, actually. Yeah. That's a far easier way of doing it.
+RB
+Robert Blake
+42 minutes 30 seconds42:30
+Robert Blake 42 minutes 30 seconds
+How kind of luck?
+UM
+Ushanta Mooloo
+42 minutes 55 seconds42:55
+Ushanta Mooloo 42 minutes 55 seconds
+This is so.
+RB
+Robert Blake
+42 minutes 56 seconds42:56
+Robert Blake 42 minutes 56 seconds
+to draft a document, but signing is really, the documents are ready to be signed. The drafts are there. So if you separate them completely, you could have them message each other with status or whatever, or you could have even the user jump from one screen to the other. It might say on the screen, I don't know.
+UM
+Ushanta Mooloo
+43 minutes 4 seconds43:04
+Ushanta Mooloo 43 minutes 4 seconds
+Yeah.
+Ushanta Mooloo 43 minutes 9 seconds
+Not really.
+RB
+Robert Blake
+43 minutes 15 seconds43:15
+Robert Blake 43 minutes 15 seconds
+Check back in. I know you guys aren't going to like this, but it's the same sort of ideas. Check back in 2 minutes. You know, oh, they're ready to be signed. Now you have your documents.
+UM
+Ushanta Mooloo
+43 minutes 20 seconds43:20
+Ushanta Mooloo 43 minutes 20 seconds
+Not really.
+Ushanta Mooloo 43 minutes 23 seconds
+Show the drop one at the end, I think, Skipped.
+Ushanta Mooloo 43 minutes 26 seconds
+Yeah.
+RB
+Robert Blake
+43 minutes 27 seconds43:27
+Robert Blake 43 minutes 27 seconds
+But, but like these two systems kind of message each other instead of trying to call each other, I think.
+UM
+Ushanta Mooloo
+43 minutes 28 seconds43:28
+Ushanta Mooloo 43 minutes 28 seconds
+Surely.
+Ushanta Mooloo 43 minutes 33 seconds
+I think that's much easier. Let's just talk about that. So let's say that they, I'm going to, you might see it on your side.
+RB
+Robert Blake
+43 minutes 34 seconds43:34
+Robert Blake 43 minutes 34 seconds
+Let's start.
+UM
+Ushanta Mooloo
+43 minutes 46 seconds43:46
+Ushanta Mooloo 43 minutes 46 seconds
+So, if the dark generation goes straight to your Drafting.
+Ushanta Mooloo 43 minutes 54 seconds
+They can, they can generate you one by one as well.
+Ushanta Mooloo 44 minutes 1 second
+And yeah, because from the front end, yeah, like on the front end, they're selecting it. And I mean, that's not difficult to orchestrate on the front end to say, well, there's five documents called Drafting to generate it.
+
+Robert Blake
+44 minutes 2 seconds44:02
+Robert Blake 44 minutes 2 seconds
+Yeah.
+Robert Blake 44 minutes 4 seconds
+in the background.
+UM
+Ushanta Mooloo
+44 minutes 21 seconds44:21
+Ushanta Mooloo 44 minutes 21 seconds
+What are your thoughts there? Just wanna...
+Ushanta Mooloo 44 minutes 26 seconds
+Get feedback.
+RB
+Robert Blake
+44 minutes 27 seconds44:27
+Robert Blake 44 minutes 27 seconds
+I suppose it's all about how these guys have designed.
+TB
+Taurai Benhura
+44 minutes 28 seconds44:28
+Taurai Benhura 44 minutes 28 seconds
+I think it's fine, right?
+UM
+Ushanta Mooloo
+44 minutes 30 seconds44:30
+Ushanta Mooloo 44 minutes 30 seconds
+Yeah.
+TB
+Taurai Benhura
+44 minutes 32 seconds44:32
+Taurai Benhura 44 minutes 32 seconds
+I think the...
+Taurai Benhura 44 minutes 35 seconds
+I think what we need to push for, especially with this solution, is...
+UM
+Ushanta Mooloo
+44 minutes 38 seconds44:38
+Ushanta Mooloo 44 minutes 38 seconds
+Yes.
+TB
+Taurai Benhura
+44 minutes 42 seconds44:42
+Taurai Benhura 44 minutes 42 seconds
+is simplifying it.
+UM
+Ushanta Mooloo
+44 minutes 44 seconds44:44
+Ushanta Mooloo 44 minutes 44 seconds
+Yeah, that's true.
+TB
+Taurai Benhura
+44 minutes 45 seconds44:45
+Taurai Benhura 44 minutes 45 seconds
+We simplified those things since the day of lighting production.
+Taurai Benhura 44 minutes 49 seconds
+We keep it complex, we will go around in circles. So I think the first part is stripping out Drafting and let it stand alone and having that relationship with the channel, with the front end, I think that's fine. And I think the request to actually generate the document, it can be.
+UM
+Ushanta Mooloo
+45 minutes45:00
+Ushanta Mooloo 45 minutes
+Yes.
+Ushanta Mooloo 45 minutes 2 seconds
+Mmh.
+Ushanta Mooloo 45 minutes 7 seconds
+The best picture.
+TB
+Taurai Benhura
+45 minutes 9 seconds45:09
+Taurai Benhura 45 minutes 9 seconds
+document by document and as the user goes through it and it can actually work because it is user driven right? They would generate the document, they look at it, whether they like it or not, then they move on to the next document. I think it works fine. And once they've gone through all the documents, they review them and they're happy.
+UM
+Ushanta Mooloo
+45 minutes 16 seconds45:16
+Ushanta Mooloo 45 minutes 16 seconds
+End.
+Ushanta Mooloo 45 minutes 20 seconds
+This is lovely.
+Ushanta Mooloo 45 minutes 24 seconds
+Yeah.
+TB
+Taurai Benhura
+45 minutes 30 seconds45:30
+Taurai Benhura 45 minutes 30 seconds
+Then we then go back into the current flow. I think it's significant.
+UM
+Ushanta Mooloo
+45 minutes 33 seconds45:33
+Ushanta Mooloo 45 minutes 33 seconds
+I'll tell you. Yeah, I'll tell you why I'm also in favor of that because with scoring, and I was actually going to bring this up, with scoring is there's one document and from a client or banker's kind of experience just to generate one document and see it.
+Ushanta Mooloo 45 minutes 53 seconds
+versus the banker getting an acknowledgement that says come back when the document is ready. Do you understand what I'm getting at? So if they do generate one by one, it's happening synchronously and the bank is getting feedback as it's being generated. So it kind of cases to both.
+Ushanta Mooloo 46 minutes 14 seconds
+where there's a large document pack or there's a simplistic one of 1 document. And also in terms of the generation, if they generate the first one and they see, oh, the physical address of this client is wrong, they can go fix it and then only generate, regenerate and generate the old pack versus, yeah, all the documents that have been generated.
+Ushanta Mooloo 46 minutes 34 seconds
+and they all have the wrong physical address. And now we have to go fix the physical address and generate all of the documents again. Does that make sense to you guys? Why maybe a synchronous 1 by 1 to Drafting actually works in all cases.
+
+Themba Mkhize
+46 minutes 55 seconds46:55
+Themba Mkhize 46 minutes 55 seconds
+Yeah, I agree with that.
+RB
+Robert Blake
+46 minutes 59 seconds46:59
+Robert Blake 46 minutes 59 seconds
+Yeah, that sounds practical.
+UM
+Ushanta Mooloo
+47 minutes 4 seconds47:04
+Ushanta Mooloo 47 minutes 4 seconds
+Okay, so, so drafting, if we do call drafting directly, then the signer information is being sent there, but that signer information is also required for the envelope creation. So, we, we, you know, we're not going to validate.
+TM
+Themba Mkhize
+47 minutes 5 seconds47:05
+Themba Mkhize 47 minutes 5 seconds
+Yes.
+UM
+Ushanta Mooloo
+47 minutes 22 seconds47:22
+Ushanta Mooloo 47 minutes 22 seconds
+that the documents were drafted with the same signing info as what the request to now send us to signing is. We're going to accept signing info both at the drafting stage. And it might not be.
+Ushanta Mooloo 47 minutes 38 seconds
+Exactly the same, but we also going to accept signing in for it when we we're now ready to send this out to signing.
+Ushanta Mooloo 47 minutes 51 seconds
+Which I don't have an issue with, but I'm just like...
+Ushanta Mooloo 47 minutes 54 seconds
+Pointing that out.
+TB
+Taurai Benhura
+47 minutes 58 seconds47:58
+Taurai Benhura 47 minutes 58 seconds
+What are we pointing out by the way? Sorry.
+UM
+Ushanta Mooloo
+48 minutes48:00
+Ushanta Mooloo 48 minutes
+Okay, sure. So you know you have your signing info which you need to generate your documents.
+Ushanta Mooloo 48 minutes 8 seconds
+But you also need that signing info, like your Cif and the order in which they sign, you need that in signing because that's how the envelope is going to be created. So both your Drafting and your signing service needs to accept the signing info.
+TB
+Taurai Benhura
+48 minutes 19 seconds48:19
+Taurai Benhura 48 minutes 19 seconds
+Correct.
+Taurai Benhura 48 minutes 29 seconds
+They do.
+UM
+Ushanta Mooloo
+48 minutes 32 seconds48:32
+Ushanta Mooloo 48 minutes 32 seconds
+Then it's fine. I don't have an issue with it. Then let's just talk about how do these documents get sent to Signing. So we're generating these documents on the front end. We're returning the documents from the front end through Drafting.
+TB
+Taurai Benhura
+48 minutes 32 seconds48:32
+Taurai Benhura 48 minutes 32 seconds
+Which, which is fine, I think it's fine.
+UM
+Ushanta Mooloo
+48 minutes 52 seconds48:52
+Ushanta Mooloo 48 minutes 52 seconds
+Drafting is returning to blog with its associated document ID as drafting sees it. When we send this for signing, should the front end send those exact doc IDs to signing?
+TB
+Taurai Benhura
+49 minutes 9 seconds49:09
+Taurai Benhura 49 minutes 9 seconds
+I think so.
+UM
+Ushanta Mooloo
+49 minutes 11 seconds49:11
+Ushanta Mooloo 49 minutes 11 seconds
+Keeps it simple.
+TB
+Taurai Benhura
+49 minutes 13 seconds49:13
+Taurai Benhura 49 minutes 13 seconds
+Yeah, in case it's simple.
+RB
+Robert Blake
+49 minutes 13 seconds49:13
+Robert Blake 49 minutes 13 seconds
+The dock IDs, the dock IDs are the object IDs.
+UM
+Ushanta Mooloo
+49 minutes 17 seconds49:17
+Ushanta Mooloo 49 minutes 17 seconds
+The object is here. Yeah.
+TB
+Taurai Benhura
+49 minutes 17 seconds49:17
+Taurai Benhura 49 minutes 17 seconds
+Yeah.
+RB
+Robert Blake
+49 minutes 18 seconds49:18
+Robert Blake 49 minutes 18 seconds
+Yeah, that makes absolute sense because they're the central figure behind all of this, right? Everyone can access them from everywhere.
+UM
+Ushanta Mooloo
+49 minutes 26 seconds49:26
+Ushanta Mooloo 49 minutes 26 seconds
+Okay, and then...
+RB
+Robert Blake
+49 minutes 27 seconds49:27
+Robert Blake 49 minutes 27 seconds
+Do the content proxy.
+UM
+Ushanta Mooloo
+49 minutes 30 seconds49:30
+Ushanta Mooloo 49 minutes 30 seconds
+So when that request now comes through to signing, you're going to get the doc IDs, you're going to validate it via Drafting, right? You're going to go to Drafting and say, have you generated stock or can I have these documents?
+Ushanta Mooloo 49 minutes 45 seconds
+Does that make sense? Because if you get a request for signing, you need to check that they have been drafted in Drafting. And you essentially need to retrieve those documents.
+RB
+Robert Blake
+49 minutes 57 seconds49:57
+Robert Blake 49 minutes 57 seconds
+Yeah, that's, I guess that's fine. I would, yeah, but I don't have to, I don't have to fetch the whole. So, yeah, so here's the question. I mean, so these objects are now in ECM, right? Now, ECM is a document status.
+TB
+Taurai Benhura
+50 minutes50:00
+Taurai Benhura 50 minutes
+Yeah, it's a good God.
+UM
+Ushanta Mooloo
+50 minutes 10 seconds50:10
+Ushanta Mooloo 50 minutes 10 seconds
+Mm.
+Ushanta Mooloo 50 minutes 13 seconds
+Yeah.
+RB
+Robert Blake
+50 minutes 16 seconds50:16
+Robert Blake 50 minutes 16 seconds
+The way I understand it, there are a whole bunch of other metadata. So what I'm saying is if we study that, is it really necessary for us to go to Drafting? Or is there a way that we can look at ECM and go, well, this document is in the right state. I can verify it from ECM.
+
+Ushanta Mooloo
+50 minutes 16 seconds50:16
+Ushanta Mooloo 50 minutes 16 seconds
+Mhm.
+Ushanta Mooloo 50 minutes 19 seconds
+Hotel in 5.
+Ushanta Mooloo 50 minutes 23 seconds
+Just.
+Ushanta Mooloo 50 minutes 25 seconds
+This is just the the minimum.
+Ushanta Mooloo 50 minutes 31 seconds
+That's a fair question.
+TM
+Themba Mkhize
+50 minutes 32 seconds50:32
+Themba Mkhize 50 minutes 32 seconds
+Yeah, yeah, but it won't tell you if it was generated through Drafting.
+UM
+Ushanta Mooloo
+50 minutes 35 seconds50:35
+Ushanta Mooloo 50 minutes 35 seconds
+Thanks a lot.
+Ushanta Mooloo 50 minutes 38 seconds
+You told me.
+TB
+Taurai Benhura
+50 minutes 39 seconds50:39
+Taurai Benhura 50 minutes 39 seconds
+Yeah, where we enforce the templates and stuff like that, right?
+TM
+Themba Mkhize
+50 minutes 40 seconds50:40
+Themba Mkhize 50 minutes 40 seconds
+Which is?
+UM
+Ushanta Mooloo
+50 minutes 43 seconds50:43
+Ushanta Mooloo 50 minutes 43 seconds
+That's why.
+RB
+Robert Blake
+50 minutes 44 seconds50:44
+Robert Blake 50 minutes 44 seconds
+But the object ID should surely be the point of truth at this point. Or are we saying now we now we?
+TB
+Taurai Benhura
+50 minutes 47 seconds50:47
+Taurai Benhura 50 minutes 47 seconds
+The object ID can be created from anyway.
+UM
+Ushanta Mooloo
+50 minutes 50 seconds50:50
+Ushanta Mooloo 50 minutes 50 seconds
+So, my test is then, like I said, I feel like it's going to be out of this. It's just in between.
+TM
+Themba Mkhize
+50 minutes 52 seconds50:52
+Themba Mkhize 50 minutes 52 seconds
+Yeah, and you'll find that document.
+RB
+Robert Blake
+50 minutes 52 seconds50:52
+Robert Blake 50 minutes 52 seconds
+Uh, so it's back to the...
+Robert Blake 50 minutes 55 seconds
+Yeah, I suspect we don't trust the channel, right?
+TB
+Taurai Benhura
+50 minutes 59 seconds50:59
+Taurai Benhura 50 minutes 59 seconds
+We never did.
+UM
+Ushanta Mooloo
+51 minutes51:00
+Ushanta Mooloo 51 minutes
+I'm going to say something.
+RB
+Robert Blake
+51 minutes 2 seconds51:02
+Robert Blake 51 minutes 2 seconds
+But the other thing is.
+Robert Blake 51 minutes 6 seconds
+There's also the the the the possibility of a hash, right?
+UM
+Ushanta Mooloo
+51 minutes 9 seconds51:09
+Ushanta Mooloo 51 minutes 9 seconds
+So, where would you get the hash from?
+TM
+Themba Mkhize
+51 minutes 17 seconds51:17
+Themba Mkhize 51 minutes 17 seconds
+Hey.
+Themba Mkhize 51 minutes 19 seconds
+No, but the hash comes from ECM, right? With every document, they'll send you the document ID, which you generated, as well as the hash.
+UM
+Ushanta Mooloo
+51 minutes 28 seconds51:28
+Ushanta Mooloo 51 minutes 28 seconds
+But it sits in Drafting, right?
+TM
+Themba Mkhize
+51 minutes 28 seconds51:28
+Themba Mkhize 51 minutes 28 seconds
+And I...
+Themba Mkhize 51 minutes 31 seconds
+Yeah, but it also sits in ECM. So I don't think that hash would work for this validation that we need, because you'll still get a hash for any document that's generated anywhere.
+UM
+Ushanta Mooloo
+51 minutes 34 seconds51:34
+Ushanta Mooloo 51 minutes 34 seconds
+Updates.
+TB
+Taurai Benhura
+51 minutes 43 seconds51:43
+Taurai Benhura 51 minutes 43 seconds
+Yeah, it would work if if you're getting it from Drafting. I think that's what you're saying, as long as long as you're getting it from Drafting.
+TM
+Themba Mkhize
+51 minutes 44 seconds51:44
+Themba Mkhize 51 minutes 44 seconds
+Yeah.
+RB
+Robert Blake
+51 minutes 45 seconds51:45
+Robert Blake 51 minutes 45 seconds
+Braye.
+UM
+Ushanta Mooloo
+51 minutes 48 seconds51:48
+Ushanta Mooloo 51 minutes 48 seconds
+And compared, yeah.
+TM
+Themba Mkhize
+51 minutes 52 seconds51:52
+Themba Mkhize 51 minutes 52 seconds
+Yeah, so...
+TB
+Taurai Benhura
+51 minutes 52 seconds51:52
+Taurai Benhura 51 minutes 52 seconds
+to say, are you the source of this drafted contract before I can actually process it.
+TM
+Themba Mkhize
+51 minutes 56 seconds51:56
+Themba Mkhize 51 minutes 56 seconds
+Exactly.
+RB
+Robert Blake
+51 minutes 59 seconds51:59
+Robert Blake 51 minutes 59 seconds
+So if you generating every, so if you generate, okay, sorry, I'm just, I'm just going to finish my thought. If you generating every document on its own through Drafting from the front end and you and each and each time you get a response from drafting, you get an object ID and a hash. Now with the front end, you can go, okay, listen, I can throw a whole bunch of object IDs back at you and hope for the best.
+
+TM
+Themba Mkhize
+51 minutes 59 seconds51:59
+Themba Mkhize 51 minutes 59 seconds
+Just do.
+Themba Mkhize 52 minutes 3 seconds
+I'm here.
+UM
+Ushanta Mooloo
+52 minutes 4 seconds52:04
+Ushanta Mooloo 52 minutes 4 seconds
+Yeah, go for it.
+RB
+Robert Blake
+52 minutes 22 seconds52:22
+Robert Blake 52 minutes 22 seconds
+but they need to match up with the hashes that come from Drafting. So in an indirect way, you're still getting that. Is that possible? I'm just trying to get around these excess calls that we're making.
+UM
+Ushanta Mooloo
+52 minutes 37 seconds52:37
+Ushanta Mooloo 52 minutes 37 seconds
+So let's say you draft and we just return the document IDs to the front end. The front end then sends us a request to sign.
+Ushanta Mooloo 52 minutes 50 seconds
+We need to look up whether that document exists and what's its hash. But we also need to, if we want to really validate that hash, then what we could do is we can go to Drafting, where we can say, do you have context of these documents, these are the IDs and the associated application ID.
+Ushanta Mooloo 53 minutes 10 seconds
+And Drafting validates and says, yes, this application ID is associated with those document IDs.
+RB
+Robert Blake
+53 minutes 13 seconds53:13
+Robert Blake 53 minutes 13 seconds
+Because.
+Robert Blake 53 minutes 17 seconds
+Because it has its own data slot.
+UM
+Ushanta Mooloo
+53 minutes 19 seconds53:19
+Ushanta Mooloo 53 minutes 19 seconds
+Yes, and it.
+RB
+Robert Blake
+53 minutes 19 seconds53:19
+Robert Blake 53 minutes 19 seconds
+It stored this stuff. OK, in my model, I was thinking, OK, it hasn't stored it. I need to get that the source of truth is, but it's fine. I understand that.
+TM
+Themba Mkhize
+53 minutes 28 seconds53:28
+Themba Mkhize 53 minutes 28 seconds
+So, so...
+UM
+Ushanta Mooloo
+53 minutes 29 seconds53:29
+Ushanta Mooloo 53 minutes 29 seconds
+End that.
+TM
+Themba Mkhize
+53 minutes 30 seconds53:30
+Themba Mkhize 53 minutes 30 seconds
+So, that will be a go forward to Chante, sorry.
+UM
+Ushanta Mooloo
+53 minutes 32 seconds53:32
+Ushanta Mooloo 53 minutes 32 seconds
+I just wanted to like add to it. So the other, like even if you had to go to ECM with those document IDs, you would still have to validate, is it the right one? And if you were using the hash, then you'd need to know.
+TM
+Themba Mkhize
+53 minutes 37 seconds53:37
+Themba Mkhize 53 minutes 37 seconds
+It.
+Themba Mkhize 53 minutes 42 seconds
+Just.
+UM
+Ushanta Mooloo
+53 minutes 51 seconds53:51
+Ushanta Mooloo 53 minutes 51 seconds
+You need to get the original hash, but not from the channel, from the Drafting Service itself.
+TM
+Themba Mkhize
+53 minutes 55 seconds53:55
+Themba Mkhize 53 minutes 55 seconds
+It's at home.
+UM
+Ushanta Mooloo
+53 minutes 59 seconds53:59
+Ushanta Mooloo 53 minutes 59 seconds
+I decided before Tema goes, I actually, I don't even think you need to retrieve the documents. You just need to validate its existence and that it was drafted and then you can propagate that responsibilities to envelope service.
+RB
+Robert Blake
+54 minutes 13 seconds54:13
+Robert Blake 54 minutes 13 seconds
+Yeah, you sent a list of...
+UM
+Ushanta Mooloo
+54 minutes 18 seconds54:18
+Ushanta Mooloo 54 minutes 18 seconds
+to fetch those documents from ECM to then include it in the envelope to DocuSign.
+RB
+Robert Blake
+54 minutes 26 seconds54:26
+Robert Blake 54 minutes 26 seconds
+So you send a list of document IDs and say, but validate this. That's either true or false.
+UM
+Ushanta Mooloo
+54 minutes 31 seconds54:31
+Ushanta Mooloo 54 minutes 31 seconds
+Yeah.
+Ushanta Mooloo 54 minutes 34 seconds
+Inciting.
+Ushanta Mooloo 54 minutes 37 seconds
+So, you would validate the existence of the documents via Drafting, and if you're happy with that in signing, then you can can now create your request to generate the envelope.
+Ushanta Mooloo 54 minutes 51 seconds
+What do you guys think about that?
+TB
+Taurai Benhura
+54 minutes 54 seconds54:54
+Taurai Benhura 54 minutes 54 seconds
+I think it's fine, right? It's quite defensive. We don't find ourselves sending weird documents to clients. And, you know, who knows how those Ownneed Credit guys build, right? They can send us object IDs for documents that are related to other applications and stuff like that.
+
+Ushanta Mooloo
+55 minutes 8 seconds55:08
+Ushanta Mooloo 55 minutes 8 seconds
+Mm.
+TB
+Taurai Benhura
+55 minutes 14 seconds55:14
+Taurai Benhura 55 minutes 14 seconds
+We need to be defensive in the domain. So I think that that validation where we say for this application, these are the docs that were generated, what are the hashes, we do that validation and that's all we need to do. And then as we process through, we actually don't need to retrieve the document because no one needs to view it.
+UM
+Ushanta Mooloo
+55 minutes 18 seconds55:18
+Ushanta Mooloo 55 minutes 18 seconds
+I do the same.
+Ushanta Mooloo 55 minutes 23 seconds
+I have another question.
+TB
+Taurai Benhura
+55 minutes 35 seconds55:35
+Taurai Benhura 55 minutes 35 seconds
+And at a point in time when we actually need the document, which is in the envelope service before we push it to DocuSide, then we let that be the component that needs to actually retrieve the document because that's where it's needed.
+UM
+Ushanta Mooloo
+55 minutes 41 seconds55:41
+Ushanta Mooloo 55 minutes 41 seconds
+I'm not going to go in.
+Ushanta Mooloo 55 minutes 44 seconds
+That's a lot.
+Ushanta Mooloo 55 minutes 49 seconds
+Yeah.
+TB
+Taurai Benhura
+55 minutes 49 seconds55:49
+Taurai Benhura 55 minutes 49 seconds
+So, I think, I think it's, I think it's clean that way.
+UM
+Ushanta Mooloo
+55 minutes 51 seconds55:51
+Ushanta Mooloo 55 minutes 51 seconds
+Yeah.
+Ushanta Mooloo 55 minutes 53 seconds
+It does make, it actually makes signing contacts a lot simpler. Because now you're not even tracking multiple documents. You're tracking a document back.
+Ushanta Mooloo 56 minutes 6 seconds
+That is smart.
+Ushanta Mooloo 56 minutes 8 seconds
+So, let's...
+Ushanta Mooloo 56 minutes 11 seconds
+Let's go on, Rob. You continue driving, so you kind of working out on your edge.
+RB
+Robert Blake
+56 minutes 17 seconds56:17
+Robert Blake 56 minutes 17 seconds
+I'm not sure, I'm not sure how the rest of the design's going to work out now that that's happened, but let's try. Okay, so based on that, and I'm going to have to go back to some of that to just get some of that in my head, but based on that, at this point, we get around a lot of the complexity, yeah.
+Robert Blake 56 minutes 37 seconds
+So at this point, we are going to have a doc, you called it a document package, Ushanta, not me. So at this point, the contract, okay, is ready for signing, right? So it's ready to be packed up and sent for signing. So
+Robert Blake 56 minutes 57 seconds
+This is when the Signing Service is going to send the envelope. So the fact that we're sending an envelope tells me that...
+Robert Blake 57 minutes 8 seconds
+We are creating it in signing, but I doubt that, I know, that's the send envelope command there. Okay, that makes sense. Okay. So we request signings, probably the best idea. And then signing, what it'll do is it'll take that contract and all the documents and information attached to it.
+Robert Blake 57 minutes 27 seconds
+And it will then go and...
+Robert Blake 57 minutes 33 seconds
+I think, create an envelope in the envelope service.
+TB
+Taurai Benhura
+57 minutes 35 seconds57:35
+Taurai Benhura 57 minutes 35 seconds
+The other thing, hold on, I'm thinking, sorry, the other thing is all that metadata around what was initially requested in Drafting, Signing order, yeah, the metadata used in signing, I think it should be requested as.
+Taurai Benhura 57 minutes 54 seconds
+part of that validation there to Drafting.
+Taurai Benhura 57 minutes 59 seconds
+so that we don't get two separate requests from the channel. We essentially just get that single request that comes through Drafting. When we do the validation, we get the extra metadata. We keep the request from the channel very simple, and that goes into signing. And then signing does that validation, and then the envelope stuff comes into play.
+RB
+Robert Blake
+58 minutes 19 seconds58:19
+Robert Blake 58 minutes 19 seconds
+Yes, I like that, and it's one call.
+TB
+Taurai Benhura
+58 minutes 19 seconds58:19
+Taurai Benhura 58 minutes 19 seconds
+As opposed to, yeah.
+UM
+Ushanta Mooloo
+58 minutes 24 seconds58:24
+Ushanta Mooloo 58 minutes 24 seconds
+That's fair.
+RB
+Robert Blake
+58 minutes 27 seconds58:27
+Robert Blake 58 minutes 27 seconds
+And it's quick.
+UM
+Ushanta Mooloo
+58 minutes 29 seconds58:29
+Ushanta Mooloo 58 minutes 29 seconds
+Yeah, but but if there's more than one document to Drafting, they they sending the same info.
+Ushanta Mooloo 58 minutes 38 seconds
+There isn't a concept of like the, you know, there isn't actually a doc pack ID. So if there's one, if there's, let's say there's five requests to Drafting, each request will have to.
+
+Robert Blake
+58 minutes 38 seconds58:38
+Robert Blake 58 minutes 38 seconds
+Yeah.
+UM
+Ushanta Mooloo
+58 minutes 52 seconds58:52
+Ushanta Mooloo 58 minutes 52 seconds
+consists of the same metadata.
+Ushanta Mooloo 58 minutes 57 seconds
+From Omni Credit.
+RB
+Robert Blake
+58 minutes 58 seconds58:58
+Robert Blake 58 minutes 58 seconds
+Oh, why don't you, I mean, we could just send a account of docs or whatever so that when each time that call comes through for that specific, but I mean, you don't have an identity yet, right? So how are you going to do that?
+TB
+Taurai Benhura
+58 minutes 59 seconds58:59
+Taurai Benhura 58 minutes 59 seconds
+So, so sorry.
+Taurai Benhura 59 minutes 15 seconds
+Yeah, so I guess the more you say that, Ushanta, then the question is, shouldn't the concept of a doc pack exist up front in drafting and we make sure that the requests, the payloads that were used to draft?
+UM
+Ushanta Mooloo
+59 minutes 21 seconds59:21
+Ushanta Mooloo 59 minutes 21 seconds
+Isla.
+TB
+Taurai Benhura
+59 minutes 34 seconds59:34
+Taurai Benhura 59 minutes 34 seconds
+The specific documents and the related metadata for signing can essentially just be pulled from within the domain into the signing service, and we do that, and then we simplify any request that's coming from signing in relation to what was drafted up front.
+UM
+Ushanta Mooloo
+59 minutes 51 seconds59:51
+Ushanta Mooloo 59 minutes 51 seconds
+Hold that thought. I just realized, actually, per document, your signing info does differ.
+Ushanta Mooloo 59 minutes 58 seconds
+Because for document one you can have two signers, for document two you can have four signers. So it is actually unique to a document.
+TB
+Taurai Benhura
+59 minutes 58 seconds59:58
+Taurai Benhura 59 minutes 58 seconds
+Oh.
+Taurai Benhura 1 hour 3 seconds
+But related to related to the same doc pack application, I don't know what terminology we're using now, but that grouping that we're going to create, meaning when I get that signing request, I can still get it lightweight because all that information per document.
+UM
+Ushanta Mooloo
+1 hour 23 seconds1:00:23
+Ushanta Mooloo 1 hour 23 seconds
+is in drafting. In drafting. Yeah, 100%. That's perfectly fine. Do we want to validate a doc count?
+TB
+Taurai Benhura
+1 hour 23 seconds1:00:23
+Taurai Benhura 1 hour 23 seconds
+Still existence finding and and routing, yeah.
+Taurai Benhura 1 hour 28 seconds
+Okay.
+UM
+Ushanta Mooloo
+1 hour 35 seconds1:00:35
+Ushanta Mooloo 1 hour 35 seconds
+Do we want, okay, so do we want to validate it in the sense that we receive 10 document IDs from OmniCredit and then drafting, it can collate it, it can say for this application ID, I actually drafted 11 documents. Do we want to do that kind of validation?
+TB
+Taurai Benhura
+1 hour 35 seconds1:00:35
+Taurai Benhura 1 hour 35 seconds
+Yes.
+RB
+Robert Blake
+1 hour 56 seconds1:00:56
+Robert Blake 1 hour 56 seconds
+I think so, because also there's the other possibility that maybe a call comes through for signing a little bit early. I mean, maybe one or two documents still haven't been drafted for whatever reason in drafting. Maybe three or five of those have been drafted, but two haven't yet been drafted.
+UM
+Ushanta Mooloo
+1 hour 1 minute 19 seconds1:01:19
+Ushanta Mooloo 1 hour 1 minute 19 seconds
+Okay.
+TM
+Themba Mkhize
+1 hour 1 minute 20 seconds1:01:20
+Themba Mkhize 1 hour 1 minute 20 seconds
+But is it is it possible in your example that you've given?
+Themba Mkhize 1 hour 1 minute 25 seconds
+That the 11th document is not intended for signing.
+Themba Mkhize 1 hour 1 minute 30 seconds
+So, Drafting, because now we are creating a direct chat, direct communication between the omni-channel and the drafting service. So, meaning they could in fact generate more documents.
+Themba Mkhize 1 hour 1 minute 48 seconds
+For for the same application, but only some are intended for sign.
+Themba Mkhize 1 hour 1 minute 54 seconds
+Is that use case impossible?
+UM
+Ushanta Mooloo
+1 hour 1 minute 56 seconds1:01:56
+Ushanta Mooloo 1 hour 1 minute 56 seconds
+Or they might decide not to send a document for signing. Yeah, it seems, yeah.
+TM
+Themba Mkhize
+1 hour 1 minute 59 seconds1:01:59
+Themba Mkhize 1 hour 1 minute 59 seconds
+You know what I mean? So then the validation fails, but actually shouldn't fail.
+RB
+Robert Blake
+1 hour 2 minutes 7 seconds1:02:07
+Robert Blake 1 hour 2 minutes 7 seconds
+But it's not signed yet, and it's not expected to be signed yet, right? It's only going to be signed at a later stage. It's just a draft at this point.
+TM
+Themba Mkhize
+1 hour 2 minutes 14 seconds1:02:14
+Themba Mkhize 1 hour 2 minutes 14 seconds
+Yeah, but but but my thing was if we validate and how many documents have been generated
+Themba Mkhize 1 hour 2 minutes 21 seconds
+That might not give us a true reflection, because with what I'm just explaining, you could actually generate more documents, but only some are intended for signing. So meaning for signing, we actually get 6. What we're seeing in Drafting is 11.
+Themba Mkhize 1 hour 2 minutes 39 seconds
+For the same application, so we fail validation there.
+
+Robert Blake
+1 hour 2 minutes 39 seconds1:02:39
+Robert Blake 1 hour 2 minutes 39 seconds
+But, but maybe we're supposed to send this.
+Robert Blake 1 hour 2 minutes 43 seconds
+Maybe you're supposed to send those documents anyway and there's just no metadata attached to that document to sign yet. I don't know. I don't know.
+Robert Blake 1 hour 2 minutes 55 seconds
+How deep does this rabbit hole go?
+UM
+Ushanta Mooloo
+1 hour 2 minutes 57 seconds1:02:57
+Ushanta Mooloo 1 hour 2 minutes 57 seconds
+Mm.
+Ushanta Mooloo 1 hour 3 minutes
+Should we validate the account against what's been drafted? I don't think it's an explicit requirement.
+RB
+Robert Blake
+1 hour 3 minutes 4 seconds1:03:04
+Robert Blake 1 hour 3 minutes 4 seconds
+What happens if?
+Robert Blake 1 hour 3 minutes 8 seconds
+Yeah, I mean, could the call ever come through when not all of those documents have been generated yet?
+UM
+Ushanta Mooloo
+1 hour 3 minutes 17 seconds1:03:17
+Ushanta Mooloo 1 hour 3 minutes 17 seconds
+No, I mean the top point of the review is review all the documents.
+TM
+Themba Mkhize
+1 hour 3 minutes 18 seconds1:03:18
+Themba Mkhize 1 hour 3 minutes 18 seconds
+Validation.
+RB
+Robert Blake
+1 hour 3 minutes 20 seconds1:03:20
+Robert Blake 1 hour 3 minutes 20 seconds
+Yeah, the validation, that's true. The validation would...
+TM
+Themba Mkhize
+1 hour 3 minutes 23 seconds1:03:23
+Themba Mkhize 1 hour 3 minutes 23 seconds
+Because I think that level of validation requires...
+Themba Mkhize 1 hour 3 minutes 29 seconds
+sort of a knowledge, an upfront knowledge to know that for this type of doc pack, we expect this many documents to have been drafted already. Because now it's been three, four years.
+Themba Mkhize 1 hour 3 minutes 46 seconds
+And I don't know if we know that up front in order to do that count validation.
+RB
+Robert Blake
+1 hour 3 minutes 54 seconds1:03:54
+Robert Blake 1 hour 3 minutes 54 seconds
+Pre.
+TB
+Taurai Benhura
+1 hour 3 minutes 55 seconds1:03:55
+Taurai Benhura 1 hour 3 minutes 55 seconds
+Okay, so I guess the challenge is we're making an assumption, right? That every document generated needs to be signed and maybe we put a pin on that point up until we get more info. And if we get to a point where it is outdrew that.
+UM
+Ushanta Mooloo
+1 hour 4 minutes 10 seconds1:04:10
+Ushanta Mooloo 1 hour 4 minutes 10 seconds
+Yes.
+Ushanta Mooloo 1 hour 4 minutes 14 seconds
+Thank you.
+TB
+Taurai Benhura
+1 hour 4 minutes 14 seconds1:04:14
+Taurai Benhura 1 hour 4 minutes 14 seconds
+whatever is generated needs to be signed, then we can always do that count as an extra step in the validation process so that the signing process we know is likely to succeed versus not.
+RB
+Robert Blake
+1 hour 4 minutes 30 seconds1:04:30
+Robert Blake 1 hour 4 minutes 30 seconds
+Payday.
+UM
+Ushanta Mooloo
+1 hour 4 minutes 30 seconds1:04:30
+Ushanta Mooloo 1 hour 4 minutes 30 seconds
+Okay.
+Ushanta Mooloo 1 hour 4 minutes 32 seconds
+Cool.
+RB
+Robert Blake
+1 hour 4 minutes 34 seconds1:04:34
+Robert Blake 1 hour 4 minutes 34 seconds
+Right, I think we still at.
+Robert Blake 1 hour 4 minutes 37 seconds
+this point, we've got a long way to go and we're running out of time. I think we've already run out of time. So I'm going to carry on with this now, the sending of the envelope. So at this point,
+Robert Blake 1 hour 4 minutes 52 seconds
+Let me think this through.
+Robert Blake 1 hour 4 minutes 54 seconds
+So this will be user, this will be user, they'll hit the trigger here, we user triggered. And so at this point, we will, you will do that validation again, I assume, to check that these documents, well, this will be where we do that validation, right, to check that those documents.
+Robert Blake 1 hour 5 minutes 14 seconds
+are in order. And then what will end up happening is that the signing service will...
+Robert Blake 1 hour 5 minutes 24 seconds
+will create this envelope. I mean, it's going to call create envelope on the envelope service. So I'm assuming it's going to send JSON metadata or JSON data that basically that depicts this envelope.
+Robert Blake 1 hour 5 minutes 44 seconds
+So the question then is, at the end of that, it's going to go through an outbox. So that makes me think that this is not a synchronous call, which means that if there is an envelope ID, it's probably going to be generated in the Signing Service.
+Robert Blake 1 hour 6 minutes 6 seconds
+Is that a good assumption to make?
+UM
+Ushanta Mooloo
+1 hour 6 minutes 12 seconds1:06:12
+Ushanta Mooloo 1 hour 6 minutes 12 seconds
+I was thinking more along the lines of signing heads, like a source system ID, similar to like your dispatch ID in communications, and then you would publish that, and that's how you would correlate.
+RB
+Robert Blake
+1 hour 6 minutes 19 seconds1:06:19
+Robert Blake 1 hour 6 minutes 19 seconds
+Okay.
+Robert Blake 1 hour 6 minutes 24 seconds
+Yes.
+UM
+Ushanta Mooloo
+1 hour 6 minutes 30 seconds1:06:30
+Ushanta Mooloo 1 hour 6 minutes 30 seconds
+The envelope updates.
+RB
+Robert Blake
+1 hour 6 minutes 32 seconds1:06:32
+Robert Blake 1 hour 6 minutes 32 seconds
+Okay, so when this thing comes back, it will have probably something like an envelope ID. Yeah, at some point, and then we can update that record, but we need our own form of that. So I'm not going to harbor on, I'm not going to harp on the name, but I'm thinking it'll either.
+Ushanta Mooloo
+1 hour 6 minutes 38 seconds1:06:38
+Ushanta Mooloo 1 hour 6 minutes 38 seconds
+It will, yeah.
+RB
+Robert Blake
+1 hour 6 minutes 51 seconds1:06:51
+Robert Blake 1 hour 6 minutes 51 seconds
+Well, it will probably be a contractor ID or something like that, something specific.
+Robert Blake 1 hour 6 minutes 59 seconds
+I would still use a, yeah, so yeah, it will be a contract ID probably. And then it will send through to the envelope service and with that will go the documents, the signers.
+Robert Blake 1 hour 7 minutes 13 seconds
+The question is, would it go with the tab info? Would the tab info have been created at this point?
+UM
+Ushanta Mooloo
+1 hour 7 minutes 22 seconds1:07:22
+Ushanta Mooloo 1 hour 7 minutes 22 seconds
+Oh, then let's leave the tab info. So it would need a doc type. The tab info maybe that should be held in the envelope service. But then you would need to have, so let's talk about it. So you have a doc type and on the documents.
+Ushanta Mooloo 1 hour 7 minutes 41 seconds
+you have something called like a location tab or dates tab or signing tab. And that gets sent in the request to DocuSign. So tab info is probably closely related to each document. It almost has
+Ushanta Mooloo 1 hour 8 minutes 2 seconds
+It, I don't think it impacts the document generation outside; it's more very specific to DocuSign, but...
+RB
+Robert Blake
+1 hour 9 minutes 46 seconds1:09:46
+Robert Blake 1 hour 9 minutes 46 seconds
+on a contract, on an envelope.
+UM
+Ushanta Mooloo
+1 hour 9 minutes 46 seconds1:09:46
+Ushanta Mooloo 1 hour 9 minutes 46 seconds
+And for you, alright.
+Ushanta Mooloo 1 hour 9 minutes 50 seconds
+Um...
+Ushanta Mooloo 1 hour 9 minutes 53 seconds
+I mean, like you're signing or it could all be the same number or something. We could always, yeah, yeah.
+RB
+Robert Blake
+1 hour 9 minutes 57 seconds1:09:57
+Robert Blake 1 hour 9 minutes 57 seconds
+No, the reason I'm saying that is because you could generally you could create a map right where where your your numbers are, your order, or you can you can create, I suppose, an order that's possibly null, which means that it's not necessary to sign it in order, you know.
+Robert Blake 1 hour 10 minutes 18 seconds
+This design is important because at some point we might have a situation where we don't want things in order, but maybe you know we don't want to make the design too complicated and flexible, so we just enforce an order anyway.
+UM
+Ushanta Mooloo
+1 hour 10 minutes 18 seconds1:10:18
+Ushanta Mooloo 1 hour 10 minutes 18 seconds
+Yeah.
+Ushanta Mooloo 1 hour 10 minutes 25 seconds
+In Bluvoucher.
+RB
+Robert Blake
+1 hour 10 minutes 33 seconds1:10:33
+Robert Blake 1 hour 10 minutes 33 seconds
+But that would make no, that would make no sense because then when you send it through to DocuSign, they're going to enforce the order, right? That's not a good idea. So we just got to work out how to design it so that if we don't have an order,
+Robert Blake 1 hour 10 minutes 48 seconds
+Um...
+UM
+Ushanta Mooloo
+1 hour 10 minutes 49 seconds1:10:49
+Ushanta Mooloo 1 hour 10 minutes 49 seconds
+Mhm.
+RB
+Robert Blake
+1 hour 10 minutes 50 seconds1:10:50
+Robert Blake 1 hour 10 minutes 50 seconds
+It's relevant, maybe we just don't send through the order field; we send through the order field as now.
+UM
+Ushanta Mooloo
+1 hour 10 minutes 54 seconds1:10:54
+Ushanta Mooloo 1 hour 10 minutes 54 seconds
+Yeah.
+Ushanta Mooloo 1 hour 10 minutes 56 seconds
+Yeah, I think we need to look at the DocuSign API a little bit more just to see how they handle that.
+RB
+Robert Blake
+1 hour 11 minutes 2 seconds1:11:02
+Robert Blake 1 hour 11 minutes 2 seconds
+Good.
+Robert Blake 1 hour 11 minutes 4 seconds
+Yeah, because that's going to be important for how we create that create envelope message, whatever it is. And I assume how we actually store it in the envelope service. I assume the envelope service is going to have its own database.
+UM
+Ushanta Mooloo
+1 hour 11 minutes 18 seconds1:11:18
+Ushanta Mooloo 1 hour 11 minutes 18 seconds
+Yes, it will need it.
+RB
+Robert Blake
+1 hour 11 minutes 21 seconds1:11:21
+Robert Blake 1 hour 11 minutes 21 seconds
+Sorry, Simphiwe.
+UM
+Ushanta Mooloo
+1 hour 11 minutes 21 seconds1:11:21
+Ushanta Mooloo 1 hour 11 minutes 21 seconds
+10 bug of 15.
+TM
+Themba Mkhize
+1 hour 11 minutes 24 seconds1:11:24
+Themba Mkhize 1 hour 11 minutes 24 seconds
+Yeah, so you mentioned the envelope service will do the resolving of the contact details. What does that look like? Is this validating that the e-mail is correct?
+Themba Mkhize 1 hour 11 minutes 37 seconds
+and formatting the cell phone number.
+UM
+Ushanta Mooloo
+1 hour 11 minutes 37 seconds1:11:37
+Ushanta Mooloo 1 hour 11 minutes 37 seconds
+Yes.
+Ushanta Mooloo 1 hour 11 minutes 40 seconds
+Yeah, so we don't want the channel to pass us a cell phone number and e-mail address because we don't trust it. And the contact information of a client should be coming from the customer store.
+TM
+Themba Mkhize
+1 hour 11 minutes 41 seconds1:11:41
+Themba Mkhize 1 hour 11 minutes 41 seconds
+Remember, we have so much money, we could also download, yeah.
+Themba Mkhize 1 hour 11 minutes 49 seconds
+How does that work?
+Themba Mkhize 1 hour 11 minutes 52 seconds
+You, you.
+UM
+Ushanta Mooloo
+1 hour 11 minutes 55 seconds1:11:55
+Ushanta Mooloo 1 hour 11 minutes 55 seconds
+So, you'll get the Cif, and then you call the customer API to get the e-mail address and the phone number.
+TM
+Themba Mkhize
+1 hour 11 minutes 55 seconds1:11:55
+Themba Mkhize 1 hour 11 minutes 55 seconds
+How do you?
+Themba Mkhize 1 hour 12 minutes 4 seconds
+OK, alright.
+RB
+Robert Blake
+1 hour 12 minutes 13 seconds1:12:13
+Robert Blake 1 hour 12 minutes 13 seconds
+Okay, so we go through this thing, the message arrives in the envelope service and the envelope is created, but it's going to call an API somewhere on the DocuSign proxy and this envelope is going to be created.
+Robert Blake 1 hour 12 minutes 35 seconds
+I'm assuming this envelope is actually native to...
+Robert Blake 1 hour 12 minutes 40 seconds
+To Doki Sun.
+UM
+Ushanta Mooloo
+1 hour 12 minutes 44 seconds1:12:44
+Ushanta Mooloo 1 hour 12 minutes 44 seconds
+It is, but yeah, but it.
+RB
+Robert Blake
+1 hour 12 minutes 44 seconds1:12:44
+Robert Blake 1 hour 12 minutes 44 seconds
+So, DocuSign.
+Robert Blake 1 hour 12 minutes 46 seconds
+So DocuSign would return an envelope ID at this point, right?
+UM
+Ushanta Mooloo
+1 hour 12 minutes 50 seconds1:12:50
+Ushanta Mooloo 1 hour 12 minutes 50 seconds
+Yes.
+RB
+Robert Blake
+1 hour 12 minutes 51 seconds1:12:51
+Robert Blake 1 hour 12 minutes 51 seconds
+Something like that, yeah. So the envelope service would have a row that says envelope, it will have its own surrogate ID, then an envelope ID, and whatever information gets passed back from.
+
+Ushanta Mooloo
+1 hour 13 minutes 22 seconds1:13:22
+Ushanta Mooloo 1 hour 13 minutes 22 seconds
+That's correct, yeah.
+RB
+Robert Blake
+1 hour 13 minutes 24 seconds1:13:24
+Robert Blake 1 hour 13 minutes 24 seconds
+So, from here on in, when the Signing Service needs to update.
+Robert Blake 1 hour 13 minutes 32 seconds
+It would come through here. It would also, it'll be one of these.
+Robert Blake 1 hour 13 minutes 38 seconds
+So that's interesting, so...
+Robert Blake 1 hour 13 minutes 41 seconds
+When Signing Service gets an update request from the user.
+Robert Blake 1 hour 13 minutes 49 seconds
+Um...
+Robert Blake 1 hour 13 minutes 54 seconds
+It's going to publish an app signing updated, which is going to be consumed by.
+Robert Blake 1 hour 15 minutes 14 seconds
+Then it's going to have to talk to the envelope service as well, I assume.
+Robert Blake 1 hour 15 minutes 18 seconds
+To change the state.
+UM
+Ushanta Mooloo
+1 hour 15 minutes 20 seconds1:15:20
+Ushanta Mooloo 1 hour 15 minutes 20 seconds
+Yeah, so what you're doing is in signing you, you would know whether this signing is via DocuSign. So it's external signing or in-app signing. And if it's external signing via DocuSign, then you need to void again.
+RB
+Robert Blake
+1 hour 15 minutes 41 seconds1:15:41
+Robert Blake 1 hour 15 minutes 41 seconds
+Sorry, just trying to say that again. This is the first time I've got, so at the moment, our external signing is there in Signing Service. I think the concept is very different to what it is here, because you've got our own little table. So it's like this little satellite table in the middle of nowhere that just records that stuff, right?
+UM
+Ushanta Mooloo
+1 hour 15 minutes 58 seconds1:15:58
+Ushanta Mooloo 1 hour 15 minutes 58 seconds
+Yeah, that's fine. The only, I think, to put it simply, so when you, when a contract expires, you need to check if there's an associated envelope ID, and if so, you need to publish a command to void that envelope.
+RB
+Robert Blake
+1 hour 15 minutes 59 seconds1:15:59
+Robert Blake 1 hour 15 minutes 59 seconds
+So.
+Robert Blake 1 hour 16 minutes 17 seconds
+Okay, okay, so in our case, so in this world, in the envelope service world, we void it, so it just goes, yeah, we probably have like a just what terminated or whatever on it on the row, right? Void it or whatever, and then it will probably be removed from DocuSign.
+UM
+Ushanta Mooloo
+1 hour 16 minutes 31 seconds1:16:31
+Ushanta Mooloo 1 hour 16 minutes 31 seconds
+Yes.
+Ushanta Mooloo 1 hour 16 minutes 37 seconds
+That's correct, yeah.
+RB
+Robert Blake
+1 hour 16 minutes 38 seconds1:16:38
+Robert Blake 1 hour 16 minutes 38 seconds
+in its entirety. Okay. Okay, so that's a terminal status and that happens with expired and rejected.
+UM
+Ushanta Mooloo
+1 hour 16 minutes 48 seconds1:16:48
+Ushanta Mooloo 1 hour 16 minutes 48 seconds
+And one more scenario is.
+Ushanta Mooloo 1 hour 16 minutes 53 seconds
+Is if they they sign via the AP.
+Ushanta Mooloo 1 hour 16 minutes 58 seconds
+So if signing is completed.
+Ushanta Mooloo 1 hour 17 minutes 2 seconds
+Somehow, we need to track that they've signed by the app, and then two, we'd want to void the envelope.
+RB
+Robert Blake
+1 hour 17 minutes 10 seconds1:17:10
+Robert Blake 1 hour 17 minutes 10 seconds
+Okay, so when it's terminated, well when it's gone through the whole process and it's been successful, we also need to void the envelope.
+UM
+Ushanta Mooloo
+1 hour 17 minutes 16 seconds1:17:16
+Ushanta Mooloo 1 hour 17 minutes 16 seconds
+So, remember, you have this the scenario where we generating the documents and we're sending it to the client via DocuSign, right? But with scored apps, the client can log on to the Capitec business app on their phones and they can generate the agreement with.
+RB
+Robert Blake
+1 hour 17 minutes 24 seconds1:17:24
+Robert Blake 1 hour 17 minutes 24 seconds
+Yes.
+UM
+Ushanta Mooloo
+1 hour 17 minutes 37 seconds1:17:37
+Ushanta Mooloo 1 hour 17 minutes 37 seconds
+in the app, which is your normal flow, what you've already built.
+RB
+Robert Blake
+1 hour 17 minutes 42 seconds1:17:42
+Robert Blake 1 hour 17 minutes 42 seconds
+Yes.
+UM
+Ushanta Mooloo
+1 hour 17 minutes 42 seconds1:17:42
+Ushanta Mooloo 1 hour 17 minutes 42 seconds
+Okay, they can sign there and complete the signing.
+Ushanta Mooloo 1 hour 17 minutes 48 seconds
+But then you have this envelope sitting on DocuSign that we need to void.
+Ushanta Mooloo 1 hour 17 minutes 57 seconds
+because they've already signed in the mobile app.
+RB
+Robert Blake
+1 hour 18 minutes 1 second1:18:01
+Robert Blake 1 hour 18 minutes 1 second
+I see, so I don't have, so I don't actually have a visibility of that at the moment, so I don't even know. So, but, but in that case, so in the in the in the current flow that we would still need to avoid, so we would need to, I get it. OK, so we still need to to to to avoid that envelope.
+Robert Blake 1 hour 18 minutes 21 seconds
+Okay.
+UM
+Ushanta Mooloo
+1 hour 18 minutes 22 seconds1:18:22
+Ushanta Mooloo 1 hour 18 minutes 22 seconds
+But in eb.
+TM
+Themba Mkhize
+1 hour 18 minutes 22 seconds1:18:22
+Themba Mkhize 1 hour 18 minutes 22 seconds
+So, do we have a do we have a documentation on the DocuSign API or swag or something?
+UM
+Ushanta Mooloo
+1 hour 18 minutes 29 seconds1:18:29
+Ushanta Mooloo 1 hour 18 minutes 29 seconds
+Yeah, would you?
+Ushanta Mooloo 1 hour 18 minutes 31 seconds
+Yeah, we do have documentation that Daurel shared, but...
+Ushanta Mooloo 1 hour 18 minutes 39 seconds
+Denver is building a proxy, so he is most familiar with the API.
+Ushanta Mooloo 1 hour 18 minutes 45 seconds
+So, he might, yeah, he's gotta log in and on the this document in on this site, there's documentation.
+TM
+Themba Mkhize
+1 hour 18 minutes 45 seconds1:18:45
+Themba Mkhize 1 hour 18 minutes 45 seconds
+Okay, cool. Yeah, yeah.
+Themba Mkhize 1 hour 18 minutes 50 seconds
+The.
+Themba Mkhize 1 hour 18 minutes 52 seconds
+I know.
+RB
+Robert Blake
+1 hour 18 minutes 55 seconds1:18:55
+Robert Blake 1 hour 18 minutes 55 seconds
+I feel like there's a concept I'm missing here. There's something that doesn't make sense and I can't put my finger on it. It's probably just a gap in my...
+Robert Blake 1 hour 19 minutes 7 seconds
+My understanding.
+Robert Blake 1 hour 19 minutes 11 seconds
+Um...
+Robert Blake 1 hour 19 minutes 15 seconds
+No, it's not coming to me, so...
+Robert Blake 1 hour 19 minutes 18 seconds
+I had it and then I lost it. Okay, so, okay, so that's expired, rejected, etc. I'm trying to stick to the plan here. So, okay, we've covered this.
+Robert Blake 1 hour 19 minutes 32 seconds
+Um...
+Robert Blake 1 hour 19 minutes 34 seconds
+And this get doc pack is just when, okay, so now at some point we sometimes need to fetch this pack. Now this is different because the way we were doing this before, I'm trying to work out what will come back with this doc pack. We won't be sending back.
+Robert Blake 1 hour 19 minutes 53 seconds
+blobs or anything crazy, right? We'd be sending back object IDs. How would this how would this be framed going up?
+UM
+Ushanta Mooloo
+1 hour 20 minutes 2 seconds1:20:02
+Ushanta Mooloo 1 hour 20 minutes 2 seconds
+Sure. So I think that changes slightly. So let's say the documents are now signed in DocuSign and we've received updated documents have been signed in DocuSign. What the envelope service then needs to use fetch those documents from DocuSign and index it in ECM.
+
+Robert Blake
+1 hour 20 minutes 4 seconds1:20:04
+Robert Blake 1 hour 20 minutes 4 seconds
+What would that look like?
+UM
+Ushanta Mooloo
+1 hour 20 minutes 25 seconds1:20:25
+Ushanta Mooloo 1 hour 20 minutes 25 seconds
+Then it will publish any events.
+TB
+Taurai Benhura
+1 hour 22 minutes 47 seconds1:22:47
+Taurai Benhura 1 hour 22 minutes 47 seconds
+Yeah, so what I'm trying to get to is, so we get to, so that's the signing completed or whatever that happens on DocuSign. Then the user on the channel wants to view all those docs and maybe the pack of however many docs.
+Taurai Benhura 1 hour 23 minutes 8 seconds
+There's the expectation that for that peck of docs, so call us and we retrieve the document from content proxy through Signing Service.
+UM
+Ushanta Mooloo
+1 hour 23 minutes 20 seconds1:23:20
+Ushanta Mooloo 1 hour 23 minutes 20 seconds
+Mhm.
+TB
+Taurai Benhura
+1 hour 23 minutes 20 seconds1:23:20
+Taurai Benhura 1 hour 23 minutes 20 seconds
+And display that to the channel.
+UM
+Ushanta Mooloo
+1 hour 23 minutes 22 seconds1:23:22
+Ushanta Mooloo 1 hour 23 minutes 22 seconds
+That's correct, yeah.
+TM
+Themba Mkhize
+1 hour 23 minutes 37 seconds1:23:37
+Themba Mkhize 1 hour 23 minutes 37 seconds
+You.
+UM
+Ushanta Mooloo
+1 hour 23 minutes 37 seconds1:23:37
+Ushanta Mooloo 1 hour 23 minutes 37 seconds
+Uh, you this is when we we finally publish signing completed.
+TM
+Themba Mkhize
+1 hour 23 minutes 43 seconds1:23:43
+Themba Mkhize 1 hour 23 minutes 43 seconds
+Sorry, guys, I need to drop. I'm running another meeting at 2.
+UM
+Ushanta Mooloo
+1 hour 23 minutes 50 seconds1:23:50
+Ushanta Mooloo 1 hour 23 minutes 50 seconds
+Happy.
+TB
+Taurai Benhura
+1 hour 23 minutes 50 seconds1:23:50
+Taurai Benhura 1 hour 23 minutes 50 seconds
+Yeah, I need to drop to, I need to be in that session as well, but I think we've made some good progress, yeah, it's.
+UM
+Ushanta Mooloo
+1 hour 23 minutes 55 seconds1:23:55
+Ushanta Mooloo 1 hour 23 minutes 55 seconds
+Okay.
+TB
+Taurai Benhura
+1 hour 24 minutes1:24:00
+Taurai Benhura 1 hour 24 minutes
+Starting to get there, I think.
+UM
+Ushanta Mooloo
+1 hour 24 minutes 4 seconds1:24:04
+Ushanta Mooloo 1 hour 24 minutes 4 seconds
+K.
+TB
+Taurai Benhura
+1 hour 24 minutes 4 seconds1:24:04
+Taurai Benhura 1 hour 24 minutes 4 seconds
+One of the...
+RB
+Robert Blake
+1 hour 24 minutes 4 seconds1:24:04
+Robert Blake 1 hour 24 minutes 4 seconds
+Should be set up as a follow-on, 'cause I feel like we're in your off ready.
+UM
+Ushanta Mooloo
+1 hour 24 minutes 8 seconds1:24:08
+Ushanta Mooloo 1 hour 24 minutes 8 seconds
+I can.
+TB
+Taurai Benhura
+1 hour 24 minutes 10 seconds1:24:10
+Taurai Benhura 1 hour 24 minutes 10 seconds
+Yeah, I think we're almost there.
+UM
+Ushanta Mooloo
+1 hour 24 minutes 10 seconds1:24:10
+Ushanta Mooloo 1 hour 24 minutes 10 seconds
+Yeah, I can. Can I set it up for the same time tomorrow?
+TB
+Taurai Benhura
+1 hour 24 minutes 17 seconds1:24:17
+Taurai Benhura 1 hour 24 minutes 17 seconds
+Yeah, I might not be able to attend, but I'm not a blocker in this thing. You guys have it.
+Taurai Benhura 1 hour 24 minutes 24 seconds
+Maybe just record, then I can listen in if I have to.
+UM
+Ushanta Mooloo
+1 hour 24 minutes 25 seconds1:24:25
+Ushanta Mooloo 1 hour 24 minutes 25 seconds
+Issue.
+Ushanta Mooloo 1 hour 24 minutes 29 seconds
+Ohh.
+RB
+Robert Blake
+1 hour 24 minutes 29 seconds1:24:29
+Robert Blake 1 hour 24 minutes 29 seconds
+I think I might have set up a meeting for, let me just check, I want to see how important it is.
+UM
+Ushanta Mooloo
+1 hour 24 minutes 36 seconds1:24:36
+Ushanta Mooloo 1 hour 24 minutes 36 seconds
+How you doing?
+RB
+Robert Blake
+1 hour 24 minutes 37 seconds1:24:37
+Robert Blake 1 hour 24 minutes 37 seconds
+And.
+UM
+Ushanta Mooloo
+1 hour 24 minutes 39 seconds1:24:39
+Ushanta Mooloo 1 hour 24 minutes 39 seconds
+Yes.
+RB
+Robert Blake
+1 hour 24 minutes 39 seconds1:24:39
+Robert Blake 1 hour 24 minutes 39 seconds
+I think I might have set up.
+Robert Blake 1 hour 24 minutes 42 seconds
+Yeah, I set up the signing expiry integration testing meeting for tomorrow, Shanton, which is quite important. Yeah, it's between us from 1 to 1 to 3, 1 to 2:30.
+UM
+Ushanta Mooloo
+1 hour 24 minutes 48 seconds1:24:48
+Ushanta Mooloo 1 hour 24 minutes 48 seconds
+Okay, yeah.
+Ushanta Mooloo 1 hour 24 minutes 56 seconds
+Okay.
+Ushanta Mooloo 1 hour 24 minutes 59 seconds
+Can I do make this from 12 to quarter to one? Just then you have a lag break in between. Is that fine?
+RB
+Robert Blake
+1 hour 25 minutes 7 seconds1:25:07
+Robert Blake 1 hour 25 minutes 7 seconds
+The 12th to go to one, yes, sure.
+UM
+Ushanta Mooloo
+1 hour 25 minutes 9 seconds1:25:09
+Ushanta Mooloo 1 hour 25 minutes 9 seconds
+Do you need lunch or is that fun?
+RB
+Robert Blake
+1 hour 25 minutes 13 seconds1:25:13
+Robert Blake 1 hour 25 minutes 13 seconds
+No, I'll eat lunch here, as long as you don't mind hearing me. OK, cool.
+UM
+Ushanta Mooloo
+1 hour 25 minutes 15 seconds1:25:15
+Ushanta Mooloo 1 hour 25 minutes 15 seconds
+Okay.
+Ushanta Mooloo 1 hour 25 minutes 17 seconds
+No, it's fine. That's good. Can I be in that testing session, if you don't mind assigning one?
+
+Ushanta Mooloo stopped transcription
