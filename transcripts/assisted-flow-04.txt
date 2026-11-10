@@ -1,0 +1,2050 @@
+
+AI-generated content may be incorrect
+
+Robert Blake started transcription
+RB
+
+Robert Blake
+0 minutes 4 seconds0:04
+Robert Blake 0 minutes 4 seconds
+That's the first thing, right? So the question is, do we support regeneration this increment?
+DC
+
+Denver Cupido
+0 minutes 5 seconds0:05
+Denver Cupido 0 minutes 5 seconds
+Yeah.
+RB
+
+Robert Blake
+0 minutes 13 seconds0:13
+Robert Blake 0 minutes 13 seconds
+And.
+DC
+
+Denver Cupido
+0 minutes 14 seconds0:14
+Denver Cupido 0 minutes 14 seconds
+When you say regeneration, it's just the...
+RB
+
+Robert Blake
+0 minutes 15 seconds0:15
+Robert Blake 0 minutes 15 seconds
+And that X.
+Robert Blake 0 minutes 17 seconds
+Yeah, regeneration. So in other words, you could generate the drafts, right? But then at some point, the banker might want to regenerate them again. So at that point, we've got to be able to support regeneration of these documents, because he could review them and go, okay.
+Robert Blake 0 minutes 37 seconds
+no, we've missed a document or this document is wrong or I selected the wrong document or whatever. And so then he regenerates. So that's the first question I've got for Ushanta actually. Are we going to regenerate in this iteration or is that coming in another iteration? Because I've got to know what's in scope here.
+DC
+
+Denver Cupido
+0 minutes 40 seconds0:40
+Denver Cupido 0 minutes 40 seconds
+Yeah.
+RB
+
+Robert Blake
+0 minutes 58 seconds0:58
+Robert Blake 0 minutes 58 seconds
+Then, second of all, Chante, do you wanna chat answer?
+UM
+
+Ushanta Mooloo
+1 minute 2 seconds1:02
+Ushanta Mooloo 1 minute 2 seconds
+No, it's fine. Go quick.
+RB
+Robert Blake
+1 minute 4 seconds1:04
+Robert Blake 1 minute 4 seconds
+Okay, then after that, he's gonna, you know, he reviews that, he decides, okay, is everything in order? If everything is in order, then he's gonna send a request to sign the doc, well, this contract, should I say, request signing for the contract, and he's gonna send it to the signing service.
+Robert Blake 1 minute 23 seconds
+Okay, now what he's going to send to the Signing Service is a list of document IDs, and we are not, I think we agree that it is not going to be only document IDs, no, no, that it's not going to be signer info, so we're not going to send recipients through here.
+Robert Blake 1 minute 44 seconds
+Because I can't remember why that was. I think it's because we've sent, we already sent the signers through document generation. And so signing can pick it up from drafting that way. Is that right, Ushanta?
+UM
+
+Ushanta Mooloo
+2 minutes 3 seconds2:03
+Ushanta Mooloo 2 minutes 3 seconds
+Yeah, so for context, with the Assisted Flow, you have complex clients, or it's still scored, but you can have multiple directors. And not all of the directors or the members will sign. So on the Assisted Flow, they actually select the document type.
+Ushanta Mooloo 2 minutes 22 seconds
+And they select the signers per document.
+Ushanta Mooloo 2 minutes 27 seconds
+You can have multiple documents which which unique with a unique set of signers. The reason why that information is sent to drafting is because you you'll need that as a signatories to generate the the drafts.
+RB
+Robert Blake
+2 minutes 42 seconds2:42
+Robert Blake 2 minutes 42 seconds
+Yes, does that make sense, Android?
+DC
+Denver Cupido
+2 minutes 44 seconds2:44
+Denver Cupido 2 minutes 44 seconds
+K.
+Denver Cupido 2 minutes 47 seconds
+It does, and who who's initiating the the the request to draft? Is it signing service that says?
+RB
+Robert Blake
+2 minutes 49 seconds2:49
+Robert Blake 2 minutes 49 seconds
+You?
+UM
+
+Ushanta Mooloo
+2 minutes 54 seconds2:54
+Ushanta Mooloo 2 minutes 54 seconds
+No, it's...
+RB
+Robert Blake
+2 minutes 54 seconds2:54
+Robert Blake 2 minutes 54 seconds
+That used to be, but it won't be anymore, no.
+UM
+
+Ushanta Mooloo
+2 minutes 57 seconds2:57
+Ushanta Mooloo 2 minutes 57 seconds
+Yeah, so we'll expose the drafting service on the on the on the gateway, and they'll call it directly to generate the draft.
+DC
+Denver Cupido
+3 minutes 7 seconds3:07
+Denver Cupido 3 minutes 7 seconds
+Is it going to be, are we using the drafting service or the Comms drafting service? Because I think we had said we were going to use Comms just due to the nature of OmniCredit.
+UM
+
+Ushanta Mooloo
+3 minutes 7 seconds3:07
+Ushanta Mooloo 3 minutes 7 seconds
+For drops.
+Ushanta Mooloo 3 minutes 16 seconds
+Yeah.
+DC
+Denver Cupido
+3 minutes 22 seconds3:22
+Denver Cupido 3 minutes 22 seconds
+but I'm not sure now if we're going the current draft in the real-time one.
+UM
+
+Ushanta Mooloo
+3 minutes 27 seconds3:27
+Ushanta Mooloo 3 minutes 27 seconds
+And.
+Ushanta Mooloo 3 minutes 29 seconds
+I think it's a real-time one.
+DC
+Denver Cupido
+3 minutes 31 seconds3:31
+Denver Cupido 3 minutes 31 seconds
+Okay.
+UM
+
+Ushanta Mooloo
+3 minutes 32 seconds3:32
+Ushanta Mooloo 3 minutes 32 seconds
+Let's have that discussion, so.
+DC
+Denver Cupido
+3 minutes 34 seconds3:34
+Denver Cupido 3 minutes 34 seconds
+Yeah.
+Denver Cupido 3 minutes 38 seconds
+So, the request comes from...
+UM
+Ushanta Mooloo
+3 minutes 38 seconds3:38
+Ushanta Mooloo 3 minutes 38 seconds
+Which is?
+Ushanta Mooloo 3 minutes 40 seconds
+Oh, I remember. So we said in order to mitigate a lot like the complication of lots of documents, they will send through a request per document.
+DC
+Denver Cupido
+3 minutes 52 seconds3:52
+Denver Cupido 3 minutes 52 seconds
+Yes.
+UM
+Ushanta Mooloo
+3 minutes 52 seconds3:52
+Ushanta Mooloo 3 minutes 52 seconds
+So...
+Ushanta Mooloo 3 minutes 54 seconds
+So, the generation shouldn't be as prolonged.
+RB
+Robert Blake
+4 minutes 2 seconds4:02
+Robert Blake 4 minutes 2 seconds
+Okay, I don't quite get that. Are you saying that you would generate per document, not per contract?
+UM
+Ushanta Mooloo
+4 minutes 9 seconds4:09
+Ushanta Mooloo 4 minutes 9 seconds
+So per document that needs to be signed per contract. What's your definition of a contract?
+RB
+Robert Blake
+4 minutes 17 seconds4:17
+Robert Blake 4 minutes 17 seconds
+A pack of documents.
+
+UM
+Ushanta Mooloo
+4 minutes 18 seconds4:18
+Ushanta Mooloo 4 minutes 18 seconds
+Okay, so it's per per document in that pack.
+DC
+Denver Cupido
+4 minutes 22 seconds4:22
+Denver Cupido 4 minutes 22 seconds
+So, only credits and several requests to drafting service, depending on how many documents it requires.
+RB
+Robert Blake
+4 minutes 23 seconds4:23
+Robert Blake 4 minutes 23 seconds
+Okay.
+DC
+Denver Cupido
+4 minutes 34 seconds4:34
+Denver Cupido 4 minutes 34 seconds
+I have that right. So if it needs 3 documents, sorry, I'm going to use the word term document because it makes more sense to me. I think that's the language of drafting, if that's okay.
+UM
+Ushanta Mooloo
+4 minutes 35 seconds4:35
+Ushanta Mooloo 4 minutes 35 seconds
+Yeah.
+DC
+Denver Cupido
+4 minutes 47 seconds4:47
+Denver Cupido 4 minutes 47 seconds
+So if, let's say, an application requires 3 documents.
+Denver Cupido 4 minutes 52 seconds
+That's 3 requests into drafting or it's going to have one overarching request with the number, with the different document types that it requires.
+RB
+Robert Blake
+5 minutes 1 second5:01
+Robert Blake 5 minutes 1 second
+Yeah, we've got one more issue or the other. We can no longer think of it as an application, because it might not be, and we're thinking of it more of a, I remember the way we discussed this earlier, it was, we're thinking of it more as a contract, is that right, Chante?
+DC
+Denver Cupido
+5 minutes 8 seconds5:08
+Denver Cupido 5 minutes 8 seconds
+What?
+UM
+Ushanta Mooloo
+5 minutes 18 seconds5:18
+Ushanta Mooloo 5 minutes 18 seconds
+Yeah, I think for this phase, Rob, because of the deadlines, we'll approach it as an application. But just to give context here,
+Ushanta Mooloo 5 minutes 29 seconds
+When you move to an intuitive flow, Denver, it's not a granting application.
+Ushanta Mooloo 5 minutes 36 seconds
+It's an application that will sit, not necessarily in OmniCredit, but we will have to build out, you know, possibly some other service. So it is just a context of understanding where an application is. It's not necessarily a scored application.
+DC
+Denver Cupido
+5 minutes 42 seconds5:42
+Denver Cupido 5 minutes 42 seconds
+Right.
+Denver Cupido 5 minutes 54 seconds
+Okay, okay, I get that part, but I thought we were still going to use the credit services to facilitate the Omphile, but it sounds like we gonna have, oh,
+UM
+Ushanta Mooloo
+6 minutes 2 seconds6:02
+Ushanta Mooloo 6 minutes 2 seconds
+Okay.
+Ushanta Mooloo 6 minutes 4 seconds
+We are, yeah, OK. So, so let's just talk the short-term deliverable, right? So, the short-term deliverable is the scored flow where we are using application.
+DC
+Denver Cupido
+6 minutes 10 seconds6:10
+Denver Cupido 6 minutes 10 seconds
+All right.
+Denver Cupido 6 minutes 14 seconds
+Mm.
+Denver Cupido 6 minutes 17 seconds
+But depending on product or whatever it may be.
+UM
+Ushanta Mooloo
+6 minutes 21 seconds6:21
+Ushanta Mooloo 6 minutes 21 seconds
+Yeah.
+DC
+Denver Cupido
+6 minutes 21 seconds6:21
+Denver Cupido 6 minutes 21 seconds
+It won't always be granting that's in the middle of the process. We could be calling another.
+UM
+Ushanta Mooloo
+6 minutes 27 seconds6:27
+Ushanta Mooloo 6 minutes 27 seconds
+That's in the longer term. But for the shorter term, that will remain the same. So drafting as it works today should technically in how you draft it and where you get the data from will mostly be the same. The one difference is you're getting signing info.
+
+DC
+Denver Cupido
+6 minutes 28 seconds6:28
+Denver Cupido 6 minutes 28 seconds
+Yeah, yeah, okay.
+UM
+Ushanta Mooloo
+6 minutes 46 seconds6:46
+Ushanta Mooloo 6 minutes 46 seconds
+from the requester.
+DC
+Denver Cupido
+6 minutes 49 seconds6:49
+Denver Cupido 6 minutes 49 seconds
+I see.
+Denver Cupido 6 minutes 52 seconds
+Sign, so that's yeah, that's going to be in the request. There's no enrichment that's going to happen if that comes. It's a new endpoint.
+Denver Cupido 7 minutes 1 second
+New Requests.
+Denver Cupido 7 minutes 2 seconds
+And then that goes to...
+Denver Cupido 7 minutes 5 seconds
+Wait.
+Denver Cupido 7 minutes 7 seconds
+Is that relevant for drafting though? Or is it just for those reference fields?
+UM
+Ushanta Mooloo
+7 minutes 13 seconds7:13
+Ushanta Mooloo 7 minutes 13 seconds
+The signer info.
+DC
+Denver Cupido
+7 minutes 14 seconds7:14
+Denver Cupido 7 minutes 14 seconds
+Signing for yes, yes, yes, okay.
+UM
+Ushanta Mooloo
+7 minutes 16 seconds7:16
+Ushanta Mooloo 7 minutes 16 seconds
+So the signer info is who's signing. So I imagine that they, you know, like, don't you populate the contact number or the name? Yeah, yeah. So that's where it will come through. And I'm not sure how that.
+DC
+Denver Cupido
+7 minutes 27 seconds7:27
+Denver Cupido 7 minutes 27 seconds
+Sign it to.
+Denver Cupido 7 minutes 31 seconds
+Just a name, yeah, just a name, yeah.
+UM
+Ushanta Mooloo
+7 minutes 38 seconds7:38
+Ushanta Mooloo 7 minutes 38 seconds
+templates will differ from what we currently have. I don't expect to differ too much. But essentially, it's just catering to the signer info.
+DC
+Denver Cupido
+7 minutes 49 seconds7:49
+Denver Cupido 7 minutes 49 seconds
+But then won't we still use a custom API to fetch the details as we do today?
+UM
+Ushanta Mooloo
+7 minutes 55 seconds7:55
+Ushanta Mooloo 7 minutes 55 seconds
+Yeah, we would, but the actual Cif is not based on the relationship.
+DC
+Denver Cupido
+8 minutes 5 seconds8:05
+Denver Cupido 8 minutes 5 seconds
+Really?
+UM
+Ushanta Mooloo
+8 minutes 7 seconds8:07
+Ushanta Mooloo 8 minutes 7 seconds
+Yeah, because you can have a client that's got 10 directors and they're telling you of the 10, only these two are signing.
+DC
+Denver Cupido
+8 minutes 14 seconds8:14
+Denver Cupido 8 minutes 14 seconds
+I do, yes, yes, you did. OK, alright, sure. OK, then that's actually better then, because we don't need to do that in Richmond.
+UM
+Ushanta Mooloo
+8 minutes 22 seconds8:22
+Ushanta Mooloo 8 minutes 22 seconds
+You still do, but you just, you limiting it to whatever they saying to you is the signing signers.
+DC
+Denver Cupido
+8 minutes 28 seconds8:28
+Denver Cupido 8 minutes 28 seconds
+Yeah, I'm just saying that the relationships API, we probably don't need to call to populate sign-in details because they will.
+UM
+Ushanta Mooloo
+8 minutes 35 seconds8:35
+Ushanta Mooloo 8 minutes 35 seconds
+You still do, sorry, because they're gonna give you the Cif, and then you're going to get that information.
+DC
+Denver Cupido
+8 minutes 43 seconds8:43
+Denver Cupido 8 minutes 43 seconds
+Oh, they just give the CIFs nothing else.
+UM
+Ushanta Mooloo
+8 minutes 45 seconds8:45
+Ushanta Mooloo 8 minutes 45 seconds
+Yeah, because we don't, we don't know, we're not gonna trust their phone number or their...
+DC
+Denver Cupido
+8 minutes 51 seconds8:51
+Denver Cupido 8 minutes 51 seconds
+Yeah, yeah, that comes from Salesforce, right?
+UM
+Ushanta Mooloo
+8 minutes 53 seconds8:53
+Ushanta Mooloo 8 minutes 53 seconds
+Yeah.
+DC
+Denver Cupido
+8 minutes 54 seconds8:54
+Denver Cupido 8 minutes 54 seconds
+Okay, okay, sign a list.
+RB
+Robert Blake
+8 minutes 57 seconds8:57
+Robert Blake 8 minutes 57 seconds
+So, the way I'm seeing this is that the payload would be a document with a like a list of CIFs underneath it.
+UM
+Ushanta Mooloo
+9 minutes 7 seconds9:07
+Ushanta Mooloo 9 minutes 7 seconds
+Yes.
+RB
+Robert Blake
+9 minutes 8 seconds9:08
+Robert Blake 9 minutes 8 seconds
+So a list of document, oh sorry, a single document with a list of Cif. So that is what you would generate per doc. But now the thing is that it's still tied to an application. So even though you're generating one document at a time, these documents are based on one application.
+DC
+Denver Cupido
+9 minutes 19 seconds9:19
+Denver Cupido 9 minutes 19 seconds
+Yeah.
+RB
+Robert Blake
+9 minutes 29 seconds9:29
+Robert Blake 9 minutes 29 seconds
+And that's something I also still need to get right here, because I know that we're only going with the application ID here. But at a later point, we might have to make major changes if we want to start establishing that it's not an application ID. And remember we discussed that we needed another ID.
+UM
+Ushanta Mooloo
+9 minutes 36 seconds9:36
+Ushanta Mooloo 9 minutes 36 seconds
+End.
+RB
+Robert Blake
+9 minutes 49 seconds9:49
+Robert Blake 9 minutes 49 seconds
+So we said, okay, well that will work with a surrogate key in the database, but we actually need a key for idempotency. Now what we always get wrong right at the beginning is we don't think of idempotency, which is why I thought about it at a time. We need some sort of ID that we can call our own.
+UM
+Ushanta Mooloo
+9 minutes 56 seconds9:56
+Ushanta Mooloo 9 minutes 56 seconds
+Yeah.
+
+Robert Blake
+10 minutes 10 seconds10:10
+Robert Blake 10 minutes 10 seconds
+So that whenever we're working with an envelope, we are, which is a group of documents or a contract as we see it, we can work on them at one time or work on a part of them at one time, but see it as the same entity inside signing at least.
+Robert Blake 10 minutes 30 seconds
+but also probably in the envelope service. So that's something that I'm grappling with, is what is our idempotency ID? What is our big entity ID? What is the one we want to work with? Do we invent a contract ID? And are we happy with that? But then everything that calls into
+UM
+Ushanta Mooloo
+10 minutes 36 seconds10:36
+Ushanta Mooloo 10 minutes 36 seconds
+Good.
+RB
+Robert Blake
+10 minutes 50 seconds10:50
+Robert Blake 10 minutes 50 seconds
+The credit gateway needs to understand that as well.
+UM
+Ushanta Mooloo
+10 minutes 53 seconds10:53
+Ushanta Mooloo 10 minutes 53 seconds
+Yeah, that's going to be a big change across all the applications. So I think as much as it may introduce many changes down the line, I think we should base it on the requirements that we have in front of us.
+RB
+Robert Blake
+11 minutes 6 seconds11:06
+Robert Blake 11 minutes 6 seconds
+Okay, so we are going to stick with an application.
+UM
+Ushanta Mooloo
+11 minutes 9 seconds11:09
+Ushanta Mooloo 11 minutes 9 seconds
+Yes.
+RB
+Robert Blake
+11 minutes 11 seconds11:11
+Robert Blake 11 minutes 11 seconds
+OK, so no more, no more thoughts of contract ID for now.
+UM
+Ushanta Mooloo
+11 minutes 16 seconds11:16
+Ushanta Mooloo 11 minutes 16 seconds
+Yeah, not much else. So the, and also the initial ask is a scored ask, so there is just one document.
+RB
+Robert Blake
+11 minutes 18 seconds11:18
+Robert Blake 11 minutes 18 seconds
+Okay.
+UM
+Ushanta Mooloo
+11 minutes 28 seconds11:28
+Ushanta Mooloo 11 minutes 28 seconds
+Um, per per per application.
+RB
+Robert Blake
+11 minutes 34 seconds11:34
+Robert Blake 11 minutes 34 seconds
+Okay, so the first, the first, the first iteration is only one document per application. We won't support more than one.
+UM
+Ushanta Mooloo
+11 minutes 43 seconds11:43
+Ushanta Mooloo 11 minutes 43 seconds
+That's right.
+RB
+Robert Blake
+11 minutes 44 seconds11:44
+Robert Blake 11 minutes 44 seconds
+Okay, for that limits us nicely, but then obviously we've got a design to the point where in the future it might be more than one, which is where your one too many that we discussed last up came from.
+DC
+Denver Cupido
+11 minutes 54 seconds11:54
+Denver Cupido 11 minutes 54 seconds
+I think we can only do that once we have the ask, right? Because then we understand what data we have to work with to come up with, like you say, that.
+UM
+Ushanta Mooloo
+11 minutes 55 seconds11:55
+Ushanta Mooloo 11 minutes 55 seconds
+I...
+DC
+Denver Cupido
+12 minutes 4 seconds12:04
+Denver Cupido 12 minutes 4 seconds
+overarching key of some kind because I'm also trying to wrap my head around what it would look like in that state because the way drafting accepts requests, it's very singular in its approach. Got the application ID, says this is the product and this is the document that you want and that's it. It's pretty flat.
+RB
+Robert Blake
+12 minutes 19 seconds12:19
+Robert Blake 12 minutes 19 seconds
+Same with Signing, yeah.
+Robert Blake 12 minutes 24 seconds
+The last time we discussed this, it felt as if we were always talking about multiple documents under a contract.
+UM
+Ushanta Mooloo
+12 minutes 24 seconds12:24
+Ushanta Mooloo 12 minutes 24 seconds
+So.
+Ushanta Mooloo 12 minutes 30 seconds
+Yeah, so let's just think about it. So I'm just pointing out that the initial ask for the scored process is 1 document per application, I think. And there is a case where there is pressure to deliver this, so it may be that we deliver it in iterations and that may result.
+DC
+Denver Cupido
+12 minutes 39 seconds12:39
+Denver Cupido 12 minutes 39 seconds
+Yeah.
+UM
+Ushanta Mooloo
+12 minutes 50 seconds12:50
+Ushanta Mooloo 12 minutes 50 seconds
+in significant change. But at a database level, if you have an application table as your master that's linked to multiple documents, one or more, can that design? Yeah, then, yeah.
+RB
+Robert Blake
+13 minutes 4 seconds13:04
+Robert Blake 13 minutes 4 seconds
+Yeah, then you set up for that, yeah.
+Robert Blake 13 minutes 8 seconds
+Okay.
+DC
+Denver Cupido
+13 minutes 10 seconds13:10
+Denver Cupido 13 minutes 10 seconds
+Yeah.
+UM
+Ushanta Mooloo
+13 minutes 11 seconds13:11
+Ushanta Mooloo 13 minutes 11 seconds
+Then, in terms of the request for drafting, if you've got multiple, you assume that every request that comes through is the associated document.
+Ushanta Mooloo 13 minutes 22 seconds
+So if they send you 5 requests and they then say, give me all of the documents, draft documents for this particular application ID, you've got 5 drafts.
+DC
+Denver Cupido
+13 minutes 34 seconds13:34
+Denver Cupido 13 minutes 34 seconds
+Mm.
+RB
+Robert Blake
+13 minutes 36 seconds13:36
+Robert Blake 13 minutes 36 seconds
+Okay, that makes.
+DC
+Denver Cupido
+13 minutes 36 seconds13:36
+Denver Cupido 13 minutes 36 seconds
+And it would return all of those. So will it be a thing of, was that just an example where they would request after, they would request the documents after sending the initial request, or are we expected to just return it as soon as it's generated to them?
+Denver Cupido 13 minutes 55 seconds
+and then have a separate thread where they can say, okay, Application ID give us all the already generated documents.
+UM
+Ushanta Mooloo
+14 minutes 2 seconds14:02
+Ushanta Mooloo 14 minutes 2 seconds
+So we're returning to them, but because it's a long running flow and as an actual banker, they might close their PC or whatever, close the application, come back, and then they may request it. So there's just a get, but you get, that can be, yeah.
+
+Denver Cupido
+14 minutes 19 seconds14:19
+Denver Cupido 14 minutes 19 seconds
+Yeah, we do have that already, you know, but I'm just...
+UM
+Ushanta Mooloo
+14 minutes 21 seconds14:21
+Ushanta Mooloo 14 minutes 21 seconds
+So that's fine, but.
+RB
+Robert Blake
+14 minutes 23 seconds14:23
+Robert Blake 14 minutes 23 seconds
+Okay, and then, but that means, sorry.
+UM
+Ushanta Mooloo
+14 minutes 25 seconds14:25
+Ushanta Mooloo 14 minutes 25 seconds
+There's just one more step there is that they have to review those drafts. Now, they are debating that from a work, like a business process, where you generate the draft, the banker sees the draft and then has to review and approve it.
+Ushanta Mooloo 14 minutes 43 seconds
+So the solution is we generate drafts. They're in a draft state. And when the bank approves, which is another endpoint, we change it to what I call the final state. And when it reaches that state, then you can no longer add it.
+Ushanta Mooloo 15 minutes 2 seconds
+Those drops, and that has an impact.
+Ushanta Mooloo 15 minutes 6 seconds
+further down that once those drafts are reviewed, they can't change.
+DC
+Denver Cupido
+15 minutes 16 seconds15:16
+Denver Cupido 15 minutes 16 seconds
+Okay, but how would they edit the draft? Do they start editing a separate request payload and then we regenerate without enrichment? Or do they have the capabilities to edit PDFs on their side?
+RB
+Robert Blake
+15 minutes 16 seconds15:16
+Robert Blake 15 minutes 16 seconds
+Okay.
+UM
+Ushanta Mooloo
+15 minutes 22 seconds15:22
+Ushanta Mooloo 15 minutes 22 seconds
+Sorry.
+Ushanta Mooloo 15 minutes 30 seconds
+Sorry, they don't actually edit the review, so they might see that, that I don't know, like, like the postal code is wrong, yeah, so then they they need they'll go into CRR to update it.
+DC
+Denver Cupido
+15 minutes 34 seconds15:34
+Denver Cupido 15 minutes 34 seconds
+Yeah.
+Denver Cupido 15 minutes 41 seconds
+Addresses, yeah, OK.
+UM
+Ushanta Mooloo
+15 minutes 51 seconds15:51
+Ushanta Mooloo 15 minutes 51 seconds
+that address info. And we've told them that whatever customer updates they make, they need to make sure that it's persisted banks in real time.
+DC
+Denver Cupido
+16 minutes 1 second16:01
+Denver Cupido 16 minutes 1 second
+But then we don't know when we will get. So if they go to update it in CRM, right? Then do they go back to the channel and say, okay, regenerate this draft?
+UM
+Ushanta Mooloo
+16 minutes 8 seconds16:08
+Ushanta Mooloo 16 minutes 8 seconds
+Yeah.
+Ushanta Mooloo 16 minutes 15 seconds
+Yes.
+DC
+Denver Cupido
+16 minutes 16 seconds16:16
+Denver Cupido 16 minutes 16 seconds
+So now, there's possibly some sort of race condition between the update on CRM, because that has to traverse through to banks, goes to customer API. The new request to draft is going to be a new request entirely, and we need to make sure customer API is updated with that request all in that space and time.
+UM
+Ushanta Mooloo
+16 minutes 22 seconds16:22
+Ushanta Mooloo 16 minutes 22 seconds
+Yes.
+Ushanta Mooloo 16 minutes 36 seconds
+Yeah, so if you go there to the customer API, what I've said, the only way we can do that is if we pass something like a query parameter that says fetch this data from banks.
+DC
+Denver Cupido
+16 minutes 47 seconds16:47
+Denver Cupido 16 minutes 47 seconds
+Yeah, like a.
+Denver Cupido 16 minutes 50 seconds
+There's some cache faults or something like that. OK.
+UM
+Ushanta Mooloo
+16 minutes 52 seconds16:52
+Ushanta Mooloo 16 minutes 52 seconds
+Yes.
+DC
+Denver Cupido
+16 minutes 55 seconds16:55
+Denver Cupido 16 minutes 55 seconds
+Sheesh.
+Denver Cupido 16 minutes 56 seconds
+Okay, so then that logic sits on customer API, not on drafting. Drafting runs the same.
+RB
+Robert Blake
+16 minutes 58 seconds16:58
+Robert Blake 16 minutes 58 seconds
+So, there's...
+UM
+Ushanta Mooloo
+17 minutes 3 seconds17:03
+Ushanta Mooloo 17 minutes 3 seconds
+It runs the same. So to summarize what you're doing for drafting is you got a new endpoint that's accepting signer info. You need to, your database needs to cater for more than one document to an AP, to an app ID, ideally, but you can evaluate that. You need the ability to regenerate a document so they can send the same request and you're replacing.
+DC
+Denver Cupido
+17 minutes 12 seconds17:12
+Denver Cupido 17 minutes 12 seconds
+Mhm.
+Denver Cupido 17 minutes 19 seconds
+Yeah.
+UM
+Ushanta Mooloo
+17 minutes 27 seconds17:27
+Ushanta Mooloo 17 minutes 27 seconds
+what was already generated and you need the ability to change your status. It's a review process. So when documents are, when the documents for, they'll send you a flag to say, sorry, they'll send a request through that says documents for this application have been reviewed.
+Ushanta Mooloo 17 minutes 47 seconds
+then all of those documents, their statuses need to be updated to whatever you decide. I just put final in there. Those are the changes. And in addition to that, you need to produce an event that says these are the documents.
+
+DC
+Denver Cupido
+18 minutes 6 seconds18:06
+Denver Cupido 18 minutes 6 seconds
+Yeah, yeah, okay, that's in place already. The only thing that I think we're gonna have to rework in drafting currently, if we get a another request to draft, it creates a new record, but like you say, if we regenerate, we're gonna update.
+UM
+Ushanta Mooloo
+18 minutes 7 seconds18:07
+Ushanta Mooloo 18 minutes 7 seconds
+End.
+Denver Cupido 21 minutes 13 seconds
+Okay.
+Denver Cupido 21 minutes 18 seconds
+Yeah, that.
+UM
+Ushanta Mooloo
+21 minutes 18 seconds21:18
+Ushanta Mooloo 21 minutes 18 seconds
+And I think it versions it.
+DC
+Denver Cupido
+21 minutes 20 seconds21:20
+Denver Cupido 21 minutes 20 seconds
+Oh, okay, I needed to test that then because I think I did try uploading the same document ID once and it failed on obelix.
+UM
+Ushanta Mooloo
+21 minutes 29 seconds21:29
+Ushanta Mooloo 21 minutes 29 seconds
+Ohh, really? OK.
+DC
+Denver Cupido
+21 minutes 30 seconds21:30
+Denver Cupido 21 minutes 30 seconds
+I don't know if, I'm just trying to remember if, because I did have headache issues at the same time. It was, I think, okay, I'll make a note to double check that.
+RB
+Robert Blake
+21 minutes 42 seconds21:42
+Robert Blake 21 minutes 42 seconds
+So, Ushanta, the object ID or the actual object ID from ECM, we never gonna query on that, right? So we never gonna go into signing or drafting and query on the object ID. It's application ID and Doctor. That's pretty much what we're gonna be doing on the public interface. That little object ID just sits inside the database and it gives us a reference to the actual document in ECM.
+UM
+Ushanta Mooloo
+21 minutes 42 seconds21:42
+Ushanta Mooloo 21 minutes 42 seconds
+The.
+Ushanta Mooloo 22 minutes
+And that's.
+Ushanta Mooloo 22 minutes 7 seconds
+Yes, I would say so. I think we could return that to them because it might be beneficial in their space, but they don't have to query using it.
+RB
+Robert Blake
+22 minutes 18 seconds22:18
+Robert Blake 22 minutes 18 seconds
+Yeah.
+Robert Blake 22 minutes 20 seconds
+Okay, so for, yeah, so for instance, that signed document look up, I'll be, I'll make sure that that object ID comes back just for their reference.
+UM
+Ushanta Mooloo
+22 minutes 22 seconds22:22
+Ushanta Mooloo 22 minutes 22 seconds
+That's just a suggestion.
+Ushanta Mooloo 22 minutes 33 seconds
+Yeah, and I think you already have that about this week.
+RB
+Robert Blake
+22 minutes 36 seconds22:36
+Robert Blake 22 minutes 36 seconds
+Yeah, I think I do actually. But remember that this will be a new endpoint, so I just got to make sure I've got all the fields right.
+UM
+Ushanta Mooloo
+22 minutes 43 seconds22:43
+Ushanta Mooloo 22 minutes 43 seconds
+Yeah.
+RB
+Robert Blake
+22 minutes 46 seconds22:46
+Robert Blake 22 minutes 46 seconds
+Call Denver.
+DC
+Denver Cupido
+22 minutes 50 seconds22:50
+Denver Cupido 22 minutes 50 seconds
+Yeah, I think I have enough for now.
+Denver Cupido 22 minutes 55 seconds
+I understand the state that drafting is moving to. I think I just need to confirm how the document IDP behavior happens and then...
+RB
+Robert Blake
+22 minutes 59 seconds22:59
+Robert Blake 22 minutes 59 seconds
+K.
+DC
+Denver Cupido
+23 minutes 6 seconds23:06
+Denver Cupido 23 minutes 6 seconds
+Yeah, I...
+Denver Cupido 23 minutes 8 seconds
+So, so we say no to an audit trail in in drafting right, Ushanta off.
+UM
+Ushanta Mooloo
+23 minutes 12 seconds23:12
+Ushanta Mooloo 23 minutes 12 seconds
+Of the actual documents.
+DC
+Denver Cupido
+23 minutes 14 seconds23:14
+Denver Cupido 23 minutes 14 seconds
+Yeah, everything that happens before it's marked as final.
+UM
+Ushanta Mooloo
+23 minutes 20 seconds23:20
+Ushanta Mooloo 23 minutes 20 seconds
+Uh, you mean in the actual service?
+DC
+Denver Cupido
+23 minutes 23 seconds23:23
+Denver Cupido 23 minutes 23 seconds
+Yeah, because currently we store the draft document in its final form. Well, not final form, sorry, the document we get back from Asterix. If there's a request to regenerate, you did say we should replace that entry. I'm asking do we not want to have an audit trail to say, okay, this was the initial state.
+Denver Cupido 23 minutes 43 seconds
+And then mark it as invalid, and until we have the final state, and that's the one we return if there's a fresh request to say, okay, get the document for this application ID.
+UM
+Ushanta Mooloo
+23 minutes 56 seconds23:56
+Ushanta Mooloo 23 minutes 56 seconds
+What I would say is you can store the audit of the requests, but you don't have to store the draft, the document. Because Obelix does have that in place. As long as we're using that document ID, then we can see the history and we should be able to see the history in Obelix.
+DC
+Denver Cupido
+24 minutes 1 second24:01
+Denver Cupido 24 minutes 1 second
+Don't have to store the draft, Arcoy.
+UM
+Ushanta Mooloo
+24 minutes 14 seconds24:14
+Ushanta Mooloo 24 minutes 14 seconds
+Heads.
+DC
+Denver Cupido
+24 minutes 16 seconds24:16
+Denver Cupido 24 minutes 16 seconds
+Cool, cool, cool.
+UM
+Ushanta Mooloo
+24 minutes 18 seconds24:18
+Ushanta Mooloo 24 minutes 18 seconds
+I think, so this is the design, but I'd like you to...
+Ushanta Mooloo 24 minutes 27 seconds
+Soon as you want to rub it is done to sort of absorb it and then critique it or ask any questions that you think. Because maybe that is an easier way.
+Ushanta Mooloo 24 minutes 38 seconds
+to do things. But yeah, it's just spend some time thinking about the changes and then we can discuss it further.
+RB
+Robert Blake
+24 minutes 50 seconds24:50
+Robert Blake 24 minutes 50 seconds
+Yeah, I think he's just coming a bit late, so I know what that feels like, DC. Chante, can I carry on?
+UM
+Ushanta Mooloo
+24 minutes 59 seconds24:59
+Ushanta Mooloo 24 minutes 59 seconds
+Sure.
+RB
+Robert Blake
+25 minutes25:00
+Robert Blake 25 minutes
+Okay, so one of the big questions for me was, remember we talked about this update recipient and reset, okay? But now I'm a little bit concerned about that because I think we said that that update recipient, it shouldn't happen for us. It's, I think,
+Robert Blake 25 minutes 18 seconds
+Taurai said it needed to go through some sort of process where it was, it went through official channels. And I think you said something about you're going to go back and speak to someone about, I remember going through that video, someone about whether we can just get.
+Robert Blake 25 minutes 37 seconds
+that thing updated or that e-mail updated through proper channels and then the banker needs to come in, which means that we would never need to update, we just need to resend.
+UM
+Ushanta Mooloo
+25 minutes 47 seconds25:47
+Ushanta Mooloo 25 minutes 47 seconds
+Yeah, I agree with you. I see it's not updated on the diagram, but I agree with you on that.
+RB
+Robert Blake
+25 minutes 53 seconds25:53
+Robert Blake 25 minutes 53 seconds
+Okay.
+Robert Blake 25 minutes 56 seconds
+Okay, so are we going to go with it or are we waiting on someone to find out whether that's going to happen?
+UM
+Ushanta Mooloo
+26 minutes 4 seconds26:04
+Ushanta Mooloo 26 minutes 4 seconds
+We're going to, we're going to push back on it and tell them we're not going to do it until they get the ISO to sign off on it. And if it comes in, then we just, we'll take it on over and above what we're doing, meaning
+
+UM
+Ushanta Mooloo
+26 minutes 21 seconds26:21
+Ushanta Mooloo 26 minutes 21 seconds
+They have to live without Chante, so we provide it.
+RB
+Robert Blake
+26 minutes 23 seconds26:23
+Robert Blake 26 minutes 23 seconds
+Okay, so in other way, it's not going to be the situation.
+UM
+Ushanta Mooloo
+26 minutes 27 seconds26:27
+Ushanta Mooloo 26 minutes 27 seconds
+Yeah, so.
+Ushanta Mooloo 26 minutes 32 seconds
+I would rather have the end-to-end work in than to have to come to you and say, "Rob, we need you to fit this in right now." OK.
+RB
+Robert Blake
+26 minutes 40 seconds26:40
+Robert Blake 26 minutes 40 seconds
+I agree with you. I just need to know what scope I'm working with you. Okay, cool.
+Robert Blake 26 minutes 48 seconds
+Think a little bit more.
+Robert Blake 26 minutes 54 seconds
+Okay, so then there was a lot to do, I think, about hashing, because I know there's a lot of hashing going on in the current signing service. So we're checking hashes in certain places, et cetera, et cetera, but I'm not quite sure how it's going to work with this. And Timber might be interested in this as well. It's pretty he's not with us, but.
+Robert Blake 27 minutes 13 seconds
+deal, you could just watch the recording. So do we have to validate, is there a hash or is there some sort of hash validation or something against Docusign? Or don't we validate against them? Do we have to validate what's in Docusign with what's in Ecm?
+UM
+Ushanta Mooloo
+27 minutes 33 seconds27:33
+Ushanta Mooloo 27 minutes 33 seconds
+That's a good question. I, AI, Sandia. So I don't know if Docusign gives us a hash.
+Ushanta Mooloo 27 minutes 47 seconds
+Also, because it's, yeah, it's also contained within our services. We almost don't need to validate it, but we can we leave that as an open item. It's on there as an open item, but I haven't checked.
+RB
+Robert Blake
+27 minutes 47 seconds27:47
+Robert Blake 27 minutes 47 seconds
+Yeah, they might not.
+Robert Blake 28 minutes
+Yeah.
+Robert Blake 28 minutes 3 seconds
+Okay. Okay, and then...
+Robert Blake 28 minutes 12 seconds
+Yeah, okay, so that's related then.
+Robert Blake 28 minutes 17 seconds
+And then tab info. Remember we were discussing tab info. Now, I know that's not based on me, but is that going to live in drafting or is that going to live in the envelope service?
+UM
+Ushanta Mooloo
+28 minutes 20 seconds28:20
+Ushanta Mooloo 28 minutes 20 seconds
+Yes.
+Ushanta Mooloo 28 minutes 28 seconds
+I think it should live in the envelope service. I was in two minds, but I've moved that to the envelope service.
+RB
+Robert Blake
+28 minutes 32 seconds28:32
+Robert Blake 28 minutes 32 seconds
+Okay.
+Robert Blake 28 minutes 33 seconds
+Okay.
+Robert Blake 28 minutes 36 seconds
+Does that, because now I'm talking about things from my scope as well. Oops, I'm losing, sorry here.
+DC
+Denver Cupido
+28 minutes 41 seconds28:41
+Denver Cupido 28 minutes 41 seconds
+What is tab info?
+UM
+Ushanta Mooloo
+28 minutes 43 seconds28:43
+Ushanta Mooloo 28 minutes 43 seconds
+Sure, so when you create the envelope in Docusign, you need to send tab info.
+Ushanta Mooloo 28 minutes 49 seconds
+Tab info though is like very specific to Docusign envelope creation. So per doc type, we need to kind of configure what tab info is required.
+RB
+Robert Blake
+29 minutes 2 seconds29:02
+Robert Blake 29 minutes 2 seconds
+But doesn't that then mean it needs to be configured, or that the doc types need to be configured in two services?
+DC
+Denver Cupido
+29 minutes 8 seconds29:08
+Denver Cupido 29 minutes 8 seconds
+Oh, the sign here tabs, okay. The...
+UM
+Ushanta Mooloo
+29 minutes 8 seconds29:08
+Ushanta Mooloo 29 minutes 8 seconds
+End, yeah.
+Ushanta Mooloo 29 minutes 11 seconds
+Yeah, that was my my conflict, Rob, but then...
+Ushanta Mooloo 29 minutes 15 seconds
+I think it's okay. I, yeah, yeah.
+RB
+Robert Blake
+29 minutes 17 seconds29:17
+Robert Blake 29 minutes 17 seconds
+Okay, so what you're saying is it's fine if it does live in both. Okay.
+UM
+Ushanta Mooloo
+29 minutes 20 seconds29:20
+Ushanta Mooloo 29 minutes 20 seconds
+Yeah, it's maybe a little bit of overhead.
+Ushanta Mooloo 29 minutes 26 seconds
+I also didn't want to have that burden in crafting.
+DC
+Denver Cupido
+29 minutes 26 seconds29:26
+Denver Cupido 29 minutes 26 seconds
+End.
+Denver Cupido 29 minutes 30 seconds
+Can I just just to draw out this conversation a little bit more? So when you say tab info, it's literally where they're going to sign, right? AKA the anchors.
+UM
+Ushanta Mooloo
+29 minutes 35 seconds29:35
+Ushanta Mooloo 29 minutes 35 seconds
+Yeah.
+Ushanta Mooloo 29 minutes 40 seconds
+Yeah, it's the anchors.
+DC
+Denver Cupido
+29 minutes 44 seconds29:44
+Denver Cupido 29 minutes 44 seconds
+Because just the way I'm looking at it, because I have the Docusign request, a sample request, it has a sign here tabs, which is a list item, and then each entity is a document ID. It has a page number, then it has an X position and a Y position.
+UM
+Ushanta Mooloo
+29 minutes 46 seconds29:46
+Ushanta Mooloo 29 minutes 46 seconds
+Yeah.
+Ushanta Mooloo 29 minutes 52 seconds
+Yeah.
+DC
+Denver Cupido
+30 minutes 3 seconds30:03
+Denver Cupido 30 minutes 3 seconds
+On the document itself.
+UM
+Ushanta Mooloo
+30 minutes 5 seconds30:05
+Ushanta Mooloo 30 minutes 5 seconds
+Yeah.
+DC
+Denver Cupido
+30 minutes 6 seconds30:06
+Denver Cupido 30 minutes 6 seconds
+It feels a bit like a drafting thing, but I also understand that it's on the envelope create request, but because it's sort of attached to the document itself, right? Or is it not?
+
+UM
+Ushanta Mooloo
+30 minutes 22 seconds30:22
+Ushanta Mooloo 30 minutes 22 seconds
+It's very specific to the document in Docusign.
+DC
+Denver Cupido
+30 minutes 28 seconds30:28
+Denver Cupido 30 minutes 28 seconds
+Documents in docs. OK, fair, fair. So that should be envelope servers, which...
+UM
+Ushanta Mooloo
+30 minutes 34 seconds30:34
+Ushanta Mooloo 30 minutes 34 seconds
+That's what I was, I was, I was so initially when we walked through this, I had it in the drafting service, but now if you're publishing tab info, but...
+RB
+Robert Blake
+32 minutes 43 seconds32:43
+Robert Blake 32 minutes 43 seconds
+Just carrying on then. So then whenever we're retrieving signed documents, I am, it's going to, it's always going to be that one document and we're always going to request it coming through me and we're requesting a signed document now. So it goes through me and it goes through the envelope service.
+Robert Blake 33 minutes 3 seconds
+Oh no, wait, it won't be the envelope. At this point, the signed document will be in the signing service, right? Just remind me how it gets there again.
+UM
+Ushanta Mooloo
+33 minutes 14 seconds33:14
+Ushanta Mooloo 33 minutes 14 seconds
+No problem. So you won't necessarily store the document. You'll store a reference to it when it is signed and you'll know the status. So you'll know that when they request signing, it will be in awaiting signature or
+Ushanta Mooloo 33 minutes 31 seconds
+something of that sort, awaiting review, and then eventually signed. So you're going to get updates from the envelope service stating that a document has been signed and has been indexed in Obelix, and you will store that Obelix document ID.
+RB
+Robert Blake
+33 minutes 36 seconds33:36
+Robert Blake 33 minutes 36 seconds
+Yes.
+UM
+Ushanta Mooloo
+33 minutes 51 seconds33:51
+Ushanta Mooloo 33 minutes 51 seconds
+So, when you get a request through signing for a document, you just looking up that ID and you fetching it from Obelix.
+RB
+Robert Blake
+33 minutes 58 seconds33:58
+Robert Blake 33 minutes 58 seconds
+Okay, all right, so I will get updates again. Sorry, I'm refreshing my memory here. I'm getting updates from the envelope service, and then as soon as I know it's signed, then I, well, I can fetch it. But if it's not signed, and if it is a waiting, I don't know, I can't remember what this.
+Robert Blake 34 minutes 17 seconds
+I know there were a couple of statuses here. I need to look them up again. But if it's not signed, obviously I don't allow the guy to sign it. But he shouldn't get it anyway because when he checks, I think it's here, he goes and he gets envelope details. Isn't this how he finds out what he can check for signing?
+UM
+Ushanta Mooloo
+34 minutes 24 seconds34:24
+Ushanta Mooloo 34 minutes 24 seconds
+Yeah.
+Ushanta Mooloo 34 minutes 39 seconds
+Correct, yeah, and I don't mind you saying, listen, I don't have this document yet because it's not signed. They need to know, there is some orchestration on the front end where they need to know that if a user wants to view a draft while they're waiting for signed documents.
+RB
+Robert Blake
+34 minutes 39 seconds34:39
+Robert Blake 34 minutes 39 seconds
+This.
+Robert Blake 34 minutes 45 seconds
+Yes.
+UM
+Ushanta Mooloo
+34 minutes 57 seconds34:57
+Ushanta Mooloo 34 minutes 57 seconds
+then they need to go to drafting.
+Ushanta Mooloo 35 minutes
+Json, so yeah.
+RB
+Robert Blake
+35 minutes35:00
+Robert Blake 35 minutes
+Okay, because, yes, yes. But what I'm saying is, I just want to get this flow correct. So this bank is going to come in here, he's going to say, get envelope details. And it's going to come through the envelope service over here. And basically envelope service will say, okay, here is the details of the envelope.
+UM
+Ushanta Mooloo
+35 minutes 8 seconds35:08
+Ushanta Mooloo 35 minutes 8 seconds
+Okay.
+RB
+Robert Blake
+35 minutes 22 seconds35:22
+Robert Blake 35 minutes 22 seconds
+But how does the guy upstairs, or how does our banker work out that that envelope is ready for signing? I mean, I know our signing service does by monitoring these events, yeah, right? But how does the banker know?
+UM
+Ushanta Mooloo
+35 minutes 39 seconds35:39
+Ushanta Mooloo 35 minutes 39 seconds
+Mhm.
+RB
+Robert Blake
+35 minutes 42 seconds35:42
+Robert Blake 35 minutes 42 seconds
+Is it through this endpoint, this this for out get envelope details?
+UM
+Ushanta Mooloo
+35 minutes 47 seconds35:47
+Ushanta Mooloo 35 minutes 47 seconds
+So, so, so if the guy upstairs or the front end will send signing a request to generate and so to create the envelope, and when signing has successfully created that envelope via the envelope service, signing is going to.
+RB
+Robert Blake
+35 minutes 57 seconds35:57
+Robert Blake 35 minutes 57 seconds
+Yes.
+Robert Blake 36 minutes
+Yes.
+UM
+Ushanta Mooloo
+36 minutes 7 seconds36:07
+Ushanta Mooloo 36 minutes 7 seconds
+publish an event that says signing updated and there'll be some envelope information in there.
+RB
+Robert Blake
+36 minutes 14 seconds36:14
+Robert Blake 36 minutes 14 seconds
+Oh, and that will go upstairs as well. So that will also go to Omni, what's it on the?
+UM
+Ushanta Mooloo
+36 minutes 20 seconds36:20
+Ushanta Mooloo 36 minutes 20 seconds
+Credit share.
+RB
+Robert Blake
+36 minutes 21 seconds36:21
+Robert Blake 36 minutes 21 seconds
+Omni Credit. Okay, so the signing updated event will get listened to via, so that is how we know. Okay, that's fine. So the signing service is responsible for when, also when it sends that signing updated. It is working now. I know we've only got one application, one document at the moment.
+UM
+Ushanta Mooloo
+36 minutes 35 seconds36:35
+Ushanta Mooloo 36 minutes 35 seconds
+Yeah.
+Ushanta Mooloo 36 minutes 40 seconds
+Mhm.
+RB
+Robert Blake
+36 minutes 40 seconds36:40
+Robert Blake 36 minutes 40 seconds
+So at the moment, if one document gets signed, it will check, it will pick up that that one document is signed, but we could still put logic in there to check that any documents within an application that aren't signed will mean that that signing updated or whatever will not send.
+Robert Blake 37 minutes 1 second
+assigned status back.
+UM
+Ushanta Mooloo
+37 minutes 6 seconds37:06
+Ushanta Mooloo 37 minutes 6 seconds
+So you would, so yeah, so that the responsibility of Docusign is to ensure that all documents are signed and that that results into what we refer to as signed. So the envelope service, it's just going to track updates.
+
+UM
+Ushanta Mooloo
+41 minutes 13 seconds41:13
+Ushanta Mooloo 41 minutes 13 seconds
+Yeah, but I think we kind of covered it in the conversation with Denver.
+RB
+Robert Blake
+41 minutes 18 seconds41:18
+Robert Blake 41 minutes 18 seconds
+Okay, all right, but it's out of my scope ready from signing's point of view. Yeah.
+UM
+Ushanta Mooloo
+41 minutes 19 seconds41:19
+Ushanta Mooloo 41 minutes 19 seconds
+Yeah.
+Ushanta Mooloo 41 minutes 21 seconds
+Set up your scope, yeah, yeah.
+DC
+Denver Cupido
+41 minutes 28 seconds41:28
+Denver Cupido 41 minutes 28 seconds
+Just to jump in for a moment there. Yeah, I did want to check, now that you mentioned it, Ushanta, which events we care about considering this enhanced design. There's only six at the moment that I enabled on the web book. So that was the envelope completed, which means everyone signed.
+Denver Cupido 41 minutes 49 seconds
+The envelope delivered, envelope sent, which are more or less the same, one is just...
+Denver Cupido 41 minutes 56 seconds
+Deliverables when it gets to Ollie signers, and then it's a recipient completed, recipient delivered, recipient sent, so three, but for two different entities, so 3 recipient events, 3 envelope events.
+UM
+Ushanta Mooloo
+41 minutes 58 seconds41:58
+Ushanta Mooloo 41 minutes 58 seconds
+All those recipients.
+Ushanta Mooloo 42 minutes 10 seconds
+Yeah, I think that's fine. I actually just need to spend a little bit of time with you to get to grips with it and then I can play around with it here.
+DC
+Denver Cupido
+42 minutes 18 seconds42:18
+Denver Cupido 42 minutes 18 seconds
+Okay.
+Denver Cupido 42 minutes 20 seconds
+Fair.
+UM
+Ushanta Mooloo
+42 minutes 21 seconds42:21
+Ushanta Mooloo 42 minutes 21 seconds
+K.
+RB
+Robert Blake
+42 minutes 22 seconds42:22
+Robert Blake 42 minutes 22 seconds
+Okay, then another thing I thought of, just, and this is going to hit you as well, DC, is I should call you Denver. I only call you DC when I don't want when I'm too lazy to top. So, so, so let's say some, let's say the envelope has been created, right? And so
+Robert Blake 42 minutes 42 seconds
+Our request for signing, where is it? Oops, sorry guys. Our request for signing.
+Robert Blake 42 minutes 51 seconds
+has gone through and we've created the envelope. Now what happens if something comes through for drafting again?
+Robert Blake 43 minutes 2 seconds
+So what I'm, so you know what I mean. So the same application ID and you get a regenerate for drafting. And the reason why I've got this question, because at one point it was my responsibility, but now it's going to be Denver. So.
+UM
+Ushanta Mooloo
+43 minutes 3 seconds43:03
+Ushanta Mooloo 43 minutes 3 seconds
+Yeah.
+DC
+Denver Cupido
+43 minutes 5 seconds43:05
+Denver Cupido 43 minutes 5 seconds
+Yeah.
+UM
+Ushanta Mooloo
+43 minutes 17 seconds43:17
+Ushanta Mooloo 43 minutes 17 seconds
+Yeah.
+DC
+Denver Cupido
+43 minutes 17 seconds43:17
+Denver Cupido 43 minutes 17 seconds
+That's a good question, because I know we do have the ability to revoke an envelope, but that's only if the signing ceremony has not begun. But I haven't built that capability in yet. So do we need it?
+RB
+Robert Blake
+43 minutes 35 seconds43:35
+Robert Blake 43 minutes 35 seconds
+I think it's an architectural decision, actually, because it's spending services, yeah, yeah.
+UM
+Ushanta Mooloo
+43 minutes 36 seconds43:36
+Ushanta Mooloo 43 minutes 36 seconds
+So.
+DC
+Denver Cupido
+43 minutes 37 seconds43:37
+Denver Cupido 43 minutes 37 seconds
+Yeah, I was just leaving it out there. I don't want to call any names, you know what I'm saying?
+UM
+Ushanta Mooloo
+43 minutes 42 seconds43:42
+Ushanta Mooloo 43 minutes 42 seconds
+So that there's two, I think that I took two different questions. So there was a reason why when the drafts are reviewed, they need to to move to a final status. And when a draft is in a final status, and.
+Ushanta Mooloo 44 minutes 1 second
+when, sorry, when an application is reviewed, all of its drafts is in a final state and they cannot regenerate, they cannot re-request, they cannot request additional documents. If they, if there is an exception process where they say,
+DC
+Denver Cupido
+44 minutes 12 seconds44:12
+Denver Cupido 44 minutes 12 seconds
+Okay.
+RB
+Robert Blake
+44 minutes 13 seconds44:13
+Robert Blake 44 minutes 13 seconds
+Okay, that actually makes sense, yeah.
+UM
+Ushanta Mooloo
+44 minutes 20 seconds44:20
+Ushanta Mooloo 44 minutes 20 seconds
+only whatever, I forgot to add some document. Then first for this delivery, that's an exception process and that's an ITSM.
+Ushanta Mooloo 44 minutes 34 seconds
+And then so that's the first part for I think Robert's question. But we would need revoke envelope because we have signing expiration in place. And when the window elapses for the clients to sign, when that window elapses, then we need to.
+Ushanta Mooloo 44 minutes 55 seconds
+void the envelope. I don't know if that's the same as revoke, but we need to basically go kill the envelope.
+
+RB
+Robert Blake
+45 minutes 3 seconds45:03
+Robert Blake 45 minutes 3 seconds
+Yeah, so there is the interesting part because now we've got a draft with that application ID there and it's in final status and the envelope has been voided in the signing service. So for all intensive purposes, the banker should then be able to regenerate.
+Robert Blake 45 minutes 24 seconds
+But when you regenerate, you would regenerate on a different application ideation. It wouldn't really be a regenerate at that point.
+UM
+Ushanta Mooloo
+45 minutes 31 seconds45:31
+Ushanta Mooloo 45 minutes 31 seconds
+That's a fair point, but it's also part of the exception process. My view was that the drafts, once they reach final, they're final. But what you're saying is they tell us there was a mistake. We essentially need to allow them to, in future, to maybe regenerate. So that is an exception process that I haven't thought about.
+Denver Cupido 47 minutes 59 seconds
+Yeah, yeah.
+UM
+Ushanta Mooloo
+48 minutes 2 seconds48:02
+Ushanta Mooloo 48 minutes 2 seconds
+Go federal.
+RB
+Robert Blake
+48 minutes 4 seconds48:04
+Robert Blake 48 minutes 4 seconds
+Well, I'm just looking because now I'm looking down and a couple have been answered that already answered others. So I'm just, have you got anything in the meantime, Denver?
+DC
+Denver Cupido
+48 minutes 17 seconds48:17
+Denver Cupido 48 minutes 17 seconds
+No, I think I will.
+Denver Cupido 48 minutes 20 seconds
+I'm pretty clear. I think I just need to go back and take these notes and now draw them out further.
+Denver Cupido 48 minutes 29 seconds
+But it makes sense. I think the one document thing that sort of makes life so much, so much more manageable because yeah, initially my mind was spinning.
+UM
+Ushanta Mooloo
+48 minutes 41 seconds48:41
+Ushanta Mooloo 48 minutes 41 seconds
+Is it a major change, like if they do, oh, you mean to request one document at a time?
+RB
+Robert Blake
+48 minutes 41 seconds48:41
+Robert Blake 48 minutes 41 seconds
+And.
+UM
+Ushanta Mooloo
+48 minutes 48 seconds48:48
+Ushanta Mooloo 48 minutes 48 seconds
+for drafting.
+DC
+Denver Cupido
+48 minutes 51 seconds48:51
+Denver Cupido 48 minutes 51 seconds
+Yeah, one document at a time and then one for the entire application. I know you did say we could have several documents with a relationship between application and document could be one to many.
+UM
+Ushanta Mooloo
+49 minutes 3 seconds49:03
+Ushanta Mooloo 49 minutes 3 seconds
+Yeah.
+DC
+Denver Cupido
+49 minutes 4 seconds49:04
+Denver Cupido 49 minutes 4 seconds
+But it's just, yeah, I feel like there's rules beneath that that we would need to manage specifically around regeneration.
+UM
+Ushanta Mooloo
+49 minutes 11 seconds49:11
+Ushanta Mooloo 49 minutes 11 seconds
+Okay.
+DC
+Denver Cupido
+49 minutes 12 seconds49:12
+Denver Cupido 49 minutes 12 seconds
+That kind of thing, but if you're just doing a one-to-one relationship between the document and app now.
+Denver Cupido 49 minutes 20 seconds
+It's a little bit more manageable, but I'll bold with that in mind that we could go one too many.
+RB
+Robert Blake
+49 minutes 27 seconds49:27
+Robert Blake 49 minutes 27 seconds
+Yes, so I think I remember some sort of discussion going on about whether review was always required for a system flow. So like if it was always required then, or if it wasn't always required, then we'd need some sort of extra flag to say that was required. But I think we stuck to it must always be reviewed.
+Robert Blake 49 minutes 46 seconds
+Is that right?
+UM
+Ushanta Mooloo
+49 minutes 47 seconds49:47
+Ushanta Mooloo 49 minutes 47 seconds
+Yeah, I think if you scroll.
+Ushanta Mooloo 49 minutes 52 seconds
+to the top, there's some yellow blocks on the left hand side. So I was just trying to think about this and it's a little further up. Business can come to us with all sorts of requirements. They were actually debating this. So they were saying, well, should the drafts be, it's, yeah, they.
+RB
+Robert Blake
+50 minutes 3 seconds50:03
+Robert Blake 50 minutes 3 seconds
+Okay.
+UM
+Ushanta Mooloo
+50 minutes 13 seconds50:13
+Ushanta Mooloo 50 minutes 13 seconds
+So they were saying, should the draft be reviewed? Should the contract be reviewed after it's signed? Or should only the contract be reviewed, et cetera, et cetera. And my thinking was that yellow note, which is to keep drafting and signing contracts clean.
+Ushanta Mooloo 50 minutes 32 seconds
+And where they have these very specific requirements, they need to like build in that orchestration either on the front end. So if they decide, oh, if for this flow, we don't need a sign, we don't need to review the drafts, then their back end, their BFF should just fire off, this is already.
+Ushanta Mooloo 50 minutes 52 seconds
+Finalize.
+RB
+Robert Blake
+50 minutes 53 seconds50:53
+Robert Blake 50 minutes 53 seconds
+Yeah, that makes sense because it could could get quite messy if we try and do it on our on our side.
+UM
+Ushanta Mooloo
+50 minutes 59 seconds50:59
+Ushanta Mooloo 50 minutes 59 seconds
+Yeah, that's what I was thinking. And they can change it at any time because they're still pretty up in the air of whether they want reviews or no reviews. And I think it can differ per flow. So there's a simple flow where it's a low value deal. They might not want any reviews.
+Ushanta Mooloo 51 minutes 18 seconds
+So it's like a straight through processing kind of approach. But then when you have like a 50 million Overdraft to a complex entity, then maybe they do want reviews. So we can't facilitate for those workflows in the context. So I said that they need to orchestrate it.
+RB
+Robert Blake
+51 minutes 30 seconds51:30
+Robert Blake 51 minutes 30 seconds
+Mhm.
+UM
+Ushanta Mooloo
+51 minutes 37 seconds51:37
+Ushanta Mooloo 51 minutes 37 seconds
+from the end.
+RB
+Robert Blake
+51 minutes 39 seconds51:39
+Robert Blake 51 minutes 39 seconds
+Okay. And then I remember, but this is my fault actually. I remember I brought it up. I said, do we need to validate, but no, but we don't actually come to thinking, because I'm still thinking of multi-documents around an application and we've just said this is out of scope for now. So we don't need to validate document count at this point.
+
+UM
+Ushanta Mooloo
+51 minutes 58 seconds51:58
+Ushanta Mooloo 51 minutes 58 seconds
+Yeah.
+RB
+Robert Blake
+51 minutes 58 seconds51:58
+Robert Blake 51 minutes 58 seconds
+Um, okay, and then...
+Robert Blake 52 minutes 5 seconds
+Um...
+Robert Blake 52 minutes 11 seconds
+I am.
+Robert Blake 52 minutes 19 seconds
+Yes, remember the signing order, but that's also out of scope now. So we've de-scoped that as well.
+UM
+Ushanta Mooloo
+52 minutes 22 seconds52:22
+Ushanta Mooloo 52 minutes 22 seconds
+But.
+Ushanta Mooloo 52 minutes 24 seconds
+Yeah, signing for signing, yeah. So, sorry, do you see when you when you get signing info in drafting, they're going to give you the order as well. They're just going to say, you know, do you know about that?
+DC
+Denver Cupido
+52 minutes 35 seconds52:35
+Denver Cupido 52 minutes 35 seconds
+Yeah.
+Denver Cupido 52 minutes 38 seconds
+I remember that time we had that little desk meeting with Samkelo. I remember us discussing it, but yeah, I forgot about until Rob mentioned. If they passed that, well, that's only relevant for signing proxy.
+UM
+Ushanta Mooloo
+52 minutes 43 seconds52:43
+Ushanta Mooloo 52 minutes 43 seconds
+Yeah.
+DC
+Denver Cupido
+52 minutes 53 seconds52:53
+Denver Cupido 52 minutes 53 seconds
+Unless you want me to populate it in a specific order on the draft as well. Oh well.
+UM
+Ushanta Mooloo
+52 minutes 53 seconds52:53
+Ushanta Mooloo 52 minutes 53 seconds
+Yeah.
+RB
+Robert Blake
+52 minutes 54 seconds52:54
+Robert Blake 52 minutes 54 seconds
+The.
+UM
+Ushanta Mooloo
+53 minutes 1 second53:01
+Ushanta Mooloo 53 minutes 1 second
+I don't think so, yeah.
+DC
+Denver Cupido
+53 minutes 1 second53:01
+Denver Cupido 53 minutes 1 second
+To ensure it's like, signer one is at the top, signer two is next, and then...
+UM
+Ushanta Mooloo
+53 minutes 7 seconds53:07
+Ushanta Mooloo 53 minutes 7 seconds
+I think that's gonna, uh, so you mean populated on the draft? Ohh, what do you mean with your single freeze? Yeah.
+DC
+Denver Cupido
+53 minutes 13 seconds53:13
+Denver Cupido 53 minutes 13 seconds
+In order, yeah, because the currently from what I've seen in the templates, it's just it's just a dumb list. I don't know if it takes it in order, so it actually might be tricky, but yeah, it sounds like it's only a requirement for it'll actually be envelope service.
+UM
+Ushanta Mooloo
+53 minutes 22 seconds53:22
+Ushanta Mooloo 53 minutes 22 seconds
+Mhm.
+DC
+Denver Cupido
+53 minutes 31 seconds53:31
+Denver Cupido 53 minutes 31 seconds
+Right.
+UM
+Ushanta Mooloo
+53 minutes 33 seconds53:33
+Ushanta Mooloo 53 minutes 33 seconds
+Yeah, I think we need to test it.
+RB
+Robert Blake
+53 minutes 33 seconds53:33
+Robert Blake 53 minutes 33 seconds
+Well, Signing has to track it as well. So that was the question, where you store that. And the thing is, I mean, if it's out of scope for now, then we don't do it. But at some point, we're going to have to grab that column and...
+DC
+Denver Cupido
+53 minutes 43 seconds53:43
+Denver Cupido 53 minutes 43 seconds
+Yeah, that's that's a Docusign thing though, that's why I'm saying.
+UM
+Ushanta Mooloo
+53 minutes 47 seconds53:47
+Ushanta Mooloo 53 minutes 47 seconds
+Yeah, but Rob is, so Rob makes, he is right. So when you, when you publish, when you, so he's going to call into drafting to get the draft information because he then needs to package that somehow and send it to the envelope service to create the envelope.
+Ushanta Mooloo 54 minutes 8 seconds
+So he's going to send the document IDs of the drafts and he's going to send...
+Ushanta Mooloo 54 minutes 15 seconds
+the signer info which you're receiving.
+DC
+Denver Cupido
+54 minutes 20 seconds54:20
+Denver Cupido 54 minutes 20 seconds
+Okay, so what event does signing listen to from drafting? Is it just a, does that event just have the document ID and the application ID, let's say?
+UM
+Ushanta Mooloo
+54 minutes 28 seconds54:28
+Ushanta Mooloo 54 minutes 28 seconds
+It's actually a...
+Ushanta Mooloo 54 minutes 30 seconds
+Yeah, we actually, we made it to real time called it. So it's that get draft meta from signing to drafting.
+RB
+Robert Blake
+54 minutes 41 seconds54:41
+Robert Blake 54 minutes 41 seconds
+OK.
+UM
+Ushanta Mooloo
+54 minutes 42 seconds54:42
+Ushanta Mooloo 54 minutes 42 seconds
+And the idea is that it's just signing is going to get an application ID and then it's going to call drafting to say, give me all of the documents that are final for this application ID. And it's the signing info, the document ID. It's everything you receive from OmniCredit plus document specifics.
+RB
+Robert Blake
+55 minutes 2 seconds55:02
+Robert Blake 55 minutes 2 seconds
+So, this is the the new endpoint I was telling you about, um, Denver.
+DC
+Denver Cupido
+55 minutes 6 seconds55:06
+Denver Cupido 55 minutes 6 seconds
+Okay, so that's another one, okay.
+RB
+Robert Blake
+55 minutes 8 seconds55:08
+Robert Blake 55 minutes 8 seconds
+Yeah.
+DC
+Denver Cupido
+55 minutes 10 seconds55:10
+Denver Cupido 55 minutes 10 seconds
+Wow.
+UM
+Ushanta Mooloo
+55 minutes 10 seconds55:10
+Ushanta Mooloo 55 minutes 10 seconds
+Yeah.
+RB
+Robert Blake
+55 minutes 11 seconds55:11
+Robert Blake 55 minutes 11 seconds
+So the question then is, and this is, I know it's probably out of scope, but it's probably be fairly clever to think about this up front is where will those ordinals be stored? Would they be stored in signing? Because I get, I assume that drafting will draft all of this stuff and send it to me.
+Robert Blake 55 minutes 31 seconds
+And I'll probably need a column for order or ordinal or whatever in my database under Application.
+Robert Blake 55 minutes 41 seconds
+For the application address, for the document address, sorry.
+UM
+Ushanta Mooloo
+55 minutes 41 seconds55:41
+Ushanta Mooloo 55 minutes 41 seconds
+Yeah, I think, yeah, you would you would receive the information. You can you can decide whether that signing information that you need to just kind of orchestrate to the envelope service is like some BLOB that you store, or if you want to store it as like a column or so forth.
+RB
+Robert Blake
+56 minutes 1 second56:01
+Robert Blake 56 minutes 1 second
+Yeah, so if I had to go the column route, I mean, even though we're not using it right now, I would just create the column and just put one in there as a default for now. So that when we do know we get around to the multiple document stuff, that stuff is already in plan. We don't have to do this expensive update of the table.
+Robert Blake 56 minutes 21 seconds
+But then again, that's something we could easily do anyway, so I just don't know how many rows are going to be in that thing by that time, so...
+
+UM
+Ushanta Mooloo
+56 minutes 21 seconds56:21
+Ushanta Mooloo 56 minutes 21 seconds
+Yeah.
+Ushanta Mooloo 56 minutes 28 seconds
+That's fine. If you want to put it, you can cater to it. So I think essentially whatever the draft matter returns to you, you can store and we're saying that a draft matter will return a signing order to you.
+RB
+Robert Blake
+56 minutes 42 seconds56:42
+Robert Blake 56 minutes 42 seconds
+OK.
+Robert Blake 56 minutes 44 seconds
+What do you think, Denver?
+DC
+Denver Cupido
+56 minutes 49 seconds56:49
+Denver Cupido 56 minutes 49 seconds
+Yeah, I think you will need to store it somewhere. Drafting, you will store it per, I guess, column data, like it does with the current signing details. I think for your side, I would personally do it as a BLOB because you don't need to do any manipulation on it. You just pick it up and forward it to.
+Denver Cupido 57 minutes 9 seconds
+To the envelope service.
+RB
+Robert Blake
+57 minutes 13 seconds57:13
+Robert Blake 57 minutes 13 seconds
+Sounds right.
+Robert Blake 59 minutes 44 seconds
+regenerate or request signing with the same application ID, that will throw a conflict or a bad request, and we'd need to create a new application. So that's terminal.
+UM
+Ushanta Mooloo
+59 minutes 57 seconds59:57
+Ushanta Mooloo 59 minutes 57 seconds
+I agree with that, yeah.
+RB
+Robert Blake
+59 minutes 59 seconds59:59
+Robert Blake 59 minutes 59 seconds
+Okay, I think that is everything for now.
+Robert Blake 1 hour 8 seconds
+Um...
+DC
+Denver Cupido
+1 hour 9 seconds1:00:09
+Denver Cupido 1 hour 9 seconds
+Last question from me, just going back to...
+Denver Cupido 1 hour 13 seconds
+The event drafting is in a publisher out, right? Who's listening on that event?
+UM
+Ushanta Mooloo
+1 hour 18 seconds1:00:18
+Ushanta Mooloo 1 hour 18 seconds
+It's actually not an event, it's a it's a sync call. I was.
+DC
+Denver Cupido
+1 hour 24 seconds1:00:24
+Denver Cupido 1 hour 24 seconds
+But yeah, there's the get metadata, but there's another thing. If you just go to the drafting service, I think it was mentioned earlier, unless.
+UM
+Ushanta Mooloo
+1 hour 24 seconds1:00:24
+Ushanta Mooloo 1 hour 24 seconds
+Yeah.
+RB
+Robert Blake
+1 hour 31 seconds1:00:31
+Robert Blake 1 hour 31 seconds
+Um...
+DC
+Denver Cupido
+1 hour 34 seconds1:00:34
+Denver Cupido 1 hour 34 seconds
+Uh, drafting. Oh, okay, no, no, no.
+RB
+Robert Blake
+1 hour 37 seconds1:00:37
+Robert Blake 1 hour 37 seconds
+Can you see?
+DC
+Denver Cupido
+1 hour 40 seconds1:00:40
+Denver Cupido 1 hour 40 seconds
+Okay, it's fine. Just zoom out and touch.
+Denver Cupido 1 hour 48 seconds
+And then where is that other line going? Oh, that's the enrichment. No, no, no, it's all good. Okay, cool.
+RB
+Robert Blake
+1 hour 51 seconds1:00:51
+Robert Blake 1 hour 51 seconds
+Which one?
+Robert Blake 1 hour 55 seconds
+Okay.
+DC
+Denver Cupido
+1 hour 55 seconds1:00:55
+Denver Cupido 1 hour 55 seconds
+I get you.
+RB
+Robert Blake
+1 hour 55 seconds1:00:55
+Robert Blake 1 hour 55 seconds
+And then one more thing. Kafka. So let's start thinking about this, because we're going to be sending messages to each other all over the show. There are a few new topics here, and these topics are all based around envelopes. So the question is...
+Robert Blake 1 hour 1 minute 16 seconds
+What is the idepotency key here? It would be application ID, right? Do you agree, Little?
+UM
+Ushanta Mooloo
+1 hour 1 minute 22 seconds1:01:22
+Ushanta Mooloo 1 hour 1 minute 22 seconds
+I, I'm, yeah, go for it.
+RB
+Robert Blake
+1 hour 1 minute 26 seconds1:01:26
+Robert Blake 1 hour 1 minute 26 seconds
+Sorry, no.
+UM
+Ushanta Mooloo
+1 hour 1 minute 29 seconds1:01:29
+Ushanta Mooloo 1 hour 1 minute 29 seconds
+Denver, yeah, yeah.
+DC
+Denver Cupido
+1 hour 1 minute 30 seconds1:01:30
+Denver Cupido 1 hour 1 minute 30 seconds
+I will help.
+Denver Cupido 1 hour 1 minute 31 seconds
+Okay, go, go, go.
+UM
+Ushanta Mooloo
+1 hour 1 minute 33 seconds1:01:33
+Ushanta Mooloo 1 hour 1 minute 33 seconds
+I agree. Yeah.
+RB
+Robert Blake
+1 hour 1 minute 33 seconds1:01:33
+Robert Blake 1 hour 1 minute 33 seconds
+Okay, agreed.
+DC
+Denver Cupido
+1 hour 1 minute 34 seconds1:01:34
+Denver Cupido 1 hour 1 minute 34 seconds
+Application ID.
+RB
+Robert Blake
+1 hour 1 minute 36 seconds1:01:36
+Robert Blake 1 hour 1 minute 36 seconds
+Okay.
+DC
+Denver Cupido
+1 hour 1 minute 41 seconds1:01:41
+Denver Cupido 1 hour 1 minute 41 seconds
+feed on envelope ID in the envelope context. Do we not care about that?
+RB
+Robert Blake
+1 hour 1 minute 47 seconds1:01:47
+Robert Blake 1 hour 1 minute 47 seconds
+Well, that's the point that is.
+DC
+Denver Cupido
+1 hour 1 minute 48 seconds1:01:48
+Denver Cupido 1 hour 1 minute 48 seconds
+Was just used to consolidate the events.
+UM
+Ushanta Mooloo
+1 hour 1 minute 50 seconds1:01:50
+Ushanta Mooloo 1 hour 1 minute 50 seconds
+Yeah, that.
+RB
+Robert Blake
+1 hour 1 minute 50 seconds1:01:50
+Robert Blake 1 hour 1 minute 50 seconds
+So, yeah, we're always updating an entire envelope, right?
+DC
+Denver Cupido
+1 hour 1 minute 55 seconds1:01:55
+Denver Cupido 1 hour 1 minute 55 seconds
+Yeah.
+RB
+Robert Blake
+1 hour 1 minute 56 seconds1:01:56
+Robert Blake 1 hour 1 minute 56 seconds
+We're not just sending, so that's something we just got to be careful of here. If we are updating an envelope from signing.
+Robert Blake 1 hour 2 minutes 4 seconds
+Two.
+Robert Blake 1 hour 2 minutes 7 seconds
+Envelope Service, we are always updating.
+Robert Blake 1 hour 2 minutes 12 seconds
+An envelope, so, so, so what I'm saying is in the body is in the body we can have like document stuff and this and that, but the actual update itself would be for the envelope.
+DC
+Denver Cupido
+1 hour 2 minutes 14 seconds1:02:14
+Denver Cupido 1 hour 2 minutes 14 seconds
+The envelope belongs to an application.
+
+UM
+Ushanta Mooloo
+1 hour 8 minutes 17 seconds1:08:17
+Ushanta Mooloo 1 hour 8 minutes 17 seconds
+What I'll do from my side then is I just want to guess playing with the Docusign stuff and I'll try and just.
+Ushanta Mooloo 1 hour 8 minutes 29 seconds
+I've made some assumptions in this design, and I just want to get ahead of them. So there might be some caveats that I find that might change a contract here, but if I can actually start playing with it, then, you know, I'll try and work.
+DC
+Denver Cupido
+1 hour 8 minutes 31 seconds1:08:31
+Denver Cupido 1 hour 8 minutes 31 seconds
+Okay.
+UM
+Ushanta Mooloo
+1 hour 8 minutes 47 seconds1:08:47
+Ushanta Mooloo 1 hour 8 minutes 47 seconds
+Backwards, they'll know what information is needed in the envelope service and so forth.
+DC
+Denver Cupido
+1 hour 8 minutes 54 seconds1:08:54
+Denver Cupido 1 hour 8 minutes 54 seconds
+Okay, all right, yeah, and then reach out if you have any questions. Check the, let me send the signing proxies.
+UM
+Ushanta Mooloo
+1 hour 8 minutes 55 seconds1:08:55
+Ushanta Mooloo 1 hour 8 minutes 55 seconds
+Submit.
+DC
+Denver Cupido
+1 hour 9 minutes 4 seconds1:09:04
+Denver Cupido 1 hour 9 minutes 4 seconds
+swagger here just for you to use because that that piece all the all the calls going out are like working 100%. It's literally the MTL list that's the last literally the last thing. So if you want to create like envelopes and stuff you can just do it by hitting signing proxy and int and you get an envelope on that side.
+UM
+Ushanta Mooloo
+1 hour 9 minutes 17 seconds1:09:17
+Ushanta Mooloo 1 hour 9 minutes 17 seconds
+Okay.
+Ushanta Mooloo 1 hour 9 minutes 26 seconds
+Okay.
+DC
+Denver Cupido
+1 hour 9 minutes 27 seconds1:09:27
+Denver Cupido 1 hour 9 minutes 27 seconds
+It's pretty useful at the moment.
+UM
+Ushanta Mooloo
+1 hour 9 minutes 30 seconds1:09:30
+Ushanta Mooloo 1 hour 9 minutes 30 seconds
+Okay, yeah, I think send it to me. I might just reach out to you to like log on again to this site and get those links and all of it.
+DC
+Denver Cupido
+1 hour 9 minutes 38 seconds1:09:38
+Denver Cupido 1 hour 9 minutes 38 seconds
+Yeah, yeah, no problem.
+UM
+Ushanta Mooloo
+1 hour 9 minutes 40 seconds1:09:40
+Ushanta Mooloo 1 hour 9 minutes 40 seconds
+Cool.
+Ushanta Mooloo 1 hour 9 minutes 42 seconds
+Yeah, so I'll do, I'll set aside some time on Thursday to to work.
+Ushanta Mooloo 1 hour 9 minutes 47 seconds
+Then I'm kind of getting ahead of you guys just because I'm going more into the detail and I can point out things.
+RB
+Robert Blake
+1 hour 9 minutes 57 seconds1:09:57
+Robert Blake 1 hour 9 minutes 57 seconds
+That's awesome.
+DC
+Denver Cupido
+1 hour 9 minutes 58 seconds1:09:58
+Denver Cupido 1 hour 9 minutes 58 seconds
+She did.
+RB
+Robert Blake
+1 hour 10 minutes 1 second1:10:01
+Robert Blake 1 hour 10 minutes 1 second
+K.
+UM
+Ushanta Mooloo
+1 hour 10 minutes 1 second1:10:01
+Ushanta Mooloo 1 hour 10 minutes 1 second
+Bryan.
+RB
+Robert Blake
+1 hour 10 minutes 4 seconds1:10:04
+Robert Blake 1 hour 10 minutes 4 seconds
+Okay, thanks guys. That was very constructive. It was worth the wait.
+DC
+Denver Cupido
+1 hour 10 minutes 4 seconds1:10:04
+Denver Cupido 1 hour 10 minutes 4 seconds
+Go team.
+UM
+Ushanta Mooloo
+1 hour 10 minutes 8 seconds1:10:08
+Ushanta Mooloo 1 hour 10 minutes 8 seconds
+Cool. So, um, so I'm guessing the next step is just to kind of define some contracts and see how it plays out.
+RB
+Robert Blake
+1 hour 10 minutes 19 seconds1:10:19
+Robert Blake 1 hour 10 minutes 19 seconds
+Yeah, yeah, and they're probably going to evolve a bit.
+DC
+Denver Cupido
+1 hour 10 minutes 21 seconds1:10:21
+Denver Cupido 1 hour 10 minutes 21 seconds
+So, just...
+UM
+Ushanta Mooloo
+1 hour 10 minutes 25 seconds1:10:25
+Ushanta Mooloo 1 hour 10 minutes 25 seconds
+Yeah.
+DC
+Denver Cupido
+1 hour 10 minutes 25 seconds1:10:25
+Denver Cupido 1 hour 10 minutes 25 seconds
+On that, I still think there's a level that there's quite a lot of value to be gained by knocking out this MTLS config. So I'm still going to sit with that for the week. I think, let's see tomorrow, because I'm actually scheduling like 12 or something, and it still didn't.
+UM
+Ushanta Mooloo
+1 hour 10 minutes 44 seconds1:10:44
+Ushanta Mooloo 1 hour 10 minutes 44 seconds
+Okay.
+DC
+Denver Cupido
+1 hour 10 minutes 44 seconds1:10:44
+Denver Cupido 1 hour 10 minutes 44 seconds
+Get back, so tomorrow I'm hoping if I can just get on call with him, iron it out in one go, and then give all my attention to this thing, but I don't know how much I can settle until...
+Denver Cupido 1 hour 10 minutes 55 seconds
+The swear book stuff is sorted because it's literally the only piece outstanding in the signing proxy.
+Denver Cupido 1 hour 11 minutes
+Signing proxy.
+UM
+Ushanta Mooloo
+1 hour 11 minutes 2 seconds1:11:02
+Ushanta Mooloo 1 hour 11 minutes 2 seconds
+Okay, I just wonder, is it called, it's called signing proxy. I was looking at the Github and I was, oh, I think I was looking for document proxy. Okay, so it's signing.
+
+DC
+Denver Cupido
+1 hour 11 minutes 6 seconds1:11:06
+Denver Cupido 1 hour 11 minutes 6 seconds
+Yeah.
+Denver Cupido 1 hour 11 minutes 12 seconds
+Yeah, I renamed your diagram there from Docusign proxy to signing proxy.
+UM
+Ushanta Mooloo
+1 hour 11 minutes 18 seconds1:11:18
+Ushanta Mooloo 1 hour 11 minutes 18 seconds
+Okay, that's what you said, but it's fine. Thanks. Because I was looking at the Github, I was like, I know you sent me the links before you went to leave, but Teams is acting up and I'm losing messages. But I'll look at the signing.
+RB
+Robert Blake
+1 hour 11 minutes 33 seconds1:11:33
+Robert Blake 1 hour 11 minutes 33 seconds
+Yeah, I had the same problem. So that's why I started not leaving messages in Teams, because every time I go and look about to find whether someone told me this or that, and I used to be able to just search for it. Now it's gone. I get it, but I get like the first line with dot, dot, dot, dot, and I know it's there, but I...
+UM
+Ushanta Mooloo
+1 hour 11 minutes 35 seconds1:11:35
+Ushanta Mooloo 1 hour 11 minutes 35 seconds
+Yeah.
+DC
+Denver Cupido
+1 hour 11 minutes 43 seconds1:11:43
+Denver Cupido 1 hour 11 minutes 43 seconds
+Can't find it.
+UM
+Ushanta Mooloo
+1 hour 11 minutes 48 seconds1:11:48
+Ushanta Mooloo 1 hour 11 minutes 48 seconds
+Yeah.
+Ushanta Mooloo 1 hour 11 minutes 50 seconds
+So.
+RB
+Robert Blake
+1 hour 11 minutes 54 seconds1:11:54
+Robert Blake 1 hour 11 minutes 54 seconds
+Cannot read it.
+UM
+Ushanta Mooloo
+1 hour 11 minutes 56 seconds1:11:56
+Ushanta Mooloo 1 hour 11 minutes 56 seconds
+Yeah, I know, same.
+RB
+Robert Blake
+1 hour 11 minutes 59 seconds1:11:59
+Robert Blake 1 hour 11 minutes 59 seconds
+So, anyway.
+Robert Blake 1 hour 12 minutes 3 seconds
+Okay.
+UM
+Ushanta Mooloo
+1 hour 12 minutes 4 seconds1:12:04
+Ushanta Mooloo 1 hour 12 minutes 4 seconds
+Cool.
+Ushanta Mooloo 1 hour 12 minutes 8 seconds
+Thank you, guys.
+DC
+Denver Cupido
+1 hour 12 minutes 10 seconds1:12:10
+Denver Cupido 1 hour 12 minutes 10 seconds
+Thank you.
+RB
+Robert Blake
+1 hour 12 minutes 11 seconds1:12:11
+Robert Blake 1 hour 12 minutes 11 seconds
+Right.
+Robert Blake 1 hour 12 minutes 12 seconds
+Cheers, enjoy your.
+Robert Blake 1 hour 12 minutes 14 seconds
+Enjoy evening. End and voting.
+UM
+Ushanta Mooloo
+1 hour 12 minutes 15 seconds1:12:15
+Ushanta Mooloo 1 hour 12 minutes 15 seconds
+Cheers. Thanks.
+DC
+Denver Cupido
+1 hour 12 minutes 15 seconds1:12:15
+Denver Cupido 1 hour 12 minutes 15 seconds
+Just sit.
+UM
+Ushanta Mooloo
+1 hour 12 minutes 18 seconds1:12:18
+Ushanta Mooloo 1 hour 12 minutes 18 seconds
+Yeah.
+DC
+Denver Cupido
+1 hour 12 minutes 18 seconds1:12:18
+Denver Cupido 1 hour 12 minutes 18 seconds
+Oh yeah.
+UM
+Ushanta Mooloo
+1 hour 12 minutes 20 seconds1:12:20
+Ushanta Mooloo 1 hour 12 minutes 20 seconds
+Good luck. Cheers. Bye.
+RB
+Robert Blake
+1 hour 12 minutes 20 seconds1:12:20
+Robert Blake 1 hour 12 minutes 20 seconds
+Yeah.
+DC
+Denver Cupido
+1 hour 12 minutes 20 seconds1:12:20
+Denver Cupido 1 hour 12 minutes 20 seconds
+Becca.
+Denver Cupido 1 hour 12 minutes 22 seconds
+Bye.
+RB
+Robert Blake
+1 hour 12 minutes 22 seconds1:12:22
+Robert Blake 1 hour 12 minutes 22 seconds
+Cheers.
+
+Robert Blake stopped transcription
